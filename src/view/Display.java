@@ -13,7 +13,7 @@ public class Display {
 		IMPORT, EXPORT
 	}
 	
-	private List<Screen> screens;
+	private Screen[] screens;
 	private Control parent;
 
 	public Display() {
