@@ -2,6 +2,7 @@ package control;
 import java.util.List;
 
 import view.Display;
+import view.Display.EnumScreen;
 
 public class Control {
 
@@ -14,10 +15,16 @@ public class Control {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO - implement Control.main
-		throw new UnsupportedOperationException();
+		new Control().run();
 	}
-
+	
+	public void run() {
+		display = new Display(this);
+		
+		display.setScreen(EnumScreen.LOGIN);
+		connection = (Connection)display.getCurrentScreen().getMainResult();
+	}
+	
 	/**
 	 * Wenn connection null -> setScreen(SCREEN_LOGIN)
 	 */

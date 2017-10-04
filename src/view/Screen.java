@@ -7,27 +7,32 @@ import javax.swing.JPanel;
 /**
  * Dann erben wir da 5 mal von!!!!
  */
-public class Screen implements ActionListener {
+public class Screen extends JPanel implements ActionListener {
 
-	protected JPanel panel;
 	protected Display parent;
 	
-	public Screen() {
+	public Screen(Display parent) {
 		this.build();
 		
 	}
 	
+	public void onEnter() {
+		
+	}
+	
+	public void onLeave() {
+		
+	}
+	
 	public void build() {
-		// TODO - implement Screen.build
-		throw new UnsupportedOperationException();
+		
 	}
 
 	/**
 	 * Override in subclasses
 	 */
 	public Object getMainResult() {
-		// TODO - implement Screen.getMainResult
-		throw new UnsupportedOperationException();
+		return null;
 	}
 
 	@Override
