@@ -1,5 +1,6 @@
 package control;
 import java.util.List;
+import java.util.function.Consumer;
 
 import view.Display;
 import view.Display.EnumScreen;
@@ -22,7 +23,12 @@ public class Control {
 		display = new Display(this);
 		
 		display.setScreen(EnumScreen.LOGIN);
-		connection = (Connection)display.getCurrentScreen().getMainResult();
+		display.getCurrentScreen().getMainResult(new Consumer<Object>() {
+			@Override
+			public void accept(Object obj) {
+				connection = (Connection) obj;
+			}
+		});
 	}
 	
 	/**

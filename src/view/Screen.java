@@ -1,6 +1,8 @@
 package view;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javax.swing.JPanel;
 
@@ -31,8 +33,8 @@ public class Screen extends JPanel implements ActionListener {
 	/**
 	 * Override in subclasses
 	 */
-	public Object getMainResult() {
-		return null;
+	public void getMainResult(Consumer<Object> action) {
+		
 	}
 
 	@Override
