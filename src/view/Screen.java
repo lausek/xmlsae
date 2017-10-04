@@ -11,7 +11,12 @@ public class Screen implements ActionListener {
 
 	protected JPanel panel;
 	protected Display parent;
-
+	
+	public Screen() {
+		this.build();
+		
+	}
+	
 	public void build() {
 		// TODO - implement Screen.build
 		throw new UnsupportedOperationException();

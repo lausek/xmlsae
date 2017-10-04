@@ -18,6 +18,7 @@ public class Display {
 
 	public Display() {
 		// TODO - implement Display.Display
+		// TODO: Create JFrame
 		throw new UnsupportedOperationException();
 	}
 
