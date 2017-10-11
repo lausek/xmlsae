@@ -1,12 +1,15 @@
 package control;
 
 import java.util.List;
+import org.apache.log4j.*;
 import javax.swing.JOptionPane;
 
 import model.ExportSettings;
 
 public class DBInterface {
 
+	private static final Logger logger = Logger.getLogger(DBInterface.class);
+	
 	/**
 	 * 
 	 * @param connection
@@ -22,37 +25,31 @@ public class DBInterface {
 	}
 
 	/**
-	 * 
-	 * @param dbname
-	 * @param filename
-	 */
-	public void exportTo(String dbname, String filename) {
-		// TODO - implement DBInterface.exportTo
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
+	 * exports database by mysqldump
 	 * @param dbname
 	 * @param filename
 	 * @param settings
 	 */
-	public void exportTo(String dbname, String filename, ExportSettings settings) {
-		// TODO - implement DBInterface.exportTo
-		// TODO - Create list and call exportTo(dbnames)
-		throw new UnsupportedOperationException();
-	}
-	
-	/**
-	 * 
-	 * @param dbnames
-	 * @param filename
-	 */
-	public void exportTo(List<String> dbnames, String filename) {
-		for (String dbName : dbnames) {
-			//TODO: Unterschiedliche filenames logischerweise
-			mySqlDump(dbName, filename);
+	public void exportTo(String dbName, String fileName, ExportSettings settings) {
+		Process process = null;
+		try{
+			Runtime runtime = Runtime.getRuntime();
+			String sqlDump = "/files/mysqldump";
+			process = runtime.exec(sqlDump +" "+dbName + " --xml --single-transaction -u root > "+fileName);
+			
+			if(process.waitFor()==0){
+				logger.info("Successfully created backup of "+dbName);
+			}else{
+				logger.error("Backup of "+dbName+" failed");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			if(process!=null){
+				process.destroy();
+			}
 		}
+		
 	}
 	
 	/**
@@ -62,7 +59,10 @@ public class DBInterface {
 	 * @param settings
 	 */
 	public void exportTo(List<String> dbnames, String filename, ExportSettings settings) {
-		
+		for (String dbname : dbnames) {
+			//TODO: different filenames for each database
+			exportTo(dbnames, filename, settings);
+		}
 	}
 
 	/**
@@ -72,6 +72,7 @@ public class DBInterface {
 	 */
 	public void importTo(String dbname, String filename) {
 		// TODO - implement DBInterface.importTo
+		//TODO: use files/mysql
 		throw new UnsupportedOperationException();
 	}
 	
@@ -79,28 +80,4 @@ public class DBInterface {
 		
 	}
 	
-	private String mySqlDump(String dbName, String fileName){
-		Process process = null;
-		try{
-			Runtime runtime = Runtime.getRuntime();
-			String sqlDump = "/files/mysqldump";
-			process = runtime.exec(sqlDump +" "+dbName + " --xml --single-transaction -u root > "+fileName);
-			
-			//wenn erfolgreich ausgeführt
-			if(process.waitFor()==0){
-				//TODO: log4j einbinden
-			//wenn nicht erfoglreich ausgeführt
-			}else{
-				//TODO: log4j einbinden
-			}
-			
-			
-			
-		}catch(Exception e){
-			
-		}
-		return fileName;
-	}
-	
-
 }
