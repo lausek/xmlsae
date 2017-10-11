@@ -2,6 +2,7 @@ package view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.function.Consumer;
 
 import javax.swing.JButton;
@@ -10,7 +11,6 @@ import control.Connection;
 import view.Display.EnumFatality;
 
 import javax.swing.JTextField;
-import javax.swing.JLabel;
 
 @SuppressWarnings("serial")
 public class LoginScreen extends Screen {
@@ -40,8 +40,8 @@ public class LoginScreen extends Screen {
 				try {
 					Connection con = new Connection(tfUser.getText(), tfPassword.getText());
 					callback.accept(con);
-				} catch(Exception e) {
-					parent.notice(EnumFatality.ERROR, "Connection couldn't be established");
+				} catch(SQLException e) {
+					parent.notice(EnumFatality.ERROR, "Connection couldn't be established", e.getMessage());
 				}
 				
 				

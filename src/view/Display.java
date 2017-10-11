@@ -40,6 +40,10 @@ public class Display extends JFrame {
 		setVisible(true);
 	}
 	
+	public Control getControl() {
+		return parent;
+	}
+	
 	public Screen getCurrentScreen() {
 		return currentScreen;
 	}

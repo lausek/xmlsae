@@ -13,7 +13,7 @@ public class Screen extends JPanel implements ActionListener {
 	
 	public Screen(Display parent) {
 		this.build();
-		
+		this.parent = parent;
 	}
 	
 	public void onEnter() {
