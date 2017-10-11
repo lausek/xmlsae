@@ -1,12 +1,22 @@
 package view;
+
+import java.util.function.Consumer;
+
+@SuppressWarnings("serial")
 public class SelectionScreen extends Screen {
 
-	/**
-	 * Screen für SELECT_DB
-	 */
-	public Object getMainResult() {
-		// TODO - implement SelectionScreen.getMainResult
-		throw new UnsupportedOperationException();
+	public SelectionScreen(Display parent) {
+		super(parent);
 	}
-
+	
+	@Override
+	public void build() {
+		super.build();
+	}
+	
+	@Override
+	public void getMainResult(Consumer<Object> action) {
+		
+	}
+	
 }

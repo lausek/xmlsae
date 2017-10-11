@@ -1,4 +1,5 @@
 package control;
+
 public class Connection {
 
 	/**
@@ -8,7 +9,7 @@ public class Connection {
 	 */
 	public Connection(String host, String passwd) {
 		// TODO - implement Connection.Connection
-		throw new UnsupportedOperationException();
+		//throw new UnsupportedOperationException();
 	}
 
 	/**

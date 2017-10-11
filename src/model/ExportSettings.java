@@ -1,10 +1,15 @@
 package model;
+
 public class ExportSettings {
 
 	private boolean isDefinitionRequired;
 	private boolean isDataRequired;
-
-	public boolean getIsDefinitionRequired() {
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isDefinitionRequired() {
 		return this.isDefinitionRequired;
 	}
 
@@ -12,11 +17,15 @@ public class ExportSettings {
 	 * 
 	 * @param isDefinitionRequired
 	 */
-	public void setIsDefinitionRequired(boolean isDefinitionRequired) {
+	public void setDefinitionRequired(boolean isDefinitionRequired) {
 		this.isDefinitionRequired = isDefinitionRequired;
 	}
-
-	public boolean getIsDataRequired() {
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isDataRequired() {
 		return this.isDataRequired;
 	}
 
@@ -24,7 +33,7 @@ public class ExportSettings {
 	 * 
 	 * @param isDataRequired
 	 */
-	public void setIsDataRequired(boolean isDataRequired) {
+	public void setDataRequired(boolean isDataRequired) {
 		this.isDataRequired = isDataRequired;
 	}
 

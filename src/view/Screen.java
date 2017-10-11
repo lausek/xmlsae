@@ -1,33 +1,38 @@
 package view;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.function.Consumer;
 
 import javax.swing.JPanel;
 
-/**
- * Dann erben wir da 5 mal von!!!!
- */
-public class Screen implements ActionListener {
+@SuppressWarnings("serial")
+public class Screen extends JPanel implements ActionListener {
 
-	protected JPanel panel;
 	protected Display parent;
 	
-	public Screen() {
+	public Screen(Display parent) {
 		this.build();
 		
 	}
 	
+	public void onEnter() {
+		
+	}
+	
+	public void onLeave() {
+		
+	}
+	
 	public void build() {
-		// TODO - implement Screen.build
-		throw new UnsupportedOperationException();
+		
 	}
 
 	/**
 	 * Override in subclasses
 	 */
-	public Object getMainResult() {
-		// TODO - implement Screen.getMainResult
-		throw new UnsupportedOperationException();
+	public void getMainResult(Consumer<Object> action) {
+		
 	}
 
 	@Override

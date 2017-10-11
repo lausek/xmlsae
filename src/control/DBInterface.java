@@ -1,4 +1,5 @@
 package control;
+
 import java.util.List;
 
 import model.ExportSettings;
@@ -37,7 +38,27 @@ public class DBInterface {
 	 */
 	public void exportTo(String dbname, String filename, ExportSettings settings) {
 		// TODO - implement DBInterface.exportTo
+		// TODO - Create list and call exportTo(dbnames)
 		throw new UnsupportedOperationException();
+	}
+	
+	/**
+	 * 
+	 * @param dbnames
+	 * @param filename
+	 */
+	public void exportTo(List<String> dbnames, String filename) {
+		
+	}
+	
+	/**
+	 * 
+	 * @param dbnames
+	 * @param filename
+	 * @param settings
+	 */
+	public void exportTo(List<String> dbnames, String filename, ExportSettings settings) {
+		
 	}
 
 	/**
@@ -48,6 +69,10 @@ public class DBInterface {
 	public void importTo(String dbname, String filename) {
 		// TODO - implement DBInterface.importTo
 		throw new UnsupportedOperationException();
+	}
+	
+	public void importTo(List<String> dbnames, String filename) {
+		
 	}
 
 }
