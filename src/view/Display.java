@@ -92,7 +92,8 @@ public class Display extends JFrame {
 	 */
 	public void notice(EnumFatality fatality, String message, String details) {
 		// TODO - implement Display.notice
-		throw new UnsupportedOperationException();
+		//throw new UnsupportedOperationException();
+		System.out.println(message + " " + details);
 	}
 
 }

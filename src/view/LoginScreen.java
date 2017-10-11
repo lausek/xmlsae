@@ -21,6 +21,12 @@ public class LoginScreen extends Screen {
 	
 	public LoginScreen(Display parent) {
 		super(parent);
+	}
+	
+	@Override
+	public void build() {
+		super.build();
+		
 		setLayout(null);
 		
 		tfUser = new JTextField();
@@ -49,11 +55,6 @@ public class LoginScreen extends Screen {
 		});
 		btnLogin.setBounds(122, 138, 155, 23);
 		add(btnLogin);
-	}
-	
-	@Override
-	public void build() {
-		super.build();
 	}
 	
 	@Override
