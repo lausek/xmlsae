@@ -1,10 +1,10 @@
 package view;
 
+import java.util.function.Consumer;
+
 import javax.swing.JButton;
 
-/**
- * Screen für Login
- */
+@SuppressWarnings("serial")
 public class LoginScreen extends Screen {
 
 	public LoginScreen(Display parent) {
@@ -15,9 +15,10 @@ public class LoginScreen extends Screen {
 	public void build() {
 		this.add(new JButton());
 	}
-
-	public Object getMainResult() {
-		return null;
+	
+	@Override
+	public void getMainResult(Consumer<Object> action) {
+		
 	}
 
 }

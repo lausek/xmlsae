@@ -4,9 +4,7 @@ import javax.swing.JFrame;
 
 import control.Control;
 
-/**
- * Screen ist eine enum
- */
+@SuppressWarnings("serial")
 public class Display extends JFrame {
 	
 	public enum EnumFatality {
@@ -46,7 +44,7 @@ public class Display extends JFrame {
 	 * 
 	 * @param SCREEN
 	 */
-	public void setScreen(EnumScreen login) {
+	public Screen setScreen(EnumScreen login) {
 		Screen selected = screens[login.ordinal()];
 		
 		if(selected == null) {
@@ -61,6 +59,8 @@ public class Display extends JFrame {
 		
 		setContentPane(currentScreen);
 		currentScreen.onEnter();
+		
+		return currentScreen;
 	}
 
 	/**

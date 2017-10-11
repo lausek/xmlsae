@@ -1,14 +1,12 @@
 package view;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 import javax.swing.JPanel;
 
-/**
- * Dann erben wir da 5 mal von!!!!
- */
+@SuppressWarnings("serial")
 public class Screen extends JPanel implements ActionListener {
 
 	protected Display parent;
