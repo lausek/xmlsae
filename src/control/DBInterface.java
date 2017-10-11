@@ -1,6 +1,7 @@
 package control;
 
 import java.util.List;
+import javax.swing.JOptionPane;
 
 import model.ExportSettings;
 
@@ -74,5 +75,25 @@ public class DBInterface {
 	public void importTo(List<String> dbnames, String filename) {
 		
 	}
+	
+	private String mySqlDump(String dbName, String fileName){
+		Process process = null;
+		try{
+			Runtime runtime = Runtime.getRuntime();
+			String sqlDump = "/files/mysqldump";
+			process = runtime.exec(sqlDump +" "+dbName + " --xml --single-transaction -u root > "+fileName);
+			
+			if(process.waitFor()==0){
+				
+			}
+			
+			
+			
+		}catch(Exception e){
+			
+		}
+		return "";
+	}
+	
 
 }
