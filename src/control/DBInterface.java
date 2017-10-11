@@ -83,8 +83,12 @@ public class DBInterface {
 			String sqlDump = "/files/mysqldump";
 			process = runtime.exec(sqlDump +" "+dbName + " --xml --single-transaction -u root > "+fileName);
 			
+			//wenn erfolgreich ausgeführt
 			if(process.waitFor()==0){
-				
+				//TODO: log4j einbinden
+			//wenn nicht erfoglreich ausgeführt
+			}else{
+				//TODO: log4j einbinden
 			}
 			
 			
