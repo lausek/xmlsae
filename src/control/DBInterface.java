@@ -49,7 +49,10 @@ public class DBInterface {
 	 * @param filename
 	 */
 	public void exportTo(List<String> dbnames, String filename) {
-		
+		for (String dbName : dbnames) {
+			//TODO: Unterschiedliche filenames logischerweise
+			mySqlDump(dbName, filename);
+		}
 	}
 	
 	/**
@@ -96,7 +99,7 @@ public class DBInterface {
 		}catch(Exception e){
 			
 		}
-		return "";
+		return fileName;
 	}
 	
 
