@@ -25,13 +25,16 @@ public class Display extends JFrame {
 	public Display(Control parent) {
 		this.parent = parent;
 		
-		screens = new Screen[screenCount-1];
+		screens = new Screen[screenCount];
 		
-		// TODO: build panels
 		screens[EnumScreen.LOGIN.ordinal()] = new LoginScreen(this);
+		screens[EnumScreen.SELECT_DB.ordinal()] = new SelectionScreen(this);
+		screens[EnumScreen.SELECT_ACTION.ordinal()] = null;
+		screens[EnumScreen.IMPORT.ordinal()] = null;
+		screens[EnumScreen.EXPORT.ordinal()] = null;
 		
-		setTitle("Geiles Programm");
-		setBounds(0, 0, 800, 600);
+		setTitle("xmlsae");
+		setBounds(0, 0, 400, 260);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 	}
@@ -44,8 +47,8 @@ public class Display extends JFrame {
 	 * 
 	 * @param SCREEN
 	 */
-	public Screen setScreen(EnumScreen login) {
-		Screen selected = screens[login.ordinal()];
+	public Screen setScreen(EnumScreen screen) {
+		Screen selected = screens[screen.ordinal()];
 		
 		if(selected == null) {
 			System.out.println("Desch jetzt blöd");
@@ -58,7 +61,11 @@ public class Display extends JFrame {
 		currentScreen = selected;
 		
 		setContentPane(currentScreen);
+		
 		currentScreen.onEnter();
+		
+		repaint();
+		revalidate();
 		
 		return currentScreen;
 	}

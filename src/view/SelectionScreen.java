@@ -10,6 +10,11 @@ public class SelectionScreen extends Screen {
 	}
 	
 	@Override
+	public void build() {
+		super.build();
+	}
+	
+	@Override
 	public void getMainResult(Consumer<Object> action) {
 		
 	}
