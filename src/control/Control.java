@@ -41,7 +41,6 @@ public class Control {
 	public static void main(String[] args) {
 		
 		// Try to make program look like it is platform dependent
-		//TODO: Nimbus won't load before 1.6; Is another check required?
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (UnsupportedLookAndFeelException e) {
