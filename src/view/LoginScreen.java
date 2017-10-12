@@ -9,6 +9,7 @@ import javax.swing.JButton;
 
 import control.Connection;
 import view.Display.EnumFatality;
+import view.atoms.CTextField;
 
 import javax.swing.JTextField;
 
@@ -28,12 +29,12 @@ public class LoginScreen extends Screen {
 		super.build();
 		setLayout(null);
 		
-		tfUser = new JTextField();
+		tfUser = new CTextField("user@host...");
 		tfUser.setBounds(122, 65, 155, 20);
-		add(tfUser);
 		tfUser.setColumns(10);
+		add(tfUser);
 		
-		tfPassword = new JTextField();
+		tfPassword = new CTextField("password...");
 		tfPassword.setColumns(10);
 		tfPassword.setBounds(122, 96, 155, 20);
 		add(tfPassword);
@@ -43,7 +44,7 @@ public class LoginScreen extends Screen {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				try {
-					Connection con = new Connection(tfUser.getText(), tfPassword.getText());
+					final Connection con = new Connection(tfUser.getText(), tfPassword.getText());
 					callback.accept(con);
 				} catch(SQLException e) {
 					parent.notice(EnumFatality.ERROR, "Connection couldn't be established", e.getMessage());

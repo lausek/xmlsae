@@ -16,29 +16,18 @@ public class Screen extends JPanel implements ActionListener {
 		this.parent = parent;
 	}
 	
-	public void onEnter() {
-		
-	}
+	public void onEnter() { }
 	
-	public void onLeave() {
-		
-	}
+	public void onLeave() { }
 	
-	public void build() {
-		
-	}
+	public void build() { }
 
 	/**
 	 * Override in subclasses
 	 */
-	public void getMainResult(Consumer<Object> action) {
-		
-	}
+	public void getMainResult(Consumer<Object> action) { }
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void actionPerformed(ActionEvent arg0) { }
 
 }

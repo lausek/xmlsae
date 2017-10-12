@@ -1,8 +1,6 @@
 package view;
 
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.ResultSet;
@@ -12,11 +10,11 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import view.Display.EnumFatality;
+import view.atoms.CTextField;
+import view.atoms.CListItem;
 
 import javax.swing.DefaultListModel;
-import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 import javax.swing.JScrollPane;
@@ -25,9 +23,9 @@ import javax.swing.ScrollPaneConstants;
 @SuppressWarnings("serial")
 public class SelectionScreen extends Screen implements KeyListener {
 	
-	private List<String> databases = new ArrayList<>();
+	private List<CListItem> databases = new ArrayList<>();
 	private JTextField textField;
-	private DefaultListModel<DatabaseListItem> list;
+	private DefaultListModel<CListItem> list;
 	
 	public SelectionScreen(Display parent) {
 		super(parent);
@@ -38,23 +36,24 @@ public class SelectionScreen extends Screen implements KeyListener {
 		super.build();
 		setLayout(null);
 		
-		textField = new JTextField();
+		textField = new CTextField("database...");
 		textField.setBounds(102, 33, 202, 20);
-		add(textField);
 		textField.setColumns(10);
 		textField.addKeyListener(this);
+		add(textField);
 		
-		JList<DatabaseListItem> jlist = new JList<>();
+		JList<CListItem> jlist = new JList<>();
+		
 		list = new DefaultListModel<>();
-		jlist.setModel(list);
 		
+		jlist.setModel(list);
 		// avoid printing JPanels as String
-		jlist.setCellRenderer(new ListCellRenderer<DatabaseListItem>() {
-
+		jlist.setCellRenderer(new ListCellRenderer<CListItem>() {
+			
 			@Override
-			public Component getListCellRendererComponent(JList<? extends DatabaseListItem> list, DatabaseListItem value, int index,
+			public Component getListCellRendererComponent(JList<? extends CListItem> list, CListItem value, int index,
 					boolean isSelected, boolean cellHasFocus) {
-				return value.getPanel();
+				return value;
 			}
 			
 		});
@@ -75,18 +74,19 @@ public class SelectionScreen extends Screen implements KeyListener {
 		// Load available databases from SQL server
 		try {
 			
-			ResultSet result = parent
+			final ResultSet result = parent
 				.getControl()
 				.getConnection()
 				.newStatement()
 				.executeQuery("SHOW DATABASES");
 			
 			while(result.next()) {
+				//TODO: interesting for logger?
 				System.out.println(result.getString(1));
-				databases.add(result.getString(1));
+				databases.add(new CListItem(result.getString(1)));
 			}
 			
-			initList();
+			reloadList();
 			
 		} catch(SQLException e) {
 			parent.notice(EnumFatality.ERROR, "Couldn't fetch databases from server");
@@ -94,64 +94,38 @@ public class SelectionScreen extends Screen implements KeyListener {
 		
 	}
 	
-	private void initList() {
-		
-		for(String name : databases) {
-			list.addElement(new DatabaseListItem(name));
-		}
-		
+	private void reloadList() {
+		//Loads all objects from 'databases' into list
+		reloadList("");
 	}
 	
-	private void filterList(String query) {
+	private void reloadList(String query) {
 		
-		for(int i = 0; i < list.size(); i++) {
-//			DatabaseListItem panel = list.getElementAt(i);
-//			panel.setVisible(panel.getName().contains(query));
-		}
+		list.clear();
 		
-	}
-	
-	@Override
-	public void keyTyped(KeyEvent e) {
-		filterList(textField.getText());
+		databases
+			.stream()
+			.filter(db -> db.getTitle().contains(query))
+			/* TODO: Na Pascal? Kommste noch mit? Kind regards, lausek */
+			.forEach(list::addElement);
+		
+		//TODO: is this needed?
+		revalidate();
+		
 	}
 	
 	@Override
-	public void getMainResult(Consumer<Object> action) {
-		
+	public void keyReleased(KeyEvent e) { 
+		reloadList(textField.getText());
 	}
-
+	
+	@Override
+	public void keyTyped(KeyEvent e) { }
+	
 	@Override
 	public void keyPressed(KeyEvent e) { }
-
+	
 	@Override
-	public void keyReleased(KeyEvent e) {}
+	public void getMainResult(Consumer<Object> action) { }
 
-}
-
-@SuppressWarnings("serial")
-class DatabaseListItem extends JPanel {
-	
-	private JPanel panel;
-	private JLabel nameLabel;
-	
-	public DatabaseListItem(String name) {
-		panel = new JPanel();
-		panel.setLayout(null);
-		panel.setBackground(Color.CYAN);
-		
-		nameLabel = new JLabel(name);
-		panel.add(nameLabel);
-	}
-	
-	public String getName() {
-		return nameLabel.getText();
-	}
-	
-	public JPanel getPanel() {
-		return panel;
-	}
-
-	
-	
 }
