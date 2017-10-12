@@ -1,6 +1,7 @@
 package view;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import control.Control;
 
@@ -8,7 +9,19 @@ import control.Control;
 public class Display extends JFrame {
 	
 	public enum EnumFatality {
-		INFO, SUCCESS, WARNING, ERROR
+		INFO(JOptionPane.PLAIN_MESSAGE), 
+		SUCCESS(JOptionPane.INFORMATION_MESSAGE), 
+		WARNING(JOptionPane.WARNING_MESSAGE), 
+		ERROR(JOptionPane.ERROR_MESSAGE);
+		private final int value;
+		
+		private EnumFatality(int x) {
+			this.value = x;
+		}
+		
+		public int val() {
+			return value;
+		}
 	}
 	
 	public enum EnumScreen {
@@ -91,9 +104,7 @@ public class Display extends JFrame {
 	 * @param details
 	 */
 	public void notice(EnumFatality fatality, String message, String details) {
-		// TODO - implement Display.notice
-		//throw new UnsupportedOperationException();
-		System.out.println(message + " " + details);
+		JOptionPane.showMessageDialog(null, message, "Meldung", fatality.val());
 	}
 
 }

@@ -22,11 +22,10 @@ public class LoginScreen extends Screen {
 	public LoginScreen(Display parent) {
 		super(parent);
 	}
-	
+
 	@Override
 	public void build() {
 		super.build();
-		
 		setLayout(null);
 		
 		tfUser = new JTextField();
@@ -49,7 +48,6 @@ public class LoginScreen extends Screen {
 				} catch(SQLException e) {
 					parent.notice(EnumFatality.ERROR, "Connection couldn't be established", e.getMessage());
 				}
-				
 				
 			}
 		});
