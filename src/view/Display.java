@@ -28,7 +28,6 @@ public class Display extends JFrame {
 		LOGIN, SELECT_DB, SELECT_ACTION,
 		IMPORT, EXPORT
 	}
-	
 
 	public static final int screenCount = EnumScreen.values().length;
 	
@@ -41,6 +40,7 @@ public class Display extends JFrame {
 		
 		screens = new Screen[screenCount];
 		
+		//TODO: allocate other screens here too
 		screens[EnumScreen.LOGIN.ordinal()] = new LoginScreen(this);
 		screens[EnumScreen.SELECT_DB.ordinal()] = new SelectionScreen(this);
 		screens[EnumScreen.SELECT_ACTION.ordinal()] = null;
