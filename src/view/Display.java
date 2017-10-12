@@ -48,7 +48,7 @@ public class Display extends JFrame {
 		screens[EnumScreen.EXPORT.ordinal()] = null;
 		
 		setTitle("xmlsae");
-		setBounds(0, 0, 400, 260);
+		setBounds(0, 0, 800, 600);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 	}

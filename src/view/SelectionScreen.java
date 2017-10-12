@@ -19,6 +19,8 @@ import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 @SuppressWarnings("serial")
 public class SelectionScreen extends Screen implements KeyListener {
@@ -26,6 +28,7 @@ public class SelectionScreen extends Screen implements KeyListener {
 	private List<CListItem> databases = new ArrayList<>();
 	private JTextField textField;
 	private DefaultListModel<CListItem> list;
+	private JList<CListItem> jlist;
 	
 	public SelectionScreen(Display parent) {
 		super(parent);
@@ -36,17 +39,31 @@ public class SelectionScreen extends Screen implements KeyListener {
 		super.build();
 		setLayout(null);
 		
+		list = new DefaultListModel<>();
+		
 		textField = new CTextField("database...");
 		textField.setBounds(102, 33, 202, 20);
 		textField.setColumns(10);
 		textField.addKeyListener(this);
 		add(textField);
 		
-		JList<CListItem> jlist = new JList<>();
-		
-		list = new DefaultListModel<>();
-		
+		jlist = new JList<>();
 		jlist.setModel(list);
+		jlist.addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				//Event gets fired twice if this check doesn't happen
+				if(jlist.getValueIsAdjusting()) {
+					/* TODO: Doesn't work correctly if multiple items are selected 
+					 * For facing this issue, hold mouse button down and 
+					 * scroll from top to bottom. Some items will stay deselected.
+					 * */
+					jlist.getSelectedValue().toggleSelection();
+				}
+			}
+			
+		});
 		// avoid printing JPanels as String
 		jlist.setCellRenderer(new ListCellRenderer<CListItem>() {
 			

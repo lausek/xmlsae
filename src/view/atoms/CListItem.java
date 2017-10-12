@@ -1,5 +1,6 @@
 package view.atoms;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
@@ -8,14 +9,35 @@ import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class CListItem extends JPanel {
-
+	
+	private final Color COLOR_SELECTED = Color.GREEN;
+	private final Color COLOR_DESELECTED = Color.RED;
+	
+	private boolean selected;
 	private JLabel nameLabel;
 
 	public CListItem(String name) {
+		selected = false;
 		nameLabel = new JLabel(name);
 		add(nameLabel);
+		
+		toggleSelection();
 	}
-
+	
+	public void toggleSelection() {
+		if(selected) {
+			setBackground(COLOR_SELECTED);
+		} else {
+			setBackground(COLOR_DESELECTED);
+		}
+		
+		selected = !selected;
+	}
+	
+	public boolean isSelected() {
+		return selected;
+	}
+	
 	public String getTitle() {
 		return nameLabel.getText();
 	}
@@ -34,5 +56,5 @@ public class CListItem extends JPanel {
 	public Dimension getPreferredSize() {
 		return getMinimumSize();
 	}
-
+	
 }
