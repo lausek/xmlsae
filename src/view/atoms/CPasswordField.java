@@ -4,25 +4,26 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import javax.swing.JTextField;
+import javax.swing.JPasswordField;
 
 /**
- * Custom Text Field
+ * Custom Password Field
  * 
- * JTextField with placeholder functionality.
+ * JPasswordField with placeholder functionality. 
+ * TODO: We can probably rewrite this together with CTextField.
  * 
  * @author lausek
  *
  */
 
 @SuppressWarnings("serial")
-public class CTextField extends JTextField {
+public class CPasswordField extends JPasswordField {
 	
 	private final Color PLACEHOLDER_COLOR = Color.GRAY;
 	
 	private String placeholder;
 	
-	public CTextField(String placeholder) {
+	public CPasswordField(String placeholder) {
 		this.placeholder = placeholder;
 	}
 	
@@ -30,7 +31,7 @@ public class CTextField extends JTextField {
     protected void paintComponent(final Graphics pG) {
         super.paintComponent(pG);
 
-        if (getText().length() > 0) {
+        if (getPassword().length > 0) {
             return;
         }
 

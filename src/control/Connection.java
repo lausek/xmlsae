@@ -29,6 +29,7 @@ public class Connection {
 		
 		user = !parts[0].isEmpty() ? parts[0] : "root";
 		host = parts.length > 1 ? parts[1] : "localhost";
+		//TODO: should we really save that?
 		password = passwd;
 		
 		sqlConnection = DriverManager.getConnection("jdbc:mysql://"+host, user, password);

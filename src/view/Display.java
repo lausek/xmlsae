@@ -8,14 +8,18 @@ import control.Control;
 @SuppressWarnings("serial")
 public class Display extends JFrame {
 	
-	public enum EnumFatality {
+	public static final int SCREEN_WIDTH = 800;
+	public static final int SCREEN_HEIGHT = 500;
+	
+	//TODO: When we implement our own MessageDialog, we can get rid of this
+	public enum MessageFatality {
 		INFO(JOptionPane.PLAIN_MESSAGE), 
 		SUCCESS(JOptionPane.INFORMATION_MESSAGE), 
 		WARNING(JOptionPane.WARNING_MESSAGE), 
 		ERROR(JOptionPane.ERROR_MESSAGE);
 		private final int value;
 		
-		private EnumFatality(int x) {
+		private MessageFatality(int x) {
 			this.value = x;
 		}
 		
@@ -24,12 +28,12 @@ public class Display extends JFrame {
 		}
 	}
 	
-	public enum EnumScreen {
+	public enum AppScreen {
 		LOGIN, SELECT_DB, SELECT_ACTION,
 		IMPORT, EXPORT
 	}
 
-	public static final int screenCount = EnumScreen.values().length;
+	public static final int screenCount = AppScreen.values().length;
 	
 	private Screen currentScreen;
 	private Screen[] screens;
@@ -41,14 +45,14 @@ public class Display extends JFrame {
 		screens = new Screen[screenCount];
 		
 		//TODO: allocate other screens here too
-		screens[EnumScreen.LOGIN.ordinal()] = new LoginScreen(this);
-		screens[EnumScreen.SELECT_DB.ordinal()] = new SelectionScreen(this);
-		screens[EnumScreen.SELECT_ACTION.ordinal()] = null;
-		screens[EnumScreen.IMPORT.ordinal()] = null;
-		screens[EnumScreen.EXPORT.ordinal()] = null;
+		screens[AppScreen.LOGIN.ordinal()] = new LoginScreen(this);
+		screens[AppScreen.SELECT_DB.ordinal()] = new SelectionScreen(this);
+		screens[AppScreen.SELECT_ACTION.ordinal()] = null;
+		screens[AppScreen.IMPORT.ordinal()] = null;
+		screens[AppScreen.EXPORT.ordinal()] = null;
 		
 		setTitle("xmlsae");
-		setBounds(0, 0, 800, 600);
+		setBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 	}
@@ -65,9 +69,10 @@ public class Display extends JFrame {
 	 * 
 	 * @param SCREEN
 	 */
-	public Screen setScreen(EnumScreen screen) {
+	public Screen setScreen(AppScreen screen) {
 		Screen selected = screens[screen.ordinal()];
 		
+		//TODO: remove this
 		if(selected == null) {
 			System.out.println("Desch jetzt blöd");
 		}
@@ -93,7 +98,7 @@ public class Display extends JFrame {
 	 * @param fatality
 	 * @param message
 	 */
-	public void notice(EnumFatality fatality, String message) {
+	public void notice(MessageFatality fatality, String message) {
 		notice(fatality, message, null);
 	}
 
@@ -103,8 +108,10 @@ public class Display extends JFrame {
 	 * @param message
 	 * @param details
 	 */
-	public void notice(EnumFatality fatality, String message, String details) {
-		JOptionPane.showMessageDialog(null, message, "Meldung", fatality.val());
+	//TODO: Bring message and details on one screen. Maybe create custom dialog box?
+	public void notice(MessageFatality fatality, String message, String details) {
+		JOptionPane.showMessageDialog(this, message, "Meldung", fatality.val());
+		JOptionPane.showMessageDialog(this, details);
 	}
 
 }

@@ -19,11 +19,11 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class Screen extends JPanel implements ActionListener {
 
-	protected Display parent;
+	protected Display display;
 	
-	public Screen(Display parent) {
+	public Screen(Display display) {
+		this.display = display;
 		this.build();
-		this.parent = parent;
 	}
 	
 	/**

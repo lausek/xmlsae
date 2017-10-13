@@ -9,9 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import view.Display.EnumFatality;
+import view.Display.AppScreen;
+import view.Display.MessageFatality;
 import view.atoms.CTextField;
 import view.atoms.CListItem;
+import view.atoms.CSwitchArrow;
+import view.atoms.CSwitchArrow.MoveDirection;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -26,12 +29,12 @@ import javax.swing.event.ListSelectionListener;
 public class SelectionScreen extends Screen implements KeyListener {
 	
 	private List<CListItem> databases = new ArrayList<>();
-	private JTextField textField;
+	private CTextField filterField;
 	private DefaultListModel<CListItem> list;
 	private JList<CListItem> jlist;
 	
-	public SelectionScreen(Display parent) {
-		super(parent);
+	public SelectionScreen(Display display) {
+		super(display);
 	}
 	
 	@Override
@@ -40,12 +43,18 @@ public class SelectionScreen extends Screen implements KeyListener {
 		setLayout(null);
 		
 		list = new DefaultListModel<>();
+
+		CSwitchArrow backArrow = new CSwitchArrow(display, AppScreen.LOGIN).setDirection(MoveDirection.LEFT);
+		add(backArrow);
 		
-		textField = new CTextField("database...");
-		textField.setBounds(102, 33, 202, 20);
-		textField.setColumns(10);
-		textField.addKeyListener(this);
-		add(textField);
+		CSwitchArrow forwardArrow = new CSwitchArrow(display, AppScreen.SELECT_ACTION).setDirection(MoveDirection.RIGHT);
+		add(forwardArrow);
+		
+		filterField = new CTextField("database...");
+		filterField.setBounds(102, 33, 202, 20);
+		filterField.setColumns(10);
+		filterField.addKeyListener(this);
+		add(filterField);
 		
 		jlist = new JList<>();
 		jlist.setModel(list);
@@ -53,6 +62,7 @@ public class SelectionScreen extends Screen implements KeyListener {
 			
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
+				//TODO: Click on same item doesn't reset
 				//Event gets fired twice if this check doesn't happen
 				if(jlist.getValueIsAdjusting()) {
 					/* TODO: Doesn't work correctly if multiple items are selected 
@@ -88,10 +98,14 @@ public class SelectionScreen extends Screen implements KeyListener {
 	public void onEnter() {
 		super.onEnter();
 		
+		//If this screen gets reentered, clean up
+		databases.clear();
+		filterField.setText("");
+		
 		// Load available databases from SQL server
 		try {
 			
-			final ResultSet result = parent
+			final ResultSet result = display
 				.getControl()
 				.getConnection()
 				.newStatement()
@@ -99,14 +113,13 @@ public class SelectionScreen extends Screen implements KeyListener {
 			
 			while(result.next()) {
 				//TODO: interesting for logger?
-				System.out.println(result.getString(1));
 				databases.add(new CListItem(result.getString(1)));
 			}
 			
 			reloadList();
 			
 		} catch(SQLException e) {
-			parent.notice(EnumFatality.ERROR, "Couldn't fetch databases from server");
+			display.notice(MessageFatality.ERROR, "Couldn't fetch databases from server");
 		}
 		
 	}
@@ -133,7 +146,7 @@ public class SelectionScreen extends Screen implements KeyListener {
 	
 	@Override
 	public void keyReleased(KeyEvent e) { 
-		reloadList(textField.getText());
+		reloadList(filterField.getText());
 	}
 	
 	@Override

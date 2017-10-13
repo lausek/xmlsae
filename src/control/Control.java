@@ -7,7 +7,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import view.Display;
-import view.Display.EnumScreen;
+import view.Display.AppScreen;
 
 public class Control {
 
@@ -22,7 +22,7 @@ public class Control {
 		public void accept(Object obj) {
 			databases = (List<String>) obj;
 
-			display.setScreen(EnumScreen.SELECT_ACTION);
+			display.setScreen(AppScreen.SELECT_ACTION);
 		}
 
 	};
@@ -33,7 +33,7 @@ public class Control {
 		public void accept(Object obj) {
 			connection = (Connection) obj;
 
-			display.setScreen(EnumScreen.SELECT_DB).getMainResult(selectDatabases);
+			display.setScreen(AppScreen.SELECT_DB).getMainResult(selectDatabases);
 		}
 
 	};
@@ -59,7 +59,7 @@ public class Control {
 	public void run() {
 		display = new Display(this);
 
-		display.setScreen(EnumScreen.LOGIN).getMainResult(establishConnection);
+		display.setScreen(AppScreen.LOGIN).getMainResult(establishConnection);
 
 	}
 
