@@ -28,7 +28,12 @@ public class Screen extends JPanel implements ActionListener {
 		this.display = display;
 		this.build();
 	}
-
+	
+	/**
+	 * Get screen identificator. Required by onEnter and onLeave method 
+	 * to do conditional cleaning.
+	 * @return
+	 */
 	public AppScreen getScreenId() {
 		throw new NotImplementedException();
 	}

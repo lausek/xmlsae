@@ -10,9 +10,9 @@ import view.Display.AppScreen;
 
 /**
  * 
- * Class for navigating around with arrows.
- * TODO: Should this work with keyboard shortcuts too?
- *	
+ * Class for navigating around with arrows. TODO: Should this work with keyboard
+ * shortcuts too?
+ * 
  * @author lausek
  *
  */
@@ -23,23 +23,23 @@ public class CSwitchArrow extends JButton implements ActionListener {
 	public enum MoveDirection {
 		LEFT, RIGHT
 	}
-	
+
 	private Display display;
 	private AppScreen switchTo;
-	
+
 	public CSwitchArrow(Display display, AppScreen switchTo) {
 		this.display = display;
 		this.switchTo = switchTo;
-		
+
 		setSize(45, 20);
-		
+
 		addActionListener(this);
 	}
-	
+
 	public CSwitchArrow setDirection(MoveDirection direction) {
-		
-		//TODO: make symbols prettier
-		switch(direction) {
+
+		// TODO: make symbols prettier
+		switch (direction) {
 		case LEFT:
 			setText("<-");
 			break;
@@ -47,13 +47,13 @@ public class CSwitchArrow extends JButton implements ActionListener {
 			setText("->");
 			break;
 		}
-		
+
 		return this;
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		display.setScreen(switchTo);
 	}
-	
+
 }

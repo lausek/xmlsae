@@ -14,7 +14,7 @@ public class Control {
 	private Display display;
 	private Connection connection;
 	private List<String> databases;
-
+	
 	private Consumer<Object> selectDatabases = new Consumer<Object>() {
 
 		@SuppressWarnings("unchecked")
@@ -39,7 +39,7 @@ public class Control {
 	};
 
 	public static void main(String[] args) {
-		
+
 		// Try to make program look like it is platform dependent
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -71,4 +71,4 @@ public class Control {
 		return databases;
 	}
 
-}
+}	
