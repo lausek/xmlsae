@@ -60,7 +60,6 @@ public class Control {
 		display = new Display(this);
 
 		display.setScreen(AppScreen.LOGIN).getMainResult(establishConnection);
-
 	}
 
 	public Connection getConnection() {
