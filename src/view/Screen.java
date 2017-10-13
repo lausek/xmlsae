@@ -6,12 +6,15 @@ import java.util.function.Consumer;
 
 import javax.swing.JPanel;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import view.Display.AppScreen;
+
 /**
- * Screens get managed by the Display class. Each screen has its own 
- * main functionality like 'log user in' or 'select database from server'.
+ * Screens get managed by the Display class. Each screen has its own main
+ * functionality like 'log user in' or 'select database from server'.
  * 
- * ActionPerformed is meant to handle button clicks of child components.
- * TODO: Check if ActionPerformed is needed at all.
+ * ActionPerformed is meant to handle button clicks of child components. TODO:
+ * Check if ActionPerformed is needed at all.
  * 
  * @author lausek
  *
@@ -20,36 +23,45 @@ import javax.swing.JPanel;
 public class Screen extends JPanel implements ActionListener {
 
 	protected Display display;
-	
+
 	public Screen(Display display) {
 		this.display = display;
 		this.build();
 	}
-	
+
+	public AppScreen getScreenId() {
+		throw new NotImplementedException();
+	}
+
 	/**
 	 * Append JComponents to Screen in this method
 	 */
-	public void build() { }
-	
+	public void build() {
+	}
+
 	/**
 	 * Called when screen gets entered from another screen
 	 */
-	public void onEnter() { }
-	
+	public void onEnter(AppScreen from) {
+	}
+
 	/**
 	 * Called when screen is left for another one
 	 */
-	public void onLeave() { }
+	public void onLeave(AppScreen to) {
+	}
 
 	/**
 	 * Override in subclasses
 	 */
-	public void getMainResult(Consumer<Object> action) { }
-	
+	public void getMainResult(Consumer<Object> action) {
+	}
+
 	/**
 	 * Handle events of child components
 	 */
 	@Override
-	public void actionPerformed(ActionEvent arg0) { }
+	public void actionPerformed(ActionEvent arg0) {
+	}
 
 }

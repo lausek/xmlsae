@@ -38,7 +38,7 @@ public class Connection {
 		
 	}
 	
-	//TODO: Is this needed?
+	//TODO: is this needed?
 	public Connection(String host) throws SQLException {
 		this(host, "");
 	}
