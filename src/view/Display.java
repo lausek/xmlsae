@@ -47,9 +47,10 @@ public class Display extends JFrame {
 		screens[AppScreen.SELECT_ACTION.ordinal()] = null;
 		screens[AppScreen.IMPORT.ordinal()] = null;
 		screens[AppScreen.EXPORT.ordinal()] = null;
-
+		
 		setTitle("xmlsae");
-		setBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+		setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 	}
@@ -108,8 +109,9 @@ public class Display extends JFrame {
 	// TODO: Bring message and details on one screen. Maybe create custom dialog
 	// box?
 	public void notice(MessageFatality fatality, String message, String details) {
-		JOptionPane.showMessageDialog(this, message, "Meldung", fatality.val());
-		JOptionPane.showMessageDialog(this, details);
+		MessageDialog.display(this, fatality, message, details);
+//		JOptionPane.showMessageDialog(this, message, "Meldung", fatality.val());
+//		JOptionPane.showMessageDialog(this, details);
 	}
 
 }
