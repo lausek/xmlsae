@@ -1,26 +1,23 @@
 package view;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Rectangle;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-
-import view.Display.MessageFatality;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
+
+import view.Display.MessageFatality;
 
 public class MessageDialog {
 
@@ -82,20 +79,17 @@ public class MessageDialog {
 		detailsArea.setBounds(10, 77, 351, 22);
 
 		scrollDetails = new JScrollPane(detailsArea);
-		scrollDetails.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollDetails.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scrollDetails.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollDetails.setBounds(10, 60, EXTENDED_SIZE.width - 20, 100);
 		scrollDetails.setVisible(false);
 		messagePanel.add(scrollDetails);
 	}
 
 	public static void display(JFrame displayOn, MessageFatality fatality, String message, String details) {
-
+		
 		frame.setSize(NORMAL_SIZE);
-
-		Rectangle parentBounds = displayOn != null ? displayOn.getBounds()
-				: frame.getGraphicsConfiguration().getBounds();
-
-		frame.setLocation(parentBounds.x + parentBounds.width / 2, parentBounds.y + parentBounds.height / 2);
+		frame.setLocationRelativeTo(displayOn);
 
 		messageLabel.setText(message);
 
@@ -107,9 +101,7 @@ public class MessageDialog {
 		} else {
 			detailsArea.setText(details);
 		}
-
-		scrollDetails.scrollRectToVisible(new Rectangle(0, scrollDetails.getHeight(), 0, 0));
-
+		
 		Icon nextIcon;
 		switch (fatality) {
 		case SUCCESS:
