@@ -10,11 +10,6 @@ import org.apache.log4j.RollingFileAppender;
 
 public class LoggerSettings {
 	
-	public LoggerSettings() {
-		
-	}
-	
-	
 	public static void initLogger(Logger logger, String logFile){
 		PatternLayout layout = new PatternLayout("%d %p - %m%n");
 		ConsoleAppender consoleAppender = new ConsoleAppender( layout );
