@@ -87,7 +87,7 @@ public class MessageDialog {
 	}
 
 	public static void display(JFrame displayOn, MessageFatality fatality, String message, String details) {
-		
+
 		frame.setSize(NORMAL_SIZE);
 		frame.setLocationRelativeTo(displayOn);
 
@@ -101,9 +101,10 @@ public class MessageDialog {
 		} else {
 			detailsArea.setText(details);
 		}
-		
+
 		Icon nextIcon;
 		switch (fatality) {
+		
 		case SUCCESS:
 			nextIcon = UIManager.getIcon("OptionPane.questionIcon");
 			break;
@@ -118,6 +119,7 @@ public class MessageDialog {
 			nextIcon = UIManager.getIcon("OptionPane.informationIcon");
 			break;
 		}
+		
 		iconLabel.setIcon(nextIcon);
 
 		frame.setVisible(true);
