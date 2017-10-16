@@ -44,7 +44,7 @@ public class Display extends JFrame {
 		// TODO: allocate other screens here too
 		screens[AppScreen.LOGIN.ordinal()] = new LoginScreen(this);
 		screens[AppScreen.SELECT_DB.ordinal()] = new SelectionScreen(this);
-		screens[AppScreen.SELECT_ACTION.ordinal()] = null;
+		screens[AppScreen.SELECT_ACTION.ordinal()] = new ActionScreen(this);
 		screens[AppScreen.IMPORT.ordinal()] = null;
 		screens[AppScreen.EXPORT.ordinal()] = null;
 		
