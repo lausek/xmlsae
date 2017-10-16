@@ -72,7 +72,7 @@ public class DBInterface {
 			}
 		}catch(Exception e){
 			logger.debug(e.getMessage());
-		}
+		} 
 	}
 
 	/**
