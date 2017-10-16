@@ -48,11 +48,10 @@ public class SelectionScreen extends Screen implements KeyListener {
 
 		list = new DefaultListModel<>();
 
-		CSwitchArrow backArrow = new CSwitchArrow(display, AppScreen.LOGIN).setDirection(MoveDirection.LEFT);
+		CSwitchArrow backArrow = new CSwitchArrow(display, AppScreen.LOGIN, MoveDirection.LEFT);
 		add(backArrow);
 
-		CSwitchArrow forwardArrow = new CSwitchArrow(display, AppScreen.SELECT_ACTION)
-				.setDirection(MoveDirection.RIGHT);
+		CSwitchArrow forwardArrow = new CSwitchArrow(display, AppScreen.SELECT_ACTION, MoveDirection.RIGHT);
 		add(forwardArrow);
 
 		filterField = new CTextField("database...");
@@ -163,5 +162,5 @@ public class SelectionScreen extends Screen implements KeyListener {
 	@Override
 	public void getMainResult(Consumer<Object> action) {
 	}
-
+	
 }
