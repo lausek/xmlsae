@@ -1,9 +1,13 @@
 package control;
+
 import java.util.List;
 import java.util.function.Consumer;
 
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import view.Display;
-import view.Display.EnumScreen;
+import view.Display.AppScreen;
 
 public class Control {
 
@@ -12,50 +16,58 @@ public class Control {
 	private List<String> databases;
 	
 	private Consumer<Object> selectDatabases = new Consumer<Object>() {
-		
+
 		@SuppressWarnings("unchecked")
 		@Override
 		public void accept(Object obj) {
 			databases = (List<String>) obj;
-			
-			display
-				.setScreen(EnumScreen.SELECT_ACTION);
+
+			display.setScreen(AppScreen.SELECT_ACTION);
 		}
-		
+
 	};
-	
+
 	private Consumer<Object> establishConnection = new Consumer<Object>() {
-		
+
 		@Override
 		public void accept(Object obj) {
 			connection = (Connection) obj;
-			
-			display
-				.setScreen(EnumScreen.SELECT_DB)
-				.getMainResult(selectDatabases);
+
+			display.setScreen(AppScreen.SELECT_DB).getMainResult(selectDatabases);
 		}
-		
+
 	};
-	
+
 	public static void main(String[] args) {
+
+		// Try to make program look like it is platform dependent
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (UnsupportedLookAndFeelException e) {
+			// TODO: Add logger info
+		} catch (ClassNotFoundException e) {
+			// TODO: Add logger info
+		} catch (InstantiationException e) {
+			// TODO: Add logger info
+		} catch (IllegalAccessException e) {
+			// TODO: Add logger info
+		}
+
 		new Control().run();
 	}
-	
+
 	public void run() {
 		display = new Display(this);
-		
-		display
-			.setScreen(EnumScreen.LOGIN)
-			.getMainResult(establishConnection);
-		
+
+		display.setScreen(AppScreen.LOGIN).getMainResult(establishConnection);
 	}
-	
+
 	public Connection getConnection() {
 		return connection;
 	}
-	
+
 	public List<String> getSelectedDB() {
 		return databases;
 	}
 
-}
+}	

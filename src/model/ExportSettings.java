@@ -4,7 +4,7 @@ public class ExportSettings {
 
 	private boolean isDefinitionRequired;
 	private boolean isDataRequired;
-	
+
 	/**
 	 * 
 	 * @return
@@ -20,7 +20,7 @@ public class ExportSettings {
 	public void setDefinitionRequired(boolean isDefinitionRequired) {
 		this.isDefinitionRequired = isDefinitionRequired;
 	}
-	
+
 	/**
 	 * 
 	 * @return

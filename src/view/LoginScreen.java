@@ -8,53 +8,65 @@ import java.util.function.Consumer;
 import javax.swing.JButton;
 
 import control.Connection;
-import view.Display.EnumFatality;
-
-import javax.swing.JTextField;
+import view.Display.AppScreen;
+import view.Display.MessageFatality;
+import view.atoms.CPasswordField;
+import view.atoms.CTextField;
+import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class LoginScreen extends Screen {
-	
+
 	private Consumer<Object> callback;
-	private JTextField tfUser;
-	private JTextField tfPassword;
-	
+	private CTextField tfUser;
+	private CPasswordField tfPassword;
+
 	public LoginScreen(Display parent) {
 		super(parent);
 	}
-	
+
+	@Override
+	public AppScreen getScreenId() {
+		return AppScreen.LOGIN;
+	}
+
 	@Override
 	public void build() {
 		super.build();
 		setLayout(null);
-		
-		tfUser = new JTextField();
-		tfUser.setBounds(122, 65, 155, 20);
-		add(tfUser);
+
+		tfUser = new CTextField("user@host...");
+		tfUser.setBounds(147, 65, 155, 20);
 		tfUser.setColumns(10);
-		
-		tfPassword = new JTextField();
+		add(tfUser);
+
+		tfPassword = new CPasswordField("password...");
 		tfPassword.setColumns(10);
-		tfPassword.setBounds(122, 96, 155, 20);
+		tfPassword.setBounds(147, 96, 155, 20);
 		add(tfPassword);
-		
+
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				try {
-					Connection con = new Connection(tfUser.getText(), tfPassword.getText());
+					String pw = new String(tfPassword.getPassword());
+					final Connection con = new Connection(tfUser.getText(), pw);
 					callback.accept(con);
-				} catch(SQLException e) {
-					parent.notice(EnumFatality.ERROR, "Connection couldn't be established", e.getMessage());
+				} catch (SQLException e) {
+					display.notice(MessageFatality.ERROR, "Connection couldn't be established", e.getMessage());
 				}
-				
+
 			}
 		});
-		btnLogin.setBounds(122, 138, 155, 23);
+		btnLogin.setBounds(147, 138, 155, 23);
 		add(btnLogin);
+
+		JPanel panel = new JPanel();
+		panel.setBounds(0, 0, 10, 10);
+		add(panel);
 	}
-	
+
 	@Override
 	public void getMainResult(Consumer<Object> action) {
 		callback = action;

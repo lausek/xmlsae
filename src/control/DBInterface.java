@@ -41,16 +41,16 @@ public class DBInterface {
 		// TODO - Create list and call exportTo(dbnames)
 		throw new UnsupportedOperationException();
 	}
-	
+
 	/**
 	 * 
 	 * @param dbnames
 	 * @param filename
 	 */
 	public void exportTo(List<String> dbnames, String filename) {
-		
+
 	}
-	
+
 	/**
 	 * 
 	 * @param dbnames
@@ -58,7 +58,7 @@ public class DBInterface {
 	 * @param settings
 	 */
 	public void exportTo(List<String> dbnames, String filename, ExportSettings settings) {
-		
+
 	}
 
 	/**
@@ -70,9 +70,9 @@ public class DBInterface {
 		// TODO - implement DBInterface.importTo
 		throw new UnsupportedOperationException();
 	}
-	
+
 	public void importTo(List<String> dbnames, String filename) {
-		
+
 	}
 
 }
