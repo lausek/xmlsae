@@ -71,11 +71,6 @@ public class Display extends JFrame {
 
 		AppScreen oldScreenId = AppScreen.NONE;
 
-		// TODO: remove this
-		if (selected == null) {
-			System.out.println("Desch jetzt blöd");
-		}
-
 		if (currentScreen != null) {
 			// Leave current screen for screen.ordinal()
 			currentScreen.onLeave(screen);
