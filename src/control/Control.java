@@ -2,10 +2,10 @@ package control;
 
 import java.util.List;
 import java.util.function.Consumer;
-
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
+import model.LoggerSettings;
+import org.apache.log4j.Logger;
 import view.Display;
 import view.Display.AppScreen;
 
@@ -14,6 +14,8 @@ public class Control {
 	private Display display;
 	private Connection connection;
 	private List<String> databases;
+	private static final Logger logger = Logger.getLogger(Control.class);
+	private static final String logFile = "log/Control.log";
 	
 	private Consumer<Object> selectDatabases = new Consumer<Object>() {
 
@@ -39,18 +41,19 @@ public class Control {
 	};
 
 	public static void main(String[] args) {
+		LoggerSettings.initLogger(logger, logFile);
 
 		// Try to make program look like it is platform dependent
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (UnsupportedLookAndFeelException e) {
-			// TODO: Add logger info
+			logger.debug(e.getMessage());
 		} catch (ClassNotFoundException e) {
-			// TODO: Add logger info
+			logger.debug(e.getMessage());
 		} catch (InstantiationException e) {
-			// TODO: Add logger info
+			logger.debug(e.getMessage());
 		} catch (IllegalAccessException e) {
-			// TODO: Add logger info
+			logger.debug(e.getMessage());
 		}
 
 		new Control().run();
