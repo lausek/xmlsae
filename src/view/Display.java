@@ -1,7 +1,6 @@
 package view;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 import control.Control;
 
@@ -13,17 +12,7 @@ public class Display extends JFrame {
 
 	// TODO: When we implement our own MessageDialog, we can get rid of this
 	public enum MessageFatality {
-		INFO(JOptionPane.PLAIN_MESSAGE), SUCCESS(JOptionPane.INFORMATION_MESSAGE), WARNING(
-				JOptionPane.WARNING_MESSAGE), ERROR(JOptionPane.ERROR_MESSAGE);
-		private final int value;
-
-		private MessageFatality(int x) {
-			this.value = x;
-		}
-
-		public int val() {
-			return value;
-		}
+		INFO, SUCCESS, WARNING, ERROR
 	}
 
 	public enum AppScreen {
