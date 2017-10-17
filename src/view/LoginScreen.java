@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.function.Consumer;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 
 import control.Connection;
 
@@ -16,6 +17,8 @@ import view.atoms.CTextField;
 import view.atoms.KeyHandler;
 import view.atoms.KeyHandler.HandleTarget;
 import javax.swing.BoxLayout;
+
+import java.awt.BorderLayout;
 import java.awt.Component;
 import javax.swing.Box;
 
@@ -25,8 +28,6 @@ public class LoginScreen extends Screen implements ActionListener {
 	private Consumer<Object> callback;
 	private CTextField tfUser;
 	private CPasswordField tfPassword;
-	private Component placeholder1;
-	private Component placeholder2;
 
 	public LoginScreen(Display parent) {
 		super(parent);
@@ -47,28 +48,39 @@ public class LoginScreen extends Screen implements ActionListener {
 				this.actionPerformed(null);
 			}
 		});
-
+		
+		setLayout(new BorderLayout(0, 0));
+		
+		Box verticalBox = new Box(BoxLayout.Y_AXIS);
+		verticalBox.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+		verticalBox.add(Box.createVerticalGlue());
+		
 		tfUser = new CTextField("user@host...");
 		tfUser.setColumns(16);
 		tfUser.addKeyListener(keyHandler);
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		add(tfUser);
+		tfUser.setMinimumSize(new java.awt.Dimension(120, 30));
+		tfUser.setMaximumSize(new java.awt.Dimension(120, 30));
+		verticalBox.add(tfUser);
+		
+		verticalBox.add(Box.createVerticalStrut(20));
 		
 		tfPassword = new CPasswordField("password...");
 		tfPassword.setColumns(16);
 		tfPassword.addKeyListener(keyHandler);
-		
-		placeholder1 = Box.createVerticalStrut(20);
-		add(placeholder1);
-		add(tfPassword);
+		tfPassword.setMinimumSize(new java.awt.Dimension(120, 30));
+		tfPassword.setMaximumSize(new java.awt.Dimension(120, 30));
+		verticalBox.add(tfPassword);
 
+		verticalBox.add(Box.createVerticalStrut(20));
+		
 		JButton btnLogin = new JButton("Login");
 		btnLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnLogin.addActionListener(this);
+		verticalBox.add(btnLogin);
 		
-		placeholder2 = Box.createVerticalStrut(20);
-		add(placeholder2);
-		add(btnLogin);
+		verticalBox.add(Box.createVerticalGlue());
+		
+		add(verticalBox);
 	}
 
 	@Override

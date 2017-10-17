@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
@@ -22,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 import javax.swing.BoxLayout;
 import javax.swing.Box;
 
@@ -54,6 +56,8 @@ public class SelectionScreen extends Screen {
 		filterField.addKeyListener(new KeyHandler().handle(HandleTarget.RELEASE, e -> {
 			reloadList(filterField.getText());
 		}));
+		filterField.setMinimumSize(new java.awt.Dimension(240, 30));
+		filterField.setMaximumSize(new java.awt.Dimension(240, 30));
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		add(filterField);
 
@@ -136,10 +140,12 @@ public class SelectionScreen extends Screen {
 		super.addNavbar(navbar);
 
 		CSwitchArrow backArrow = new CSwitchArrow(display, AppScreen.LOGIN, MoveDirection.LEFT);
-		navbar.add(backArrow);
+		backArrow.setHorizontalAlignment(SwingConstants.LEFT);
+		navbar.add(backArrow, BorderLayout.WEST);
 
 		CSwitchArrow forwardArrow = new CSwitchArrow(display, AppScreen.SELECT_ACTION, MoveDirection.RIGHT);
-		navbar.add(forwardArrow);
+		forwardArrow.setHorizontalAlignment(SwingConstants.RIGHT);
+		navbar.add(forwardArrow, BorderLayout.EAST);
 
 	}
 
