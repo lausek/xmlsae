@@ -3,6 +3,7 @@ package view;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -13,22 +14,22 @@ import view.atoms.CSwitchArrow;
 import view.atoms.CSwitchArrow.MoveDirection;
 
 @SuppressWarnings("serial")
-public class ActionScreen extends Screen {
+public class ImportScreen extends Screen {
 	
 	private JTextField tfUserLog;
 	private JTextField tf_choosedDB;
 	private JLabel labelUserLog;
-	private JLabel label_choosedDB;	
+	private JLabel label_choosedDB;
 
-	public ActionScreen(Display display) {
+	public ImportScreen(Display display) {
 		super(display);
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	@Override
 	public AppScreen getScreenId() {
 		// TODO Auto-generated method stub
-		return AppScreen.SELECT_ACTION;
+		return AppScreen.IMPORT;
 		
 	}
 	
@@ -37,7 +38,7 @@ public class ActionScreen extends Screen {
 		super.build();
 		setLayout(null);
 		
-		CSwitchArrow backArrow = new CSwitchArrow(display, AppScreen.SELECT_DB).setDirection(MoveDirection.LEFT);
+		CSwitchArrow backArrow = new CSwitchArrow(display, AppScreen.SELECT_ACTION).setDirection(MoveDirection.LEFT);
 		add(backArrow);
 		
 		//ToDo: get Textfield for logged User and DB
@@ -69,19 +70,9 @@ public class ActionScreen extends Screen {
 
 			}
 		});
-		btnImport.setBounds(250, 180, 300, 75);
+		btnImport.setBounds(250, 300, 300, 75);
 		btnImport.setFont(newButtonFont);
 		add(btnImport);
-		
-		JButton btnExport = new JButton("Export Database");
-		btnExport.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-			}
-		});
-		btnExport.setBounds(250, 300, 300, 75);
-		btnExport.setFont(newButtonFont);
-		add(btnExport);
 
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 10, 10);
@@ -89,6 +80,7 @@ public class ActionScreen extends Screen {
 	}
 	
 	public static void main(String[] args) {
-		new Display(null).setScreen(AppScreen.SELECT_ACTION);
+		new Display(null).setScreen(AppScreen.IMPORT);
 	}
+
 }

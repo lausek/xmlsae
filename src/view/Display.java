@@ -45,7 +45,7 @@ public class Display extends JFrame {
 		screens[AppScreen.LOGIN.ordinal()] = new LoginScreen(this);
 		screens[AppScreen.SELECT_DB.ordinal()] = new SelectionScreen(this);
 		screens[AppScreen.SELECT_ACTION.ordinal()] = new ActionScreen(this);
-		screens[AppScreen.IMPORT.ordinal()] = null;
+		screens[AppScreen.IMPORT.ordinal()] = new ImportScreen(this);	
 		screens[AppScreen.EXPORT.ordinal()] = null;
 		
 		setTitle("xmlsae");
