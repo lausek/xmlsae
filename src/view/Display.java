@@ -46,7 +46,7 @@ public class Display extends JFrame {
 		screens[AppScreen.SELECT_DB.ordinal()] = new SelectionScreen(this);
 		screens[AppScreen.SELECT_ACTION.ordinal()] = new ActionScreen(this);
 		screens[AppScreen.IMPORT.ordinal()] = new ImportScreen(this);	
-		screens[AppScreen.EXPORT.ordinal()] = null;
+		screens[AppScreen.EXPORT.ordinal()] = new ExportScreen(this);
 		
 		setTitle("xmlsae");
 		setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
