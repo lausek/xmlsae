@@ -8,14 +8,13 @@ import java.util.function.Consumer;
 import javax.swing.JButton;
 
 import control.Connection;
+
 import view.Display.AppScreen;
 import view.Display.MessageFatality;
 import view.atoms.CPasswordField;
 import view.atoms.CTextField;
 import view.atoms.KeyHandler;
 import view.atoms.KeyHandler.HandleTarget;
-
-import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class LoginScreen extends Screen implements ActionListener {
@@ -44,7 +43,7 @@ public class LoginScreen extends Screen implements ActionListener {
 				this.actionPerformed(null);
 			}
 		});
-		
+
 		tfUser = new CTextField("user@host...");
 		tfUser.setBounds(147, 65, 155, 20);
 		tfUser.setColumns(10);
@@ -61,17 +60,13 @@ public class LoginScreen extends Screen implements ActionListener {
 		btnLogin.addActionListener(this);
 		btnLogin.setBounds(147, 138, 155, 23);
 		add(btnLogin);
-
-		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 10, 10);
-		add(panel);
 	}
 
 	@Override
 	public void getMainResult(Consumer<Object> action) {
 		callback = action;
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		// e could be null if this was called via an 'enter' hit
