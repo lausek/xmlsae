@@ -3,9 +3,9 @@ package control;
 import java.util.List;
 import java.util.function.Consumer;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import model.LoggerSettings;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+
 import view.Display;
 import view.Display.AppScreen;
 
@@ -14,8 +14,8 @@ public class Control {
 	private Display display;
 	private Connection connection;
 	private List<String> databases;
-	private static final Logger logger = Logger.getLogger(Control.class);
-	private static final String logFile = "log/Control.log";
+	private static final String LOG4J_PATH = "properties/propertiesControl.properties";
+	private static Logger logger;
 	
 	private Consumer<Object> selectDatabases = new Consumer<Object>() {
 
@@ -23,7 +23,6 @@ public class Control {
 		@Override
 		public void accept(Object obj) {
 			databases = (List<String>) obj;
-
 			display.setScreen(AppScreen.SELECT_ACTION);
 		}
 
@@ -34,25 +33,18 @@ public class Control {
 		@Override
 		public void accept(Object obj) {
 			connection = (Connection) obj;
-
 			display.setScreen(AppScreen.SELECT_DB).getMainResult(selectDatabases);
 		}
 
 	};
 
 	public static void main(String[] args) {
-		LoggerSettings.initLogger(logger, logFile);
-
+		logger = Logger.getLogger("Control");
+		PropertyConfigurator.configure(LOG4J_PATH);
 		// Try to make program look like it is platform dependent
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (UnsupportedLookAndFeelException e) {
-			logger.debug(e.getMessage());
-		} catch (ClassNotFoundException e) {
-			logger.debug(e.getMessage());
-		} catch (InstantiationException e) {
-			logger.debug(e.getMessage());
-		} catch (IllegalAccessException e) {
+		} catch (Exception e) {
 			logger.debug(e.getMessage());
 		}
 
@@ -61,7 +53,6 @@ public class Control {
 
 	public void run() {
 		display = new Display(this);
-
 		display.setScreen(AppScreen.LOGIN).getMainResult(establishConnection);
 	}
 
