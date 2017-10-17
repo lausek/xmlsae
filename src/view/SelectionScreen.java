@@ -23,7 +23,6 @@ import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingConstants;
 import javax.swing.BoxLayout;
 import javax.swing.Box;
 
@@ -48,17 +47,17 @@ public class SelectionScreen extends Screen {
 	@Override
 	public void build() {
 		super.build();
-
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		
 		list = new DefaultListModel<>();
 
 		filterField = new CTextField("database...");
 		filterField.setColumns(30);
+		filterField.setMinimumSize(new java.awt.Dimension(240, 30));
+		filterField.setMaximumSize(new java.awt.Dimension(240, 30));
 		filterField.addKeyListener(new KeyHandler().handle(HandleTarget.RELEASE, e -> {
 			reloadList(filterField.getText());
 		}));
-		filterField.setMinimumSize(new java.awt.Dimension(240, 30));
-		filterField.setMaximumSize(new java.awt.Dimension(240, 30));
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		add(filterField);
 
 		jlist = new JList<>();
@@ -140,11 +139,16 @@ public class SelectionScreen extends Screen {
 		super.addNavbar(navbar);
 
 		CSwitchArrow backArrow = new CSwitchArrow(display, AppScreen.LOGIN, MoveDirection.LEFT);
-		backArrow.setHorizontalAlignment(SwingConstants.LEFT);
 		navbar.add(backArrow, BorderLayout.WEST);
 
 		CSwitchArrow forwardArrow = new CSwitchArrow(display, AppScreen.SELECT_ACTION, MoveDirection.RIGHT);
-		forwardArrow.setHorizontalAlignment(SwingConstants.RIGHT);
+		forwardArrow.setCondition(x -> {
+			if(jlist.getSelectedIndices().length == 0) {
+				display.notice(MessageFatality.ERROR, "You have to select at least one database.");
+				return false;
+			}
+			return true;
+		});
 		navbar.add(forwardArrow, BorderLayout.EAST);
 
 	}
@@ -163,7 +167,6 @@ public class SelectionScreen extends Screen {
 	}
 
 	@Override
-	public void getMainResult(Consumer<Object> action) {
-	}
+	public void getMainResult(Consumer<Object> action) { }
 
 }
