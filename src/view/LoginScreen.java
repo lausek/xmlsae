@@ -2,8 +2,6 @@ package view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.util.function.Consumer;
 
@@ -14,10 +12,13 @@ import view.Display.AppScreen;
 import view.Display.MessageFatality;
 import view.atoms.CPasswordField;
 import view.atoms.CTextField;
+import view.atoms.KeyHandler;
+import view.atoms.KeyHandler.HandleTarget;
+
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class LoginScreen extends Screen implements ActionListener, KeyListener {
+public class LoginScreen extends Screen implements ActionListener {
 
 	private Consumer<Object> callback;
 	private CTextField tfUser;
@@ -37,16 +38,23 @@ public class LoginScreen extends Screen implements ActionListener, KeyListener {
 		super.build();
 		setLayout(null);
 
+		KeyHandler keyHandler = new KeyHandler().handle(HandleTarget.TYPED, e -> {
+			// getKeyCode doesn't seem to work on my keyboard soo...
+			if (e.getKeyChar() == '\n') {
+				this.actionPerformed(null);
+			}
+		});
+		
 		tfUser = new CTextField("user@host...");
 		tfUser.setBounds(147, 65, 155, 20);
 		tfUser.setColumns(10);
-		tfUser.addKeyListener(this);
+		tfUser.addKeyListener(keyHandler);
 		add(tfUser);
-
+		
 		tfPassword = new CPasswordField("password...");
 		tfPassword.setColumns(10);
 		tfPassword.setBounds(147, 96, 155, 20);
-		tfPassword.addKeyListener(this);
+		tfPassword.addKeyListener(keyHandler);
 		add(tfPassword);
 
 		JButton btnLogin = new JButton("Login");
@@ -63,21 +71,7 @@ public class LoginScreen extends Screen implements ActionListener, KeyListener {
 	public void getMainResult(Consumer<Object> action) {
 		callback = action;
 	}
-
-	@Override
-	public void keyPressed(KeyEvent e) { }
-
-	@Override
-	public void keyReleased(KeyEvent e) { }
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// getKeyCode doesn't seem to work on my keyboard soo...
-		if (e.getKeyChar() == '\n') {
-			this.actionPerformed(null);
-		}
-	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		// e could be null if this was called via an 'enter' hit

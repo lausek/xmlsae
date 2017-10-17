@@ -1,8 +1,6 @@
 package view;
 
 import java.awt.Component;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,6 +10,8 @@ import java.util.function.Consumer;
 import view.Display.AppScreen;
 import view.Display.MessageFatality;
 import view.atoms.CTextField;
+import view.atoms.KeyHandler;
+import view.atoms.KeyHandler.HandleTarget;
 import view.atoms.CListItem;
 import view.atoms.CSwitchArrow;
 import view.atoms.CSwitchArrow.MoveDirection;
@@ -23,7 +23,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 @SuppressWarnings("serial")
-public class SelectionScreen extends Screen implements KeyListener {
+public class SelectionScreen extends Screen {
 
 	private List<CListItem> databases = new ArrayList<>();
 	private DefaultListModel<CListItem> list;
@@ -55,7 +55,9 @@ public class SelectionScreen extends Screen implements KeyListener {
 		filterField = new CTextField("database...");
 		filterField.setBounds(102, 33, 202, 20);
 		filterField.setColumns(10);
-		filterField.addKeyListener(this);
+		filterField.addKeyListener(new KeyHandler().handle(HandleTarget.RELEASE, e -> {
+			reloadList(filterField.getText());
+		}));
 		add(filterField);
 
 		jlist = new JList<>();
@@ -117,7 +119,7 @@ public class SelectionScreen extends Screen implements KeyListener {
 			// Fetch database names from server and translate into a list of CListItems
 			display.getControl().getInterface().getDatabases().forEach(db -> databases.add(new CListItem(db)));
 
-			reloadList();
+			reloadList(null);
 
 		} catch (SQLException e) {
 			display.notice(MessageFatality.ERROR, "Couldn't fetch databases from server");
@@ -125,39 +127,20 @@ public class SelectionScreen extends Screen implements KeyListener {
 
 	}
 
-	private void reloadList() {
-		// Loads all objects from 'databases' into list
-		reloadList("");
-	}
-
-	private void reloadList(String query) {
-
+	private void reloadList(final String query) {
+		
+		// Loads all objects from 'databases' into list if query is null
+		String realQuery = query != null ? query : "";
+		
 		list.clear();
 
-		databases.stream().filter(db -> db.getTitle().contains(query))
+		databases.stream().filter(db -> db.getTitle().contains(realQuery))
 				/* TODO: Na Pascal? Kommste noch mit? Kind regards, lausek */
 				.forEach(list::addElement);
 
-		// TODO: is this needed?
-		revalidate();
-
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
-		reloadList(filterField.getText());
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-	}
-
-	@Override
-	public void getMainResult(Consumer<Object> action) {
-	}
+	public void getMainResult(Consumer<Object> action) { }
 
 }
