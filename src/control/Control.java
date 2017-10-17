@@ -39,7 +39,7 @@ public class Control {
 	};
 
 	public static void main(String[] args) {
-
+		
 		// Try to make program look like it is platform dependent
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
