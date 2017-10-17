@@ -14,7 +14,7 @@ public class Control {
 	private Display display;
 	private DBInterface dataInterface;
 	private List<String> databases;
-	
+
 	private Consumer<Object> selectDatabases = new Consumer<Object>() {
 
 		@SuppressWarnings("unchecked")
@@ -66,8 +66,9 @@ public class Control {
 		return dataInterface;
 	}
 
+	// TODO: not used yet; check if needed
 	public List<String> getSelectedDB() {
 		return databases;
 	}
 
-}	
+}

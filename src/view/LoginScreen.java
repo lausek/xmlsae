@@ -39,7 +39,7 @@ public class LoginScreen extends Screen implements ActionListener {
 		setLayout(null);
 
 		KeyHandler keyHandler = new KeyHandler().handle(HandleTarget.TYPED, e -> {
-			// getKeyCode doesn't seem to work on my keyboard soo...
+			// getKeyCode doesn't seem to work on my keyboard sooo...
 			if (e.getKeyChar() == '\n') {
 				this.actionPerformed(null);
 			}
