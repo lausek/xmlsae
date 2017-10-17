@@ -84,7 +84,7 @@ public class LoginScreen extends Screen implements ActionListener {
 	}
 
 	@Override
-	public void getMainResult(Consumer<Object> action) {
+	public void setCallback(Consumer<Object> action) {
 		callback = action;
 	}
 

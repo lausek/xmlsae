@@ -33,7 +33,7 @@ public class SelectionScreen extends Screen {
 	private DefaultListModel<CListItem> list;
 	private JList<CListItem> jlist;
 	private CTextField filterField;
-	private Component verticalStrut;
+	private Consumer<Object> callback;
 
 	public SelectionScreen(Display display) {
 		super(display);
@@ -48,7 +48,7 @@ public class SelectionScreen extends Screen {
 	public void build() {
 		super.build();
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		
+
 		list = new DefaultListModel<>();
 
 		filterField = new CTextField("database...");
@@ -87,9 +87,8 @@ public class SelectionScreen extends Screen {
 			public void mouseReleased(MouseEvent arg0) {
 			}
 		});
-		
-		verticalStrut = Box.createVerticalStrut(20);
-		add(verticalStrut);
+
+		add(Box.createVerticalStrut(20));
 		// avoid printing JPanels as String
 		jlist.setCellRenderer(new ListCellRenderer<CListItem>() {
 
@@ -135,6 +134,16 @@ public class SelectionScreen extends Screen {
 	}
 
 	@Override
+	public void onLeave(AppScreen to) {
+		super.onLeave(to);
+
+		// Push selected databases to control
+		List<String> selected = new ArrayList<>();
+		jlist.getSelectedValuesList().forEach(item -> selected.add(item.getName()));
+		callback.accept(selected);
+	}
+
+	@Override
 	public void addNavbar(JPanel navbar) {
 		super.addNavbar(navbar);
 
@@ -143,7 +152,7 @@ public class SelectionScreen extends Screen {
 
 		CSwitchArrow forwardArrow = new CSwitchArrow(display, AppScreen.SELECT_ACTION, MoveDirection.RIGHT);
 		forwardArrow.setCondition(x -> {
-			if(jlist.getSelectedIndices().length == 0) {
+			if (jlist.getSelectedIndices().length == 0) {
 				display.notice(MessageFatality.ERROR, "You have to select at least one database.");
 				return false;
 			}
@@ -167,6 +176,8 @@ public class SelectionScreen extends Screen {
 	}
 
 	@Override
-	public void getMainResult(Consumer<Object> action) { }
+	public void setCallback(Consumer<Object> action) {
+		callback = action;
+	}
 
 }

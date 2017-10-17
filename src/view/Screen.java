@@ -72,7 +72,7 @@ public class Screen extends JPanel implements ActionListener {
 	/**
 	 * Override in subclasses
 	 */
-	public void getMainResult(Consumer<Object> action) {
+	public void setCallback(Consumer<Object> action) {
 	}
 
 	/**
