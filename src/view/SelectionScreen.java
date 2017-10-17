@@ -3,6 +3,7 @@ package view;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +21,6 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 @SuppressWarnings("serial")
 public class SelectionScreen extends Screen implements KeyListener {
@@ -61,22 +60,25 @@ public class SelectionScreen extends Screen implements KeyListener {
 
 		jlist = new JList<>();
 		jlist.setModel(list);
-		jlist.addListSelectionListener(new ListSelectionListener() {
-
+		jlist.addMouseListener(new java.awt.event.MouseListener() {
 			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				// TODO: Click on same item doesn't reset
-				// Event gets fired twice if this check doesn't happen
-				if (jlist.getValueIsAdjusting()) {
-					/*
-					 * TODO: Doesn't work correctly if multiple items are selected For facing this
-					 * issue, hold mouse button down and scroll from top to bottom. Some items will
-					 * stay deselected.
-					 */
-					jlist.getSelectedValue().toggleSelection();
-				}
+			public void mouseClicked(MouseEvent obj) {
+				int i = jlist.locationToIndex(obj.getPoint());
+				list.get(i).toggleSelection();
+				repaint();
 			}
 
+			@Override
+			public void mouseEntered(MouseEvent arg0) { }
+
+			@Override
+			public void mouseExited(MouseEvent arg0) { }
+
+			@Override
+			public void mousePressed(MouseEvent arg0) { }
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) { }
 		});
 		// avoid printing JPanels as String
 		jlist.setCellRenderer(new ListCellRenderer<CListItem>() {
@@ -112,9 +114,8 @@ public class SelectionScreen extends Screen implements KeyListener {
 		// Load available databases from SQL server
 		try {
 			
-			for(String db : display.getControl().getInterface().getDatabases()) {
-				databases.add(new CListItem(db));
-			}
+			// Fetch database names from server and translate into a list of CListItems
+			display.getControl().getInterface().getDatabases().forEach(db -> databases.add(new CListItem(db)));
 
 			reloadList();
 

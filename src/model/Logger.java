@@ -12,8 +12,7 @@ public class Logger {
 	public Logger() {
 		
 	}
-	
-	
+
 	public org.apache.log4j.Logger initLogger(org.apache.log4j.Logger logger, String logFile){
 		PatternLayout layout = new PatternLayout("%d %p - %m%n");
 		ConsoleAppender consoleAppender = new ConsoleAppender( layout );

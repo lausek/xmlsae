@@ -41,6 +41,7 @@ public class DBInterface {
 		Process process = null;
 		try {
 			Runtime runtime = Runtime.getRuntime();
+			//TODO: make final
 			String sqlDump = "/files/mysqldump";
 			process = runtime.exec(sqlDump + " " + dbName + " --xml --single-transaction -u root > " + fileName);
 
@@ -50,6 +51,7 @@ public class DBInterface {
 				logger.error("Backup of " + dbName + " failed");
 			}
 		} catch (Exception e) {
+			//TODO: add logging
 			e.printStackTrace();
 		} finally {
 			if (process != null) {
