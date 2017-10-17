@@ -15,25 +15,26 @@ public class Control {
 	private DBInterface dataInterface;
 	private List<String> databases;
 
-	private Consumer<Object> selectDatabases = new Consumer<Object>() {
+	private Consumer<Object> databasesCallback = new Consumer<Object>() {
 
 		@SuppressWarnings("unchecked")
 		@Override
 		public void accept(Object obj) {
 			databases = (List<String>) obj;
-
-			display.setScreen(AppScreen.SELECT_ACTION);
+			
+			// Leave will be done in SelectionScreen itself
 		}
 
 	};
 
-	private Consumer<Object> establishConnection = new Consumer<Object>() {
+	private Consumer<Object> connectionCallback = new Consumer<Object>() {
 
 		@Override
 		public void accept(Object obj) {
 			dataInterface = new DBInterface((Connection) obj);
-
-			display.setScreen(AppScreen.SELECT_DB).getMainResult(selectDatabases);
+			
+			// getMainResult looks better here
+			display.setScreen(AppScreen.SELECT_DB).setCallback(databasesCallback);
 		}
 
 	};
@@ -59,7 +60,7 @@ public class Control {
 	public void run() {
 		display = new Display(this);
 
-		display.setScreen(AppScreen.LOGIN).getMainResult(establishConnection);
+		display.setScreen(AppScreen.LOGIN).setCallback(connectionCallback);
 	}
 
 	public DBInterface getInterface() {
