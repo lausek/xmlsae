@@ -21,7 +21,6 @@ public class Control {
 		@Override
 		public void accept(Object obj) {
 			databases = (List<String>) obj;
-			
 			// Leave will be done in SelectionScreen itself
 		}
 

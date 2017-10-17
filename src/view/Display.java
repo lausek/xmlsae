@@ -13,7 +13,8 @@ public class Display extends JFrame {
 
 	public static final int SCREEN_WIDTH = 600;
 	public static final int SCREEN_HEIGHT = 400;
-
+	public static final int SCREEN_COUNT = AppScreen.values().length;
+	
 	public enum MessageFatality {
 		INFO, SUCCESS, WARNING, ERROR
 	}
@@ -21,8 +22,6 @@ public class Display extends JFrame {
 	public enum AppScreen {
 		NONE, LOGIN, SELECT_DB, SELECT_ACTION, IMPORT, EXPORT
 	}
-
-	public static final int screenCount = AppScreen.values().length;
 
 	private JPanel navbar, mainPanel, toolbar;
 	private Screen currentScreen;
@@ -32,7 +31,7 @@ public class Display extends JFrame {
 	public Display(Control parent) {
 		this.parent = parent;
 
-		screens = new Screen[screenCount];
+		screens = new Screen[SCREEN_COUNT];
 
 		// TODO: allocate other screens here too
 		screens[AppScreen.LOGIN.ordinal()] = new LoginScreen(this);
