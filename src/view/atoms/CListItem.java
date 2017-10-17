@@ -3,15 +3,17 @@ package view.atoms;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.awt.image.BufferedImageFilter;
 import java.io.IOException;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 
@@ -30,8 +32,17 @@ public class CListItem extends JPanel {
 
 	static {
 		try {
-			// TODO: adjust path to image
-			BufferedImage buffer = ImageIO.read(new File("link/to/icon"));
+			// TODO: replace this crappy image
+			Image img = javax.imageio.ImageIO.read(new java.io.File("media/img/db_64x64.png")).getScaledInstance(32, 32,
+					Image.SCALE_DEFAULT);
+			// Create buffered version of this image (add alpha too)
+			BufferedImage buffer = new BufferedImage(32, 32, BufferedImage.TYPE_INT_ARGB);
+
+			// Convert Image to BufferedImage by writing to buffer
+			Graphics2D graphics = buffer.createGraphics();
+			graphics.drawImage(img, 0, 0, null);
+			graphics.dispose();
+
 			icon = new ImageIcon(buffer);
 		} catch (IOException e) {
 			// TODO: add logger here
