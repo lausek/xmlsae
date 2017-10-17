@@ -20,8 +20,8 @@ public class CListItem extends JPanel {
 
 	private final int WIDTH = 100;
 	private final int HEIGHT = 40;
-	private final Color COLOR_SELECTED = Color.GREEN;
-	private final Color COLOR_DESELECTED = Color.RED;
+	private final Color COLOR_SELECTED = Color.LIGHT_GRAY;
+	private final Color COLOR_DESELECTED = new Color(100, true);
 
 	private boolean selected;
 	private JLabel nameLabel;
