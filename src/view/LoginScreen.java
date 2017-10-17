@@ -15,6 +15,9 @@ import view.atoms.CPasswordField;
 import view.atoms.CTextField;
 import view.atoms.KeyHandler;
 import view.atoms.KeyHandler.HandleTarget;
+import javax.swing.BoxLayout;
+import java.awt.Component;
+import javax.swing.Box;
 
 @SuppressWarnings("serial")
 public class LoginScreen extends Screen implements ActionListener {
@@ -22,6 +25,8 @@ public class LoginScreen extends Screen implements ActionListener {
 	private Consumer<Object> callback;
 	private CTextField tfUser;
 	private CPasswordField tfPassword;
+	private Component placeholder1;
+	private Component placeholder2;
 
 	public LoginScreen(Display parent) {
 		super(parent);
@@ -35,7 +40,6 @@ public class LoginScreen extends Screen implements ActionListener {
 	@Override
 	public void build() {
 		super.build();
-		setLayout(null);
 
 		KeyHandler keyHandler = new KeyHandler().handle(HandleTarget.TYPED, e -> {
 			// getKeyCode doesn't seem to work on my keyboard sooo...
@@ -45,20 +49,25 @@ public class LoginScreen extends Screen implements ActionListener {
 		});
 
 		tfUser = new CTextField("user@host...");
-		tfUser.setBounds(147, 65, 155, 20);
-		tfUser.setColumns(10);
+		tfUser.setColumns(16);
 		tfUser.addKeyListener(keyHandler);
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		add(tfUser);
 		
 		tfPassword = new CPasswordField("password...");
-		tfPassword.setColumns(10);
-		tfPassword.setBounds(147, 96, 155, 20);
+		tfPassword.setColumns(16);
 		tfPassword.addKeyListener(keyHandler);
+		
+		placeholder1 = Box.createVerticalStrut(20);
+		add(placeholder1);
 		add(tfPassword);
 
 		JButton btnLogin = new JButton("Login");
+		btnLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnLogin.addActionListener(this);
-		btnLogin.setBounds(147, 138, 155, 23);
+		
+		placeholder2 = Box.createVerticalStrut(20);
+		add(placeholder2);
 		add(btnLogin);
 	}
 

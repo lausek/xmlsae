@@ -3,6 +3,9 @@ package view;
 import javax.swing.JFrame;
 
 import control.Control;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Color;
 
 @SuppressWarnings("serial")
 public class Display extends JFrame {
@@ -19,11 +22,12 @@ public class Display extends JFrame {
 	}
 
 	public static final int screenCount = AppScreen.values().length;
-
+	
+	private JPanel navbar, mainPanel, toolbar;
 	private Screen currentScreen;
 	private Screen[] screens;
 	private Control parent;
-
+	
 	public Display(Control parent) {
 		this.parent = parent;
 		
@@ -36,7 +40,20 @@ public class Display extends JFrame {
 		screens[AppScreen.IMPORT.ordinal()] = null;
 		screens[AppScreen.EXPORT.ordinal()] = null;
 		
+		getContentPane().setLayout(new java.awt.BorderLayout(0, 0));
+		
+		navbar = new JPanel();
+		getContentPane().add(navbar, BorderLayout.NORTH);
+		
+		mainPanel = new JPanel();
+		mainPanel.setBackground(Color.GREEN);
+		getContentPane().add(mainPanel, BorderLayout.CENTER);
+		
+		toolbar = new JPanel();
+		getContentPane().add(toolbar, BorderLayout.SOUTH);
+		
 		setTitle("xmlsae");
+		setMinimumSize(new java.awt.Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
 		setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -68,9 +85,17 @@ public class Display extends JFrame {
 		}
 
 		currentScreen = selected;
+		
+		// Clean every frame panel
+		navbar.removeAll();
+		toolbar.removeAll();
+		mainPanel.removeAll();
+		
+		mainPanel.add(currentScreen);
 
-		setContentPane(currentScreen);
-
+		currentScreen.addNavbar(navbar);
+		currentScreen.addToolbar(toolbar);
+		
 		currentScreen.onEnter(oldScreenId);
 
 		repaint();
