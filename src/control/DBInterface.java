@@ -9,7 +9,7 @@ import model.ExportSettings;
 public class DBInterface {
 
 	private static final Logger logger = Logger.getLogger(DBInterface.class);
-	
+
 	/**
 	 * 
 	 * @param connection
@@ -26,30 +26,31 @@ public class DBInterface {
 
 	/**
 	 * exports database by mysqldump
+	 * 
 	 * @param dbname
 	 * @param filename
 	 * @param settings
 	 */
 	public void exportTo(String dbName, String fileName, ExportSettings settings) {
 		Process process = null;
-		try{
+		try {
 			Runtime runtime = Runtime.getRuntime();
 			String sqlDump = "/files/mysqldump";
-			process = runtime.exec(sqlDump +" "+dbName + " --xml --single-transaction -u root > "+fileName);
-			
-			if(process.waitFor()==0){
-				logger.info("Successfully created backup of "+dbName);
-			}else{
-				logger.error("Backup of "+dbName+" failed");
+			process = runtime.exec(sqlDump + " " + dbName + " --xml --single-transaction -u root > " + fileName);
+
+			if (process.waitFor() == 0) {
+				logger.info("Successfully created backup of " + dbName);
+			} else {
+				logger.error("Backup of " + dbName + " failed");
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-			if(process!=null){
+		} finally {
+			if (process != null) {
 				process.destroy();
 			}
 		}
-		
+
 	}
 
 	/**
@@ -60,8 +61,8 @@ public class DBInterface {
 	 */
 	public void exportTo(List<String> dbnames, String filename, ExportSettings settings) {
 		for (String dbname : dbnames) {
-			//TODO: different filenames for each database
-			exportTo(dbnames, filename, settings);
+			// TODO: different filenames for each database
+			exportTo(dbname, filename, settings);
 		}
 	}
 
@@ -72,12 +73,12 @@ public class DBInterface {
 	 */
 	public void importTo(String dbname, String filename) {
 		// TODO - implement DBInterface.importTo
-		//TODO: use files/mysql
+		// TODO: use files/mysql
 		throw new UnsupportedOperationException();
 	}
 
 	public void importTo(List<String> dbnames, String filename) {
 
 	}
-	
+
 }

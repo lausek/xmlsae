@@ -10,7 +10,6 @@ public class Display extends JFrame {
 	public static final int SCREEN_WIDTH = 800;
 	public static final int SCREEN_HEIGHT = 500;
 
-	// TODO: When we implement our own MessageDialog, we can get rid of this
 	public enum MessageFatality {
 		INFO, SUCCESS, WARNING, ERROR
 	}
