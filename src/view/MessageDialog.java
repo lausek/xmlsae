@@ -90,6 +90,7 @@ public class MessageDialog {
 
 		frame.setSize(NORMAL_SIZE);
 		frame.setLocationRelativeTo(displayOn);
+		frame.setTitle(fatality.toString());
 
 		messageLabel.setText(message);
 
@@ -101,10 +102,9 @@ public class MessageDialog {
 		} else {
 			detailsArea.setText(details);
 		}
-
+		
 		Icon nextIcon;
 		switch (fatality) {
-		
 		case SUCCESS:
 			nextIcon = UIManager.getIcon("OptionPane.questionIcon");
 			break;
