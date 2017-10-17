@@ -94,12 +94,8 @@ public class Display extends JFrame {
 	 * @param message
 	 * @param details
 	 */
-	// TODO: Bring message and details on one screen. Maybe create custom dialog
-	// box?
 	public void notice(MessageFatality fatality, String message, String details) {
 		MessageDialog.display(this, fatality, message, details);
-//		JOptionPane.showMessageDialog(this, message, "Meldung", fatality.val());
-//		JOptionPane.showMessageDialog(this, details);
 	}
 
 }

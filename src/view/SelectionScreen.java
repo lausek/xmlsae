@@ -3,7 +3,6 @@ package view;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +27,9 @@ import javax.swing.event.ListSelectionListener;
 public class SelectionScreen extends Screen implements KeyListener {
 
 	private List<CListItem> databases = new ArrayList<>();
-	private CTextField filterField;
 	private DefaultListModel<CListItem> list;
 	private JList<CListItem> jlist;
+	private CTextField filterField;
 
 	public SelectionScreen(Display display) {
 		super(display);
@@ -112,12 +111,9 @@ public class SelectionScreen extends Screen implements KeyListener {
 
 		// Load available databases from SQL server
 		try {
-
-			final ResultSet result = display.getControl().getConnection().newStatement().executeQuery("SHOW DATABASES");
-
-			while (result.next()) {
-				// TODO: interesting for logger?
-				databases.add(new CListItem(result.getString(1)));
+			
+			for(String db : display.getControl().getInterface().getDatabases()) {
+				databases.add(new CListItem(db));
 			}
 
 			reloadList();
@@ -162,5 +158,5 @@ public class SelectionScreen extends Screen implements KeyListener {
 	@Override
 	public void getMainResult(Consumer<Object> action) {
 	}
-	
+
 }

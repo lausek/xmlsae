@@ -1,27 +1,33 @@
 package control;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
+
 import org.apache.log4j.*;
-import javax.swing.JOptionPane;
 
 import model.ExportSettings;
 
 public class DBInterface {
 
 	private static final Logger logger = Logger.getLogger(DBInterface.class);
-
+	private Connection connection;
+	
 	/**
 	 * 
 	 * @param connection
 	 */
 	public DBInterface(Connection connection) {
-		// TODO - implement DBInterface.DBInterface
-		throw new UnsupportedOperationException();
+		this.connection = connection;
 	}
 
-	public List<String> getDatabases() {
-		// TODO - implement DBInterface.getDatabases
-		throw new UnsupportedOperationException();
+	public List<String> getDatabases() throws SQLException {
+		final ResultSet result = connection.newStatement().executeQuery("SHOW DATABASES");
+		List<String> asList = new java.util.ArrayList<>();
+		while(result.next()) {
+			asList.add(result.getString(1));
+		}
+		return asList;
 	}
 
 	/**

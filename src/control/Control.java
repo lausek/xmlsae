@@ -12,7 +12,7 @@ import view.Display.AppScreen;
 public class Control {
 
 	private Display display;
-	private Connection connection;
+	private DBInterface dataInterface;
 	private List<String> databases;
 	
 	private Consumer<Object> selectDatabases = new Consumer<Object>() {
@@ -31,7 +31,7 @@ public class Control {
 
 		@Override
 		public void accept(Object obj) {
-			connection = (Connection) obj;
+			dataInterface = new DBInterface((Connection) obj);
 
 			display.setScreen(AppScreen.SELECT_DB).getMainResult(selectDatabases);
 		}
@@ -62,8 +62,8 @@ public class Control {
 		display.setScreen(AppScreen.LOGIN).getMainResult(establishConnection);
 	}
 
-	public Connection getConnection() {
-		return connection;
+	public DBInterface getInterface() {
+		return dataInterface;
 	}
 
 	public List<String> getSelectedDB() {
