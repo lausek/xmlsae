@@ -1,29 +1,17 @@
 package view;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 import control.Control;
 
 @SuppressWarnings("serial")
 public class Display extends JFrame {
 
-	public static final int SCREEN_WIDTH = 800;
-	public static final int SCREEN_HEIGHT = 500;
+	public static final int SCREEN_WIDTH = 600;
+	public static final int SCREEN_HEIGHT = 400;
 
-	// TODO: When we implement our own MessageDialog, we can get rid of this
 	public enum MessageFatality {
-		INFO(JOptionPane.PLAIN_MESSAGE), SUCCESS(JOptionPane.INFORMATION_MESSAGE), WARNING(
-				JOptionPane.WARNING_MESSAGE), ERROR(JOptionPane.ERROR_MESSAGE);
-		private final int value;
-
-		private MessageFatality(int x) {
-			this.value = x;
-		}
-
-		public int val() {
-			return value;
-		}
+		INFO, SUCCESS, WARNING, ERROR
 	}
 
 	public enum AppScreen {
@@ -38,7 +26,7 @@ public class Display extends JFrame {
 
 	public Display(Control parent) {
 		this.parent = parent;
-
+		
 		screens = new Screen[screenCount];
 
 		// TODO: allocate other screens here too
@@ -106,12 +94,8 @@ public class Display extends JFrame {
 	 * @param message
 	 * @param details
 	 */
-	// TODO: Bring message and details on one screen. Maybe create custom dialog
-	// box?
 	public void notice(MessageFatality fatality, String message, String details) {
 		MessageDialog.display(this, fatality, message, details);
-//		JOptionPane.showMessageDialog(this, message, "Meldung", fatality.val());
-//		JOptionPane.showMessageDialog(this, details);
 	}
 
 }

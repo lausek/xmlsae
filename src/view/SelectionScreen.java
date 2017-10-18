@@ -1,9 +1,7 @@
 package view;
 
 import java.awt.Component;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.sql.ResultSet;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +10,8 @@ import java.util.function.Consumer;
 import view.Display.AppScreen;
 import view.Display.MessageFatality;
 import view.atoms.CTextField;
+import view.atoms.KeyHandler;
+import view.atoms.KeyHandler.HandleTarget;
 import view.atoms.CListItem;
 import view.atoms.CSwitchArrow;
 import view.atoms.CSwitchArrow.MoveDirection;
@@ -21,16 +21,14 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 @SuppressWarnings("serial")
-public class SelectionScreen extends Screen implements KeyListener {
+public class SelectionScreen extends Screen {
 
 	private List<CListItem> databases = new ArrayList<>();
-	private CTextField filterField;
 	private DefaultListModel<CListItem> list;
 	private JList<CListItem> jlist;
+	private CTextField filterField;
 
 	public SelectionScreen(Display display) {
 		super(display);
@@ -48,37 +46,41 @@ public class SelectionScreen extends Screen implements KeyListener {
 
 		list = new DefaultListModel<>();
 
-		CSwitchArrow backArrow = new CSwitchArrow(display, AppScreen.LOGIN).setDirection(MoveDirection.LEFT);
+		CSwitchArrow backArrow = new CSwitchArrow(display, AppScreen.LOGIN, MoveDirection.LEFT);
 		add(backArrow);
 
-		CSwitchArrow forwardArrow = new CSwitchArrow(display, AppScreen.SELECT_ACTION)
-				.setDirection(MoveDirection.RIGHT);
+		CSwitchArrow forwardArrow = new CSwitchArrow(display, AppScreen.SELECT_ACTION, MoveDirection.RIGHT);
 		add(forwardArrow);
 
 		filterField = new CTextField("database...");
 		filterField.setBounds(102, 33, 202, 20);
 		filterField.setColumns(10);
-		filterField.addKeyListener(this);
+		filterField.addKeyListener(new KeyHandler().handle(HandleTarget.RELEASE, e -> {
+			reloadList(filterField.getText());
+		}));
 		add(filterField);
 
 		jlist = new JList<>();
 		jlist.setModel(list);
-		jlist.addListSelectionListener(new ListSelectionListener() {
-
+		jlist.addMouseListener(new java.awt.event.MouseListener() {
 			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				// TODO: Click on same item doesn't reset
-				// Event gets fired twice if this check doesn't happen
-				if (jlist.getValueIsAdjusting()) {
-					/*
-					 * TODO: Doesn't work correctly if multiple items are selected For facing this
-					 * issue, hold mouse button down and scroll from top to bottom. Some items will
-					 * stay deselected.
-					 */
-					jlist.getSelectedValue().toggleSelection();
-				}
+			public void mouseClicked(MouseEvent obj) {
+				int i = jlist.locationToIndex(obj.getPoint());
+				list.get(i).toggleSelection();
+				repaint();
 			}
 
+			@Override
+			public void mouseEntered(MouseEvent arg0) { }
+
+			@Override
+			public void mouseExited(MouseEvent arg0) { }
+
+			@Override
+			public void mousePressed(MouseEvent arg0) { }
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) { }
 		});
 		// avoid printing JPanels as String
 		jlist.setCellRenderer(new ListCellRenderer<CListItem>() {
@@ -113,15 +115,11 @@ public class SelectionScreen extends Screen implements KeyListener {
 
 		// Load available databases from SQL server
 		try {
+			
+			// Fetch database names from server and translate into a list of CListItems
+			display.getControl().getInterface().getDatabases().forEach(db -> databases.add(new CListItem(db)));
 
-			final ResultSet result = display.getControl().getConnection().newStatement().executeQuery("SHOW DATABASES");
-
-			while (result.next()) {
-				// TODO: interesting for logger?
-				databases.add(new CListItem(result.getString(1)));
-			}
-
-			reloadList();
+			reloadList(null);
 
 		} catch (SQLException e) {
 			display.notice(MessageFatality.ERROR, "Couldn't fetch databases from server");
@@ -129,39 +127,20 @@ public class SelectionScreen extends Screen implements KeyListener {
 
 	}
 
-	private void reloadList() {
-		// Loads all objects from 'databases' into list
-		reloadList("");
-	}
-
-	private void reloadList(String query) {
-
+	private void reloadList(final String query) {
+		
+		// Loads all objects from 'databases' into list if query is null
+		String realQuery = query != null ? query : "";
+		
 		list.clear();
 
-		databases.stream().filter(db -> db.getTitle().contains(query))
+		databases.stream().filter(db -> db.getTitle().contains(realQuery))
 				/* TODO: Na Pascal? Kommste noch mit? Kind regards, lausek */
 				.forEach(list::addElement);
 
-		// TODO: is this needed?
-		revalidate();
-
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
-		reloadList(filterField.getText());
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-	}
-
-	@Override
-	public void getMainResult(Consumer<Object> action) {
-	}
+	public void getMainResult(Consumer<Object> action) { }
 
 }

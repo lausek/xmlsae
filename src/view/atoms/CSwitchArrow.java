@@ -26,7 +26,7 @@ public class CSwitchArrow extends JButton implements ActionListener {
 
 	private Display display;
 	private AppScreen switchTo;
-
+	
 	public CSwitchArrow(Display display, AppScreen switchTo) {
 		this.display = display;
 		this.switchTo = switchTo;
@@ -34,6 +34,11 @@ public class CSwitchArrow extends JButton implements ActionListener {
 		setSize(45, 20);
 
 		addActionListener(this);
+	}
+	
+	public CSwitchArrow(Display display, AppScreen switchTo, MoveDirection direction) {
+		this(display, switchTo);
+		setDirection(direction);
 	}
 
 	public CSwitchArrow setDirection(MoveDirection direction) {

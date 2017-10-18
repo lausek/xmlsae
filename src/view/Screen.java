@@ -34,6 +34,7 @@ public class Screen extends JPanel implements ActionListener {
 	 * to do conditional cleaning.
 	 * @return
 	 */
+	//TODO: make this function static
 	public AppScreen getScreenId() {
 		throw new NotImplementedException();
 	}

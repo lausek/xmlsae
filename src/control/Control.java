@@ -12,9 +12,9 @@ import view.Display.AppScreen;
 public class Control {
 
 	private Display display;
-	private Connection connection;
+	private DBInterface dataInterface;
 	private List<String> databases;
-	
+
 	private Consumer<Object> selectDatabases = new Consumer<Object>() {
 
 		@SuppressWarnings("unchecked")
@@ -31,7 +31,7 @@ public class Control {
 
 		@Override
 		public void accept(Object obj) {
-			connection = (Connection) obj;
+			dataInterface = new DBInterface((Connection) obj);
 
 			display.setScreen(AppScreen.SELECT_DB).getMainResult(selectDatabases);
 		}
@@ -39,7 +39,7 @@ public class Control {
 	};
 
 	public static void main(String[] args) {
-
+		
 		// Try to make program look like it is platform dependent
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -62,12 +62,13 @@ public class Control {
 		display.setScreen(AppScreen.LOGIN).getMainResult(establishConnection);
 	}
 
-	public Connection getConnection() {
-		return connection;
+	public DBInterface getInterface() {
+		return dataInterface;
 	}
 
+	// TODO: not used yet; check if needed
 	public List<String> getSelectedDB() {
 		return databases;
 	}
 
-}	
+}
