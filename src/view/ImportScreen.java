@@ -49,7 +49,7 @@ public class ImportScreen extends Screen implements ActionListener {
 		verticalBox.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		verticalBox.add(Box.createVerticalGlue());
 
-		//ToDo: add action for buttons
+		//TODO: add action for buttons
 		JButton btnImport = new JButton("Import Database");
 		btnImport.setAlignmentX(Component.CENTER_ALIGNMENT);
 		Font newButtonFont = new Font(btnImport.getFont().getName(),btnImport.getFont().getStyle(),24);
