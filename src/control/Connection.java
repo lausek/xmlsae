@@ -40,11 +40,9 @@ public class Connection {
 		// TODO: should we really save that?
 		password = passwd;
 
-		logger.debug("User: "+user);
-		logger.debug("Host: "+host);
+		logger.debug(user+"@"+host);
 		//TODO: use some default host etc. if null ?
 		sqlConnection = DriverManager.getConnection("jdbc:mysql://" + host, user, password);
-		logger.debug(sqlConnection);
 
 	}
 
