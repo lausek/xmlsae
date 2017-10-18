@@ -3,13 +3,18 @@ package view;
 import javax.swing.JFrame;
 
 import control.Control;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import javax.swing.Box;
+import java.awt.Dimension;
 
 @SuppressWarnings("serial")
 public class Display extends JFrame {
 
 	public static final int SCREEN_WIDTH = 600;
 	public static final int SCREEN_HEIGHT = 400;
-
+	public static final int SCREEN_COUNT = AppScreen.values().length;
+	
 	public enum MessageFatality {
 		INFO, SUCCESS, WARNING, ERROR
 	}
@@ -18,16 +23,15 @@ public class Display extends JFrame {
 		NONE, LOGIN, SELECT_DB, SELECT_ACTION, IMPORT, EXPORT
 	}
 
-	public static final int screenCount = AppScreen.values().length;
-
+	private JPanel navbar, mainPanel, toolbar;
 	private Screen currentScreen;
 	private Screen[] screens;
 	private Control parent;
 
 	public Display(Control parent) {
 		this.parent = parent;
-		
-		screens = new Screen[screenCount];
+
+		screens = new Screen[SCREEN_COUNT];
 
 		// TODO: allocate other screens here too
 		screens[AppScreen.LOGIN.ordinal()] = new LoginScreen(this);
@@ -35,8 +39,29 @@ public class Display extends JFrame {
 		screens[AppScreen.SELECT_ACTION.ordinal()] = null;
 		screens[AppScreen.IMPORT.ordinal()] = null;
 		screens[AppScreen.EXPORT.ordinal()] = null;
-		
+
+		getContentPane().setLayout(new java.awt.BorderLayout(0, 0));
+
+		navbar = new JPanel();
+		navbar.setLayout(new java.awt.BorderLayout(0, 0));
+		getContentPane().add(navbar, BorderLayout.NORTH);
+
+		mainPanel = new JPanel();
+		mainPanel.setLayout(new BorderLayout(0, 0));
+
+		// Add placeholders to center main
+		mainPanel.add(Box.createRigidArea(new Dimension(20, 20)), BorderLayout.SOUTH);
+		mainPanel.add(Box.createRigidArea(new Dimension(20, 20)), BorderLayout.NORTH);
+		mainPanel.add(Box.createRigidArea(new Dimension(20, 20)), BorderLayout.WEST);
+		mainPanel.add(Box.createRigidArea(new Dimension(20, 20)), BorderLayout.EAST);
+
+		getContentPane().add(mainPanel, BorderLayout.CENTER);
+
+		toolbar = new JPanel();
+		getContentPane().add(toolbar, BorderLayout.SOUTH);
+
 		setTitle("xmlsae");
+		setMinimumSize(new java.awt.Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
 		setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -65,17 +90,29 @@ public class Display extends JFrame {
 			currentScreen.onLeave(screen);
 			// Save screen id for next onEnter call
 			oldScreenId = currentScreen.getScreenId();
+			
+			// Remove old center component
+			BorderLayout layout = (BorderLayout) mainPanel.getLayout();
+			mainPanel.remove(layout.getLayoutComponent(BorderLayout.CENTER));
 		}
 
-		currentScreen = selected;
+		// Clean every frame panel
+		navbar.removeAll();
+		toolbar.removeAll();
 
-		setContentPane(currentScreen);
+		// Set new center component, old one will be removed in if above
+		mainPanel.add(BorderLayout.CENTER, selected);
 
-		currentScreen.onEnter(oldScreenId);
+		selected.addNavbar(navbar);
+		selected.addToolbar(toolbar);
+
+		selected.onEnter(oldScreenId);
 
 		repaint();
 		revalidate();
-
+		
+		currentScreen = selected;
+		
 		return currentScreen;
 	}
 

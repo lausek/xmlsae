@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.function.Consumer;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 
 import control.Connection;
 
@@ -15,6 +16,11 @@ import view.atoms.CPasswordField;
 import view.atoms.CTextField;
 import view.atoms.KeyHandler;
 import view.atoms.KeyHandler.HandleTarget;
+import javax.swing.BoxLayout;
+
+import java.awt.BorderLayout;
+import java.awt.Component;
+import javax.swing.Box;
 
 @SuppressWarnings("serial")
 public class LoginScreen extends Screen implements ActionListener {
@@ -35,7 +41,6 @@ public class LoginScreen extends Screen implements ActionListener {
 	@Override
 	public void build() {
 		super.build();
-		setLayout(null);
 
 		KeyHandler keyHandler = new KeyHandler().handle(HandleTarget.TYPED, e -> {
 			// getKeyCode doesn't seem to work on my keyboard sooo...
@@ -43,27 +48,43 @@ public class LoginScreen extends Screen implements ActionListener {
 				this.actionPerformed(null);
 			}
 		});
-
+		
+		setLayout(new BorderLayout(0, 0));
+		
+		Box verticalBox = new Box(BoxLayout.Y_AXIS);
+		verticalBox.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+		verticalBox.add(Box.createVerticalGlue());
+		
 		tfUser = new CTextField("user@host...");
-		tfUser.setBounds(147, 65, 155, 20);
-		tfUser.setColumns(10);
+		tfUser.setColumns(16);
 		tfUser.addKeyListener(keyHandler);
-		add(tfUser);
+		tfUser.setMinimumSize(new java.awt.Dimension(120, 30));
+		tfUser.setMaximumSize(new java.awt.Dimension(120, 30));
+		verticalBox.add(tfUser);
+		
+		verticalBox.add(Box.createVerticalStrut(20));
 		
 		tfPassword = new CPasswordField("password...");
-		tfPassword.setColumns(10);
-		tfPassword.setBounds(147, 96, 155, 20);
+		tfPassword.setColumns(16);
 		tfPassword.addKeyListener(keyHandler);
-		add(tfPassword);
+		tfPassword.setMinimumSize(new java.awt.Dimension(120, 30));
+		tfPassword.setMaximumSize(new java.awt.Dimension(120, 30));
+		verticalBox.add(tfPassword);
 
+		verticalBox.add(Box.createVerticalStrut(20));
+		
 		JButton btnLogin = new JButton("Login");
+		btnLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnLogin.addActionListener(this);
-		btnLogin.setBounds(147, 138, 155, 23);
-		add(btnLogin);
+		verticalBox.add(btnLogin);
+		
+		verticalBox.add(Box.createVerticalGlue());
+		
+		add(verticalBox);
 	}
 
 	@Override
-	public void getMainResult(Consumer<Object> action) {
+	public void setCallback(Consumer<Object> action) {
 		callback = action;
 	}
 

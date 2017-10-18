@@ -2,6 +2,7 @@ package view.atoms;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.function.Predicate;
 
 import javax.swing.JButton;
 
@@ -26,6 +27,7 @@ public class CSwitchArrow extends JButton implements ActionListener {
 
 	private Display display;
 	private AppScreen switchTo;
+	private Predicate<AppScreen> leaveCondition;
 	
 	public CSwitchArrow(Display display, AppScreen switchTo) {
 		this.display = display;
@@ -55,10 +57,20 @@ public class CSwitchArrow extends JButton implements ActionListener {
 
 		return this;
 	}
-
+	
+	public void setCondition(Predicate<AppScreen> condition) {
+		leaveCondition = condition;
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		if(leaveCondition != null && !leaveCondition.test(switchTo)) {
+			return;
+		}
+		
 		display.setScreen(switchTo);
+		
 	}
 
 }
