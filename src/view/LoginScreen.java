@@ -6,16 +6,24 @@ import java.sql.SQLException;
 import java.util.function.Consumer;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 
 import control.Connection;
+
 import view.Display.AppScreen;
 import view.Display.MessageFatality;
 import view.atoms.CPasswordField;
 import view.atoms.CTextField;
-import javax.swing.JPanel;
+import view.atoms.KeyHandler;
+import view.atoms.KeyHandler.HandleTarget;
+import javax.swing.BoxLayout;
+
+import java.awt.BorderLayout;
+import java.awt.Component;
+import javax.swing.Box;
 
 @SuppressWarnings("serial")
-public class LoginScreen extends Screen {
+public class LoginScreen extends Screen implements ActionListener {
 
 	private Consumer<Object> callback;
 	private CTextField tfUser;
@@ -33,42 +41,64 @@ public class LoginScreen extends Screen {
 	@Override
 	public void build() {
 		super.build();
-		setLayout(null);
 
-		tfUser = new CTextField("user@host...");
-		tfUser.setBounds(147, 65, 155, 20);
-		tfUser.setColumns(10);
-		add(tfUser);
-
-		tfPassword = new CPasswordField("password...");
-		tfPassword.setColumns(10);
-		tfPassword.setBounds(147, 96, 155, 20);
-		add(tfPassword);
-
-		JButton btnLogin = new JButton("Login");
-		btnLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-				try {
-					String pw = new String(tfPassword.getPassword());
-					final Connection con = new Connection(tfUser.getText(), pw);
-					callback.accept(con);
-				} catch (SQLException e) {
-					display.notice(MessageFatality.ERROR, "Connection couldn't be established", e.getMessage());
-				}
-
+		KeyHandler keyHandler = new KeyHandler().handle(HandleTarget.TYPED, e -> {
+			// getKeyCode doesn't seem to work on my keyboard sooo...
+			if (e.getKeyChar() == '\n') {
+				this.actionPerformed(null);
 			}
 		});
-		btnLogin.setBounds(147, 138, 155, 23);
-		add(btnLogin);
+		
+		setLayout(new BorderLayout(0, 0));
+		
+		Box verticalBox = new Box(BoxLayout.Y_AXIS);
+		verticalBox.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+		verticalBox.add(Box.createVerticalGlue());
+		
+		tfUser = new CTextField("user@host...");
+		tfUser.setColumns(16);
+		tfUser.addKeyListener(keyHandler);
+		tfUser.setMinimumSize(new java.awt.Dimension(120, 30));
+		tfUser.setMaximumSize(new java.awt.Dimension(120, 30));
+		verticalBox.add(tfUser);
+		
+		verticalBox.add(Box.createVerticalStrut(20));
+		
+		tfPassword = new CPasswordField("password...");
+		tfPassword.setColumns(16);
+		tfPassword.addKeyListener(keyHandler);
+		tfPassword.setMinimumSize(new java.awt.Dimension(120, 30));
+		tfPassword.setMaximumSize(new java.awt.Dimension(120, 30));
+		verticalBox.add(tfPassword);
 
-		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 10, 10);
-		add(panel);
+		verticalBox.add(Box.createVerticalStrut(20));
+		
+		JButton btnLogin = new JButton("Login");
+		btnLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnLogin.addActionListener(this);
+		verticalBox.add(btnLogin);
+		
+		verticalBox.add(Box.createVerticalGlue());
+		
+		add(verticalBox);
 	}
 
 	@Override
-	public void getMainResult(Consumer<Object> action) {
+	public void setCallback(Consumer<Object> action) {
 		callback = action;
 	}
+
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		// e could be null if this was called via an 'enter' hit
+		try {
+			String pw = new String(tfPassword.getPassword());
+			final Connection con = new Connection(tfUser.getText(), pw);
+			callback.accept(con);
+		} catch (SQLException e) {
+			display.notice(MessageFatality.ERROR, "Connection couldn't be established", e.getMessage());
+		}
+
+	}
+
 }

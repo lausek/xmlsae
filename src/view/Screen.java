@@ -34,6 +34,7 @@ public class Screen extends JPanel implements ActionListener {
 	 * to do conditional cleaning.
 	 * @return
 	 */
+	//TODO: make this function static
 	public AppScreen getScreenId() {
 		throw new NotImplementedException();
 	}
@@ -43,7 +44,19 @@ public class Screen extends JPanel implements ActionListener {
 	 */
 	public void build() {
 	}
-
+	
+	/**
+	 * Add navigation icons to main frame
+	 */
+	public void addNavbar(JPanel navbar) {
+	}
+	
+	/**
+	 * Add buttons to bottom of main frame
+	 */
+	public void addToolbar(JPanel toolbar) {
+	}
+	
 	/**
 	 * Called when screen gets entered from another screen
 	 */
@@ -59,7 +72,7 @@ public class Screen extends JPanel implements ActionListener {
 	/**
 	 * Override in subclasses
 	 */
-	public void getMainResult(Consumer<Object> action) {
+	public void setCallback(Consumer<Object> action) {
 	}
 
 	/**

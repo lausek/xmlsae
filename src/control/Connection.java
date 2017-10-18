@@ -34,13 +34,6 @@ public class Connection {
 
 		sqlConnection = DriverManager.getConnection("jdbc:mysql://" + host, user, password);
 
-		// TODO: Add null check?
-
-	}
-
-	// TODO: is this needed?
-	public Connection(String host) throws SQLException {
-		this(host, "");
 	}
 
 	public void logout() {

@@ -12,34 +12,34 @@ import view.Display.AppScreen;
 public class Control {
 
 	private Display display;
-	private Connection connection;
+	private DBInterface dataInterface;
 	private List<String> databases;
-	
-	private Consumer<Object> selectDatabases = new Consumer<Object>() {
+
+	private Consumer<Object> databasesCallback = new Consumer<Object>() {
 
 		@SuppressWarnings("unchecked")
 		@Override
 		public void accept(Object obj) {
 			databases = (List<String>) obj;
-
-			display.setScreen(AppScreen.SELECT_ACTION);
+			// Leave will be done in SelectionScreen itself
 		}
 
 	};
 
-	private Consumer<Object> establishConnection = new Consumer<Object>() {
+	private Consumer<Object> connectionCallback = new Consumer<Object>() {
 
 		@Override
 		public void accept(Object obj) {
-			connection = (Connection) obj;
-
-			display.setScreen(AppScreen.SELECT_DB).getMainResult(selectDatabases);
+			dataInterface = new DBInterface((Connection) obj);
+			
+			// getMainResult looks better here
+			display.setScreen(AppScreen.SELECT_DB).setCallback(databasesCallback);
 		}
 
 	};
 
 	public static void main(String[] args) {
-
+		
 		// Try to make program look like it is platform dependent
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -59,15 +59,16 @@ public class Control {
 	public void run() {
 		display = new Display(this);
 
-		display.setScreen(AppScreen.LOGIN).getMainResult(establishConnection);
+		display.setScreen(AppScreen.LOGIN).setCallback(connectionCallback);
 	}
 
-	public Connection getConnection() {
-		return connection;
+	public DBInterface getInterface() {
+		return dataInterface;
 	}
 
+	// TODO: not used yet; check if needed
 	public List<String> getSelectedDB() {
 		return databases;
 	}
 
-}	
+}
