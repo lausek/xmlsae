@@ -2,9 +2,9 @@ package control;
 
 import java.util.List;
 import java.util.function.Consumer;
-
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 import view.Display;
 import view.Display.AppScreen;
@@ -14,7 +14,9 @@ public class Control {
 	private Display display;
 	private DBInterface dataInterface;
 	private List<String> databases;
-
+	private static final String LOG4J_PATH = "properties/propertiesControl.properties";
+	private static Logger logger;
+	
 	private Consumer<Object> databasesCallback = new Consumer<Object>() {
 
 		@SuppressWarnings("unchecked")
@@ -39,18 +41,13 @@ public class Control {
 	};
 
 	public static void main(String[] args) {
-		
+		logger = Logger.getLogger("Control");
+		PropertyConfigurator.configure(LOG4J_PATH);
 		// Try to make program look like it is platform dependent
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (UnsupportedLookAndFeelException e) {
-			// TODO: Add logger info
-		} catch (ClassNotFoundException e) {
-			// TODO: Add logger info
-		} catch (InstantiationException e) {
-			// TODO: Add logger info
-		} catch (IllegalAccessException e) {
-			// TODO: Add logger info
+		} catch (Exception e) {
+			logger.debug(e.getMessage());
 		}
 
 		new Control().run();

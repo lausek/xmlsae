@@ -32,6 +32,7 @@ public class Connection {
 		// TODO: should we really save that?
 		password = passwd;
 
+		//TODO: use some default host etc. if null ?
 		sqlConnection = DriverManager.getConnection("jdbc:mysql://" + host, user, password);
 
 	}
