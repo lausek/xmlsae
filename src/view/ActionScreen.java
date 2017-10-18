@@ -1,9 +1,15 @@
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -13,13 +19,13 @@ import view.atoms.CSwitchArrow;
 import view.atoms.CSwitchArrow.MoveDirection;
 
 @SuppressWarnings("serial")
-public class ActionScreen extends Screen {
+public class ActionScreen extends Screen implements ActionListener {
 	
 	private JTextField tfUserLog;
 	private JTextField tf_choosedDB;
 	private JLabel labelUserLog;
-	private JLabel label_choosedDB;	
-
+	private JLabel label_choosedDB;
+	
 	public ActionScreen(Display display) {
 		super(display);
 		// TODO Auto-generated constructor stub
@@ -37,55 +43,67 @@ public class ActionScreen extends Screen {
 		super.build();
 		setLayout(null);
 		
-		CSwitchArrow backArrow = new CSwitchArrow(display, AppScreen.SELECT_DB).setDirection(MoveDirection.LEFT);
-		add(backArrow);
+		setLayout(new BorderLayout(0, 0));
 		
-		//ToDo: get Textfield for logged User and DB
+		Box verticalBox = new Box(BoxLayout.Y_AXIS);
+		verticalBox.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+		verticalBox.add(Box.createVerticalGlue());
+
+		//TODO: add action for buttons
+		
+		JButton btnImport = new JButton("Import Database");
+		btnImport.setAlignmentX(Component.CENTER_ALIGNMENT);
+		Font newButtonFont = new Font(btnImport.getFont().getName(),btnImport.getFont().getStyle(),24);
+		btnImport.setMaximumSize(new Dimension(300, 75));
+		btnImport.setMinimumSize(new Dimension(300, 75));
+		btnImport.setPreferredSize(new Dimension (300, 75));
+		btnImport.addActionListener(this);
+		btnImport.setFont(newButtonFont);
+		verticalBox.add(btnImport);
+		
+		verticalBox.add(Box.createVerticalStrut(20));
+		
+		JButton btnExport = new JButton("Export Database");
+		btnExport.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnExport.setMaximumSize(new Dimension(300, 75));
+		btnExport.setMinimumSize(new Dimension(300, 75));
+		btnExport.setPreferredSize(new Dimension (300, 75));
+		btnExport.addActionListener(this);
+		btnExport.setFont(newButtonFont);
+		verticalBox.add(btnExport);
+		
+		verticalBox.add(Box.createVerticalGlue());
+		add(verticalBox);
+
+	}
+	
+	@Override
+	public void addNavbar(JPanel navbar) {
+		super.addNavbar(navbar);
+
+		CSwitchArrow backArrow = new CSwitchArrow(display, AppScreen.SELECT_DB, MoveDirection.LEFT);
+		navbar.add(backArrow, BorderLayout.WEST);
+		
+		JPanel LogData = new JPanel();
+		
+		labelUserLog = new JLabel("Benutzer:");
+		LogData.add(labelUserLog);
+		
+		//TODO: add textfield for logged user and DB
 		tfUserLog = new JTextField();
 		tfUserLog.setEditable(false);
-		tfUserLog.setBounds(375, 65, 175, 25);
 		tfUserLog.setColumns(10);
-		add(tfUserLog);
+		LogData.add(tfUserLog);
+		
+		label_choosedDB = new JLabel("Datenbank:");
+		LogData.add(label_choosedDB);
+		navbar.add(LogData, BorderLayout.CENTER);
 		
 		tf_choosedDB = new JTextField();
 		tf_choosedDB.setEditable(false);
-		tf_choosedDB.setBounds(375, 100, 175, 25);
 		tf_choosedDB.setColumns(10);
-		add(tf_choosedDB);
+		LogData.add(tf_choosedDB);
 		
-		labelUserLog = new JLabel("Eingeloggt als");
-		labelUserLog.setBounds(250, 65, 100, 25);
-		add(labelUserLog);
-		
-		label_choosedDB = new JLabel("Datenbank:");
-		label_choosedDB.setBounds(250, 100, 100, 25);
-		add(label_choosedDB);
-
-		//ToDo: add action for buttons
-		JButton btnImport = new JButton("Import Database");
-		Font newButtonFont = new Font(btnImport.getFont().getName(),btnImport.getFont().getStyle(),24);
-		btnImport.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-			}
-		});
-		btnImport.setBounds(250, 180, 300, 75);
-		btnImport.setFont(newButtonFont);
-		add(btnImport);
-		
-		JButton btnExport = new JButton("Export Database");
-		btnExport.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-			}
-		});
-		btnExport.setBounds(250, 300, 300, 75);
-		btnExport.setFont(newButtonFont);
-		add(btnExport);
-
-		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 10, 10);
-		add(panel);
 	}
 	
 	public static void main(String[] args) {
