@@ -117,7 +117,7 @@ public class SelectionScreen extends Screen {
 		if (from == AppScreen.LOGIN) {
 			// ...but only clean up databases if user reconnected
 			databases.clear();
-			
+
 			// Load available databases from SQL server
 			try {
 
@@ -169,8 +169,7 @@ public class SelectionScreen extends Screen {
 
 		list.clear();
 
-		databases.stream().filter(db -> db.getTitle().contains(realQuery))
-				.forEach(list::addElement);
+		databases.stream().filter(db -> db.getTitle().contains(realQuery)).forEach(list::addElement);
 
 	}
 
