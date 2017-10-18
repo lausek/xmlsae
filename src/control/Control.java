@@ -11,11 +11,17 @@ import view.Display.AppScreen;
 
 public class Control {
 
+	private static final String LOG4J_PATH = "properties/propertiesControl.properties";
+	private static Logger logger;
+	
 	private Display display;
 	private DBInterface dataInterface;
 	private List<String> databases;
-	private static final String LOG4J_PATH = "properties/propertiesControl.properties";
-	private static Logger logger;
+	
+	static {
+		logger = Logger.getLogger("Control");
+		PropertyConfigurator.configure(LOG4J_PATH);
+	}
 	
 	private Consumer<Object> databasesCallback = new Consumer<Object>() {
 
@@ -41,8 +47,6 @@ public class Control {
 	};
 
 	public static void main(String[] args) {
-		logger = Logger.getLogger("Control");
-		PropertyConfigurator.configure(LOG4J_PATH);
 		// Try to make program look like it is platform dependent
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

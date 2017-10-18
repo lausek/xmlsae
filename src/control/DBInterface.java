@@ -10,17 +10,22 @@ import model.ExportSettings;
 
 public class DBInterface {
 
-	private Connection connection;
 	private static final String LOG4J_PATH = "properties/propertiesDBI.properties";
 	private static Logger logger;
+	
+	private Connection connection;
+	
+	static {
+		logger = Logger.getLogger("DBInterface");
+		PropertyConfigurator.configure(LOG4J_PATH);
+	}
+	
 	/**
 	 * 
 	 * @param connection
 	 */
 	public DBInterface(Connection connection) {
 		this.connection = connection;
-		logger = Logger.getLogger("DBInterface");
-		PropertyConfigurator.configure(LOG4J_PATH);
 	}
 
 	public List<String> getDatabases() throws SQLException {
