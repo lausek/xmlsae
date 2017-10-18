@@ -42,9 +42,9 @@ public class Connection {
 
 		logger.debug("User: "+user);
 		logger.debug("Host: "+host);
-		logger.debug("Password: "+password);
 		//TODO: use some default host etc. if null ?
 		sqlConnection = DriverManager.getConnection("jdbc:mysql://" + host, user, password);
+		logger.debug(sqlConnection);
 
 	}
 
