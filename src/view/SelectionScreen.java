@@ -117,18 +117,18 @@ public class SelectionScreen extends Screen {
 		if (from == AppScreen.LOGIN) {
 			// ...but only clean up databases if user reconnected
 			databases.clear();
-		}
 
-		// Load available databases from SQL server
-		try {
+			// Load available databases from SQL server
+			try {
 
-			// Fetch database names from server and translate into a list of CListItems
-			display.getControl().getInterface().getDatabases().forEach(db -> databases.add(new CListItem(db)));
+				// Fetch database names from server and translate into a list of CListItems
+				display.getControl().getInterface().getDatabases().forEach(db -> databases.add(new CListItem(db)));
 
-			reloadList(null);
+				reloadList(null);
 
-		} catch (SQLException e) {
-			display.notice(MessageFatality.ERROR, "Couldn't fetch databases from server");
+			} catch (SQLException e) {
+				display.notice(MessageFatality.ERROR, "Couldn't fetch databases from server");
+			}
 		}
 
 	}
@@ -169,9 +169,7 @@ public class SelectionScreen extends Screen {
 
 		list.clear();
 
-		databases.stream().filter(db -> db.getTitle().contains(realQuery))
-				/* TODO: Na Pascal? Kommste noch mit? Kind regards, lausek */
-				.forEach(list::addElement);
+		databases.stream().filter(db -> db.getTitle().contains(realQuery)).forEach(list::addElement);
 
 	}
 
