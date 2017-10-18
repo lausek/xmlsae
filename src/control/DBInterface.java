@@ -27,7 +27,7 @@ public class DBInterface {
 	public DBInterface(Connection connection) {
 		this.connection = connection;
 	}
-	
+
 	public Connection getConnection() {
 		return connection;
 	}
@@ -48,26 +48,19 @@ public class DBInterface {
 	 * @param filename
 	 * @param settings
 	 */
-	public void exportTo(String dbName, String fileName, ExportSettings settings) {
-		logger.debug("Start export");
-		Process process = null;
-		try {
-			Runtime runtime = Runtime.getRuntime();
-			// TODO: make final
-			String sqlDump = "/files/mysqldump";
-			process = runtime.exec(sqlDump + " " + dbName + " --xml --single-transaction -u root > " + fileName);
-
-			if (process.waitFor() == 0) {
-				logger.debug("Successfully created backup of " + dbName);
-			}
-		} catch (Exception e) {
-			logger.debug("Export failed: " + e.getMessage());
-		} finally {
-			if (process != null) {
-				process.destroy();
-			}
-		}
-
+	public void exportTo(String dbname, String filename, ExportSettings settings) {
+		logger.debug("Start export to "+dbname);
+		// tables := SHOW TABLES 
+		
+		// foreach table
+		// 		if isDefinitionRequired
+		// 			show columns for
+		// 		endif
+		
+		// 		if isDataRequired
+		// 			SELECT * FROM
+		// 		endif
+		
 	}
 
 	/**
@@ -78,16 +71,14 @@ public class DBInterface {
 	 * @param settings
 	 */
 	public void exportTo(List<String> dbnames, String filename, ExportSettings settings) {
-		try {
-			for (String dbname : dbnames) {
-				String[] split = filename.split("\\.");
-				split[0] += "_" + dbname;
-				String newFileName = String.join(".", split);
-				exportTo(dbname, newFileName, settings);
-				logger.debug("Exported " + dbname + " on file " + newFileName);
-			}
-		} catch (Exception e) {
-			logger.debug(e.getMessage());
+		for (String dbname : dbnames) {
+			String[] split = filename.split("\\.");
+			split[0] += "_" + dbname;
+			String newFileName = String.join(".", split);
+			
+			exportTo(dbname, newFileName, settings);
+			
+			logger.debug("Exported " + dbname + " on file " + newFileName);
 		}
 	}
 
@@ -98,24 +89,7 @@ public class DBInterface {
 	 * @param filename
 	 */
 	public void importTo(String dbname, String filename) {
-		logger.debug("Start import");
-		Process process = null;
-		try {
-			Runtime runtime = Runtime.getRuntime();
-			String mysql = "/files/mysql";
-			// TODO: This command needs an .sql file, idk if it works with others
-			process = runtime.exec(mysql + " -u root -p " + dbname + " < " + filename);
-
-			if (process.waitFor() == 0) {
-				logger.debug("Successfully imported " + dbname);
-			}
-		} catch (Exception e) {
-			logger.debug("Import failed: " + e.getMessage());
-		} finally {
-			if (process != null) {
-				process.destroy();
-			}
-		}
+		logger.debug("Start import to "+dbname);
 	}
 
 	/**
