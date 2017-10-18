@@ -1,0 +1,8 @@
+2017-10-18 08:19:23,206 DEBUG (Connection.java:21) - com.mysql.jdbc.Driver
+2017-10-18 08:19:23,222 DEBUG (Connection.java:43) - User: root
+2017-10-18 08:19:23,222 DEBUG (Connection.java:44) - Host: 10.17.4.11:3306
+2017-10-18 08:19:23,222 DEBUG (Connection.java:45) - Password: 
+2017-10-18 08:20:37,412 DEBUG (Connection.java:21) - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+2017-10-18 08:20:37,428 DEBUG (Connection.java:43) - User: root
+2017-10-18 08:20:37,428 DEBUG (Connection.java:44) - Host: 10.17.4.11:3306
+2017-10-18 08:20:37,428 DEBUG (Connection.java:45) - Password: 

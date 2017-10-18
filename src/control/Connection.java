@@ -4,13 +4,21 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+
 public class Connection {
+	
+	private static final String LOG4J_PATH = "properties/propertiesConnection.properties";
+	private static Logger logger;
 
 	static {
+		logger = Logger.getLogger("Connection");
+		PropertyConfigurator.configure(LOG4J_PATH);
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.debug(e);
 		}
 	}
 
@@ -32,6 +40,9 @@ public class Connection {
 		// TODO: should we really save that?
 		password = passwd;
 
+		logger.debug("User: "+user);
+		logger.debug("Host: "+host);
+		logger.debug("Password: "+password);
 		//TODO: use some default host etc. if null ?
 		sqlConnection = DriverManager.getConnection("jdbc:mysql://" + host, user, password);
 
@@ -41,7 +52,7 @@ public class Connection {
 		try {
 			sqlConnection.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.debug(e.getMessage());
 		}
 	}
 
