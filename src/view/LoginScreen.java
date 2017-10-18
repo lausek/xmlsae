@@ -24,7 +24,9 @@ import javax.swing.Box;
 
 @SuppressWarnings("serial")
 public class LoginScreen extends Screen implements ActionListener {
-
+	
+	private static final int TF_WIDTH = 150;
+	
 	private Consumer<Object> callback;
 	private CTextField tfUser;
 	private CPasswordField tfPassword;
@@ -58,8 +60,8 @@ public class LoginScreen extends Screen implements ActionListener {
 		tfUser = new CTextField("user@host...");
 		tfUser.setColumns(16);
 		tfUser.addKeyListener(keyHandler);
-		tfUser.setMinimumSize(new java.awt.Dimension(120, 30));
-		tfUser.setMaximumSize(new java.awt.Dimension(120, 30));
+		tfUser.setMinimumSize(new java.awt.Dimension(TF_WIDTH, 30));
+		tfUser.setMaximumSize(new java.awt.Dimension(TF_WIDTH, 30));
 		verticalBox.add(tfUser);
 		
 		verticalBox.add(Box.createVerticalStrut(20));
@@ -67,8 +69,8 @@ public class LoginScreen extends Screen implements ActionListener {
 		tfPassword = new CPasswordField("password...");
 		tfPassword.setColumns(16);
 		tfPassword.addKeyListener(keyHandler);
-		tfPassword.setMinimumSize(new java.awt.Dimension(120, 30));
-		tfPassword.setMaximumSize(new java.awt.Dimension(120, 30));
+		tfPassword.setMinimumSize(new java.awt.Dimension(TF_WIDTH, 30));
+		tfPassword.setMaximumSize(new java.awt.Dimension(TF_WIDTH, 30));
 		verticalBox.add(tfPassword);
 
 		verticalBox.add(Box.createVerticalStrut(20));
