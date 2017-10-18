@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JPanel;
@@ -84,6 +86,14 @@ public class MessageDialog {
 		scrollDetails.setBounds(10, 60, EXTENDED_SIZE.width - 20, 100);
 		scrollDetails.setVisible(false);
 		messagePanel.add(scrollDetails);
+		
+		frame.addWindowFocusListener(new WindowFocusListener() {
+		    public void windowLostFocus(WindowEvent evt) {
+		    }
+		    public void windowGainedFocus(WindowEvent evt) {
+		    	confirmButton.requestFocus();
+		    }
+		});
 	}
 
 	public static void display(JFrame displayOn, MessageFatality fatality, String message, String details) {
