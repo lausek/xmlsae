@@ -1,10 +1,15 @@
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -14,7 +19,7 @@ import view.atoms.CSwitchArrow;
 import view.atoms.CSwitchArrow.MoveDirection;
 
 @SuppressWarnings("serial")
-public class ImportScreen extends Screen {
+public class ImportScreen extends Screen implements ActionListener {
 	
 	private JTextField tfUserLog;
 	private JTextField tf_choosedDB;
@@ -38,45 +43,55 @@ public class ImportScreen extends Screen {
 		super.build();
 		setLayout(null);
 		
-		CSwitchArrow backArrow = new CSwitchArrow(display, AppScreen.SELECT_ACTION).setDirection(MoveDirection.LEFT);
-		add(backArrow);
+		setLayout(new BorderLayout(0, 0));
 		
-		//ToDo: get Textfield for logged User and DB
-		tfUserLog = new JTextField();
-		tfUserLog.setEditable(false);
-		tfUserLog.setBounds(375, 65, 175, 25);
-		tfUserLog.setColumns(10);
-		add(tfUserLog);
-		
-		tf_choosedDB = new JTextField();
-		tf_choosedDB.setEditable(false);
-		tf_choosedDB.setBounds(375, 100, 175, 25);
-		tf_choosedDB.setColumns(10);
-		add(tf_choosedDB);
-		
-		labelUserLog = new JLabel("Eingeloggt als");
-		labelUserLog.setBounds(250, 65, 100, 25);
-		add(labelUserLog);
-		
-		label_choosedDB = new JLabel("Datenbank:");
-		label_choosedDB.setBounds(250, 100, 100, 25);
-		add(label_choosedDB);
+		Box verticalBox = new Box(BoxLayout.Y_AXIS);
+		verticalBox.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+		verticalBox.add(Box.createVerticalGlue());
 
 		//ToDo: add action for buttons
 		JButton btnImport = new JButton("Import Database");
+		btnImport.setAlignmentX(Component.CENTER_ALIGNMENT);
 		Font newButtonFont = new Font(btnImport.getFont().getName(),btnImport.getFont().getStyle(),24);
-		btnImport.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-			}
-		});
-		btnImport.setBounds(250, 300, 300, 75);
+		btnImport.setMaximumSize(new Dimension(300, 75));
+		btnImport.setMinimumSize(new Dimension(300, 75));
+		btnImport.setPreferredSize(new Dimension (300, 75));
+		btnImport.addActionListener(this);
 		btnImport.setFont(newButtonFont);
-		add(btnImport);
+		verticalBox.add(btnImport);
+		
+		verticalBox.add(Box.createVerticalGlue());
+		add(verticalBox);
+		
+	}
+	
+	@Override
+	public void addNavbar(JPanel navbar) {
+		super.addNavbar(navbar);
 
-		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 10, 10);
-		add(panel);
+		CSwitchArrow backArrow = new CSwitchArrow(display, AppScreen.SELECT_ACTION, MoveDirection.LEFT);
+		navbar.add(backArrow, BorderLayout.WEST);
+		
+		JPanel LogData = new JPanel();
+		
+		labelUserLog = new JLabel("Benutzer:");
+		LogData.add(labelUserLog);
+		
+		//TODO: add textfield for logged user and DB
+		tfUserLog = new JTextField();
+		tfUserLog.setEditable(false);
+		tfUserLog.setColumns(15);
+		LogData.add(tfUserLog);
+		
+		label_choosedDB = new JLabel("Datenbank:");
+		LogData.add(label_choosedDB);
+		navbar.add(LogData, BorderLayout.CENTER);
+		
+		tf_choosedDB = new JTextField();
+		tf_choosedDB.setEditable(false);
+		tf_choosedDB.setColumns(15);
+		LogData.add(tf_choosedDB);
+		
 	}
 	
 	public static void main(String[] args) {

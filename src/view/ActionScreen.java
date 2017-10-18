@@ -92,7 +92,7 @@ public class ActionScreen extends Screen implements ActionListener {
 		//TODO: add textfield for logged user and DB
 		tfUserLog = new JTextField();
 		tfUserLog.setEditable(false);
-		tfUserLog.setColumns(10);
+		tfUserLog.setColumns(15);
 		LogData.add(tfUserLog);
 		
 		label_choosedDB = new JLabel("Datenbank:");
@@ -101,7 +101,7 @@ public class ActionScreen extends Screen implements ActionListener {
 		
 		tf_choosedDB = new JTextField();
 		tf_choosedDB.setEditable(false);
-		tf_choosedDB.setColumns(10);
+		tf_choosedDB.setColumns(15);
 		LogData.add(tf_choosedDB);
 		
 	}
