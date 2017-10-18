@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 
@@ -47,28 +48,31 @@ public class ActionScreen extends Screen implements ActionListener {
 		Box verticalBox = new Box(BoxLayout.Y_AXIS);
 		verticalBox.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		verticalBox.add(Box.createVerticalGlue());
+
+		//TODO: add action for buttons
 		
-
-		//ToDo: add textfield for logged user and DB
-
-		//ToDo: add action for buttons
 		JButton btnImport = new JButton("Import Database");
 		btnImport.setAlignmentX(Component.CENTER_ALIGNMENT);
 		Font newButtonFont = new Font(btnImport.getFont().getName(),btnImport.getFont().getStyle(),24);
+		btnImport.setMaximumSize(new Dimension(300, 75));
+		btnImport.setMinimumSize(new Dimension(300, 75));
+		btnImport.setPreferredSize(new Dimension (300, 75));
 		btnImport.addActionListener(this);
 		btnImport.setFont(newButtonFont);
 		verticalBox.add(btnImport);
 		
-		verticalBox.add(Box.createVerticalStrut(10));
+		verticalBox.add(Box.createVerticalStrut(20));
 		
 		JButton btnExport = new JButton("Export Database");
 		btnExport.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnExport.setMaximumSize(new Dimension(300, 75));
+		btnExport.setMinimumSize(new Dimension(300, 75));
+		btnExport.setPreferredSize(new Dimension (300, 75));
 		btnExport.addActionListener(this);
 		btnExport.setFont(newButtonFont);
 		verticalBox.add(btnExport);
 		
 		verticalBox.add(Box.createVerticalGlue());
-		
 		add(verticalBox);
 
 	}
@@ -85,6 +89,7 @@ public class ActionScreen extends Screen implements ActionListener {
 		labelUserLog = new JLabel("Benutzer:");
 		LogData.add(labelUserLog);
 		
+		//TODO: add textfield for logged user and DB
 		tfUserLog = new JTextField();
 		tfUserLog.setEditable(false);
 		tfUserLog.setColumns(10);
