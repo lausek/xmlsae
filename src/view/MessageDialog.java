@@ -35,6 +35,7 @@ public class MessageDialog {
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.setSize(NORMAL_SIZE);
 		frame.setResizable(false);
+		frame.setIconImage(Display.getAppIcon());
 
 		JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		frame.getContentPane().add(actionPanel, BorderLayout.SOUTH);

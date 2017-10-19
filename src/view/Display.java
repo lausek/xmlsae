@@ -6,14 +6,28 @@ import control.Control;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.Box;
+
 import java.awt.Dimension;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 
 @SuppressWarnings("serial")
 public class Display extends JFrame {
-
+	
 	public static final int SCREEN_WIDTH = 600;
 	public static final int SCREEN_HEIGHT = 400;
 	public static final int SCREEN_COUNT = AppScreen.values().length;
+	
+	private static Image appIcon = null;
+	
+	static {
+		try {
+			appIcon = javax.imageio.ImageIO.read(new File("media/img/app_128x128.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public enum MessageFatality {
 		INFO, SUCCESS, WARNING, ERROR
@@ -27,7 +41,11 @@ public class Display extends JFrame {
 	private Screen currentScreen;
 	private Screen[] screens;
 	private Control parent;
-
+	
+	public static Image getAppIcon() {
+		return appIcon;
+	}
+	
 	public Display(Control parent) {
 		this.parent = parent;
 
@@ -65,6 +83,9 @@ public class Display extends JFrame {
 		setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		setIconImage(appIcon);
+			
 		setVisible(true);
 	}
 
