@@ -20,7 +20,7 @@ public class CListItem extends JPanel {
 
 	private final int WIDTH = 100;
 	private final int HEIGHT = 40;
-	private final Color COLOR_SELECTED = Color.LIGHT_GRAY;
+	private final Color COLOR_SELECTED = new Color(255, 156, 20);
 	private final Color COLOR_DESELECTED = new Color(100, true);
 
 	private boolean selected;
@@ -31,7 +31,7 @@ public class CListItem extends JPanel {
 	static {
 		try {
 			// TODO: replace this crappy image
-			Image img = javax.imageio.ImageIO.read(new java.io.File("media/img/db_64x64.png")).getScaledInstance(32, 32,
+			Image img = javax.imageio.ImageIO.read(new java.io.File("media/img/db_48x48.png")).getScaledInstance(32, 32,
 					Image.SCALE_DEFAULT);
 			// Create buffered version of this image (add alpha too)
 			BufferedImage buffer = new BufferedImage(32, 32, BufferedImage.TYPE_INT_ARGB);
