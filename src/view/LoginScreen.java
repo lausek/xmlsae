@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.function.Consumer;
 
@@ -23,11 +22,10 @@ import java.awt.Component;
 import javax.swing.Box;
 
 @SuppressWarnings("serial")
-public class LoginScreen extends Screen implements ActionListener {
+public class LoginScreen extends Screen {
 	
 	private static final int TF_WIDTH = 150;
 	
-	private Consumer<Object> callback;
 	private CTextField tfUser;
 	private CPasswordField tfPassword;
 
@@ -84,12 +82,7 @@ public class LoginScreen extends Screen implements ActionListener {
 		
 		add(verticalBox);
 	}
-
-	@Override
-	public void setCallback(Consumer<Object> action) {
-		callback = action;
-	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		// e could be null if this was called via an 'enter' hit

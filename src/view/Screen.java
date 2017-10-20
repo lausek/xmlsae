@@ -23,6 +23,7 @@ import view.Display.AppScreen;
 public class Screen extends JPanel implements ActionListener {
 
 	protected Display display;
+	protected Consumer<Object> callback;
 
 	public Screen(Display display) {
 		this.display = display;
@@ -72,6 +73,7 @@ public class Screen extends JPanel implements ActionListener {
 	 * Override in subclasses
 	 */
 	public void setCallback(Consumer<Object> action) {
+		callback = action;
 	}
 
 	/**

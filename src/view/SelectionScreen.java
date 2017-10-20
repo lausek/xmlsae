@@ -6,7 +6,6 @@ import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 import view.Display.AppScreen;
 import view.Display.MessageFatality;
@@ -33,7 +32,6 @@ public class SelectionScreen extends Screen {
 	private DefaultListModel<CListItem> list;
 	private JList<CListItem> jlist;
 	private CTextField filterField;
-	private Consumer<Object> callback;
 
 	public SelectionScreen(Display display) {
 		super(display);
@@ -171,11 +169,6 @@ public class SelectionScreen extends Screen {
 
 		databases.stream().filter(db -> db.getTitle().contains(realQuery)).forEach(list::addElement);
 
-	}
-
-	@Override
-	public void setCallback(Consumer<Object> action) {
-		callback = action;
 	}
 
 }

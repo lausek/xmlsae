@@ -30,7 +30,6 @@ public class CListItem extends JPanel {
 
 	static {
 		try {
-			// TODO: replace this crappy image
 			Image img = javax.imageio.ImageIO.read(new java.io.File("media/img/db_48x48.png")).getScaledInstance(32, 32,
 					Image.SCALE_DEFAULT);
 			// Create buffered version of this image (add alpha too)
