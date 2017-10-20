@@ -122,13 +122,17 @@ public class SelectionScreen extends Screen {
 				// Fetch database names from server and translate into a list of CListItems
 				display.getControl().getInterface().getDatabases().forEach(db -> databases.add(new CListItem(db)));
 
-				reloadList(null);
+				initList();
 
 			} catch (SQLException e) {
 				display.notice(MessageFatality.ERROR, "Couldn't fetch databases from server");
 			}
-			
+
 			getStatusArea().setDatabases(null);
+		} else {
+
+			reloadList(null);
+
 		}
 
 	}
@@ -136,7 +140,7 @@ public class SelectionScreen extends Screen {
 	@Override
 	public void onLeave(AppScreen to) {
 		super.onLeave(to);
-		
+
 		List<String> dbs = getSelectedItems();
 		getStatusArea().setDatabases(dbs);
 		callback.accept(dbs);
@@ -161,14 +165,21 @@ public class SelectionScreen extends Screen {
 
 	}
 
+	private void initList() {
+		list.clear();
+
+		databases.stream().forEach(list::addElement);
+	}
+
 	private void reloadList(final String query) {
 
 		// Loads all objects from 'databases' into list if query is null
 		String realQuery = query != null ? query : "";
 
-		list.clear();
-
-		databases.stream().filter(db -> db.getTitle().contains(realQuery)).forEach(list::addElement);
+		for (int i = 0; i < list.getSize(); i++) {
+			CListItem item = list.getElementAt(i);
+			item.setVisible(item.getTitle().contains(realQuery));
+		}
 
 	}
 

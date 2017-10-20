@@ -20,9 +20,9 @@ public class StatusArea extends JPanel {
 	public StatusArea() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{1, 0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{1, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[] {1, 0, 1, 1, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		Component horizontalStrutLeft = Box.createHorizontalStrut(20);
@@ -56,7 +56,7 @@ public class StatusArea extends JPanel {
 		
 		lbDatabases = new JLabel();
 		GridBagConstraints gbc_lbDatabases = new GridBagConstraints();
-		gbc_lbDatabases.insets = new Insets(0, 0, 0, 5);
+		gbc_lbDatabases.insets = new Insets(0, 0, 5, 5);
 		gbc_lbDatabases.anchor = GridBagConstraints.WEST;
 		gbc_lbDatabases.gridx = 2;
 		gbc_lbDatabases.gridy = 2;
@@ -64,7 +64,7 @@ public class StatusArea extends JPanel {
 		
 		JLabel lblDatabases = new JLabel("Databases:");
 		GridBagConstraints gbc_lblDatabases = new GridBagConstraints();
-		gbc_lblDatabases.insets = new Insets(0, 0, 0, 5);
+		gbc_lblDatabases.insets = new Insets(0, 0, 5, 5);
 		gbc_lblDatabases.gridx = 1;
 		gbc_lblDatabases.gridy = 2;
 		add(lblDatabases, gbc_lblDatabases);
