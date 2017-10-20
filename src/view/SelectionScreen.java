@@ -6,17 +6,18 @@ import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import view.Display.AppScreen;
 import view.Display.MessageFatality;
 import view.atoms.CTextField;
 import view.atoms.KeyHandler;
 import view.atoms.KeyHandler.HandleTarget;
+import view.atoms.CFilteredListModel;
 import view.atoms.CListItem;
 import view.atoms.CSwitchArrow;
 import view.atoms.CSwitchArrow.MoveDirection;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
@@ -29,7 +30,7 @@ import javax.swing.Box;
 public class SelectionScreen extends Screen {
 
 	private List<CListItem> databases = new ArrayList<>();
-	private DefaultListModel<CListItem> list;
+	private CFilteredListModel<CListItem> list;
 	private JList<CListItem> jlist;
 	private CTextField filterField;
 
@@ -47,7 +48,7 @@ public class SelectionScreen extends Screen {
 		super.build();
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-		list = new DefaultListModel<>();
+		list = new CFilteredListModel<>();
 
 		filterField = new CTextField("database...");
 		filterField.setColumns(30);
@@ -179,31 +180,20 @@ public class SelectionScreen extends Screen {
 	}
 
 	private void reloadList(final String query) {
-
+		
 		// Loads all objects from 'databases' into list if query is null
 		String realQuery = query != null ? query : "";
-
-		for (int i = 0; i < list.getSize(); i++) {
-			CListItem item = list.getElementAt(i);
-			item.setVisible(item.getName().contains(realQuery));
-		}
-
-		jlist.revalidate();
-		jlist.repaint();
+		
+		list.filter(item -> item.getName().contains(realQuery));
 
 	}
 
 	private List<String> getSelectedItems() {
-		// Push selected databases to control
-		List<String> selected = new ArrayList<>();
-
-		for (int i = 0; i < list.getSize(); i++) {
-			CListItem item = list.getElementAt(i);
-			if (item.isSelected()) {
-				selected.add(item.getName());
-			}
-		}
-		return selected;
+		// Filter List of selected CListItems into List of strings
+		return list.getList().stream()
+				.filter(x -> x.isSelected())
+				.map(item -> item.getName())
+				.collect(Collectors.toList());
 	}
 
 }
