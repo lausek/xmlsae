@@ -162,5 +162,5 @@ public class Display extends JFrame {
 	public void notice(MessageFatality fatality, String message, String details) {
 		MessageDialog.display(this, fatality, message, details);
 	}
-
+	
 }

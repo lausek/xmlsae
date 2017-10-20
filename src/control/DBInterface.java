@@ -34,7 +34,13 @@ public class DBInterface {
 	public DBInterface(Connection connection) {
 		this.connection = connection;
 	}
-
+	
+	@Override
+	protected void finalize() throws Throwable {
+		super.finalize();
+		connection.logout();
+	}
+	
 	public Connection getConnection() {
 		return connection;
 	}
