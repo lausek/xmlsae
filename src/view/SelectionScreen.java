@@ -48,7 +48,7 @@ public class SelectionScreen extends Screen {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		list = new DefaultListModel<>();
-		
+
 		filterField = new CTextField("database...");
 		filterField.setColumns(30);
 		filterField.setMinimumSize(new java.awt.Dimension(240, 30));
@@ -64,6 +64,7 @@ public class SelectionScreen extends Screen {
 		jlist.addMouseListener(new java.awt.event.MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent obj) {
+				// TODO: this doesn't work even if the target object is still the same
 				int i = jlist.locationToIndex(obj.getPoint());
 				list.get(i).toggleSelection();
 				repaint();
@@ -89,7 +90,7 @@ public class SelectionScreen extends Screen {
 		add(Box.createVerticalStrut(20));
 		// avoid printing JPanels as String
 		jlist.setCellRenderer(new ListCellRenderer<CListItem>() {
-			
+
 			@Override
 			public Component getListCellRendererComponent(JList<? extends CListItem> list, CListItem value, int index,
 					boolean isSelected, boolean cellHasFocus) {
@@ -134,7 +135,7 @@ public class SelectionScreen extends Screen {
 			}
 
 			getStatusArea().setDatabases(null);
-			
+
 		} else {
 
 			reloadList(null);
@@ -186,7 +187,7 @@ public class SelectionScreen extends Screen {
 			CListItem item = list.getElementAt(i);
 			item.setVisible(item.getName().contains(realQuery));
 		}
-		
+
 		jlist.revalidate();
 		jlist.repaint();
 
