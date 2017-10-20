@@ -31,7 +31,6 @@ public class Connection {
 
 	private java.sql.Connection sqlConnection;
 	private String host, user;
-	private char[] password;
 
 	/**
 	 * 
@@ -46,11 +45,9 @@ public class Connection {
 
 		user = !parts[0].isEmpty() ? parts[0] : "root";
 		host = parts.length > 1 ? parts[1] : "localhost";
-		// TODO: should we really save that?
-		password = passwd;
 
 		logger.debug(user + "@" + host);
-		sqlConnection = DriverManager.getConnection("jdbc:mysql://" + host, user, password.toString());
+		sqlConnection = DriverManager.getConnection("jdbc:mysql://" + host, user, new String(passwd));
 
 	}
 

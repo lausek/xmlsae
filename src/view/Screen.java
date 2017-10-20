@@ -9,7 +9,6 @@ import javax.swing.JPanel;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import view.Display.AppScreen;
-import view.atoms.StatusArea;
 
 /**
  * Screens get managed by the Display class. Each screen has its own main
