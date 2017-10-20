@@ -7,8 +7,15 @@ import java.sql.Statement;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
+/**
+ * Symbolizes a connection to a mysql server. If a connection couldn't be
+ * established, a SQLException will be thrown.
+ * 
+ * @author lausek
+ *
+ */
 public class Connection {
-	
+
 	private static final String LOG4J_PATH = "properties/propertiesConnection.properties";
 	private static Logger logger;
 
@@ -23,15 +30,17 @@ public class Connection {
 	}
 
 	private java.sql.Connection sqlConnection;
-	private String host, user, password;
+	private String host, user;
+	private char[] password;
 
 	/**
 	 * 
 	 * @param host
+	 *            A host string in form <username>@<url>:<port>
 	 * @param passwd
 	 * @throws Exception
 	 */
-	public Connection(String hostString, String passwd) throws SQLException {
+	public Connection(String hostString, char[] passwd) throws SQLException {
 
 		String[] parts = hostString.split("@");
 
@@ -40,8 +49,8 @@ public class Connection {
 		// TODO: should we really save that?
 		password = passwd;
 
-		logger.debug(user+"@"+host);
-		sqlConnection = DriverManager.getConnection("jdbc:mysql://" + host, user, password);
+		logger.debug(user + "@" + host);
+		sqlConnection = DriverManager.getConnection("jdbc:mysql://" + host, user, password.toString());
 
 	}
 
@@ -64,9 +73,9 @@ public class Connection {
 	public String getUser() {
 		return user;
 	}
-	
+
 	public String getHostString() {
 		return user + "@" + host;
 	}
-	
+
 }

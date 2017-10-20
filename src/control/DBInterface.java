@@ -8,6 +8,13 @@ import org.apache.log4j.*;
 
 import model.ExportSettings;
 
+/**
+ * Class for interacting with the database. This object obtains an established
+ * Connection and executes import and export tasks.
+ * 
+ * @author lausek
+ *
+ */
 public class DBInterface {
 
 	private static final String LOG4J_PATH = "properties/propertiesDBI.properties";
@@ -27,7 +34,7 @@ public class DBInterface {
 	public DBInterface(Connection connection) {
 		this.connection = connection;
 	}
-	
+
 	public Connection getConnection() {
 		return connection;
 	}

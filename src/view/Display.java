@@ -12,6 +12,13 @@ import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * An object for managing Screens. The currently displayed screen can be changed
+ * by calling setScreen with a AppScreen id.
+ * 
+ * @author lausek
+ *
+ */
 @SuppressWarnings("serial")
 public class Display extends JFrame {
 

@@ -68,7 +68,7 @@ public class Control {
 		return dataInterface;
 	}
 
-	// TODO: not used yet; check if needed
+	// Will be used by ImportScreen and ExportScreen
 	public List<String> getSelectedDB() {
 		return databases;
 	}

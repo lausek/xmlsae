@@ -16,6 +16,12 @@ import view.Display.AppScreen;
 import view.atoms.CSwitchArrow;
 import view.atoms.CSwitchArrow.MoveDirection;
 
+/**
+ * Screen for choosing between import and export.
+ * 
+ * @author lausek
+ *
+ */
 @SuppressWarnings("serial")
 public class ActionScreen extends Screen implements ActionListener {
 	

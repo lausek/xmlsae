@@ -8,15 +8,14 @@ import javax.swing.DefaultListModel;
 
 /**
  * Custom ListModel with filter logic. You can call method filter to modify the
- * displayed list items. All visible list items can be obtained by getDisplayedList 
- * while getList also returns every hidden element.
+ * displayed list items. All visible list items can be obtained by
+ * getDisplayedList while getList also returns every hidden element.
  * 
  * @author lausek
  *
  * @param <T>
  *            A list item of type CListItem
  */
-
 @SuppressWarnings("serial")
 public class CFilteredListModel<T extends CListItem> extends DefaultListModel<T> {
 

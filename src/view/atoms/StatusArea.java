@@ -12,6 +12,15 @@ import java.awt.Dimension;
 
 import javax.swing.Box;
 
+/**
+ * 
+ * General display object for holding the currently established connection 
+ * and which databases have been selected by the user. This object will 
+ * be automatically added to Screen in addNavbar method.
+ * 
+ * @author lausek
+ *
+ */
 @SuppressWarnings("serial")
 public class StatusArea extends JPanel {
 	

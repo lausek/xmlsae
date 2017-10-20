@@ -25,6 +25,12 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.BoxLayout;
 import javax.swing.Box;
 
+/**
+ * Screen for selecting on which databases an operation should be performed.
+ * 
+ * @author lausek
+ *
+ */
 @SuppressWarnings("serial")
 public class SelectionScreen extends Screen {
 
@@ -137,7 +143,8 @@ public class SelectionScreen extends Screen {
 			} catch (SQLException e) {
 				display.notice(MessageFatality.ERROR, "Couldn't fetch databases from server");
 			}
-
+			
+			// No databases selected yet -> reset
 			getStatusArea().setDatabases(null);
 
 		} else {

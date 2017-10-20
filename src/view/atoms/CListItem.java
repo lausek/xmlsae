@@ -14,6 +14,12 @@ import javax.swing.SwingConstants;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 
+/**
+ * A custom panel that is used for displaying databases on SelectionScreen.
+ * 
+ * @author lausek
+ *
+ */
 @SuppressWarnings("serial")
 public class CListItem extends JPanel {
 
