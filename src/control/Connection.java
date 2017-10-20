@@ -41,7 +41,6 @@ public class Connection {
 		password = passwd;
 
 		logger.debug(user+"@"+host);
-		//TODO: use some default host etc. if null ?
 		sqlConnection = DriverManager.getConnection("jdbc:mysql://" + host, user, password);
 
 	}
@@ -65,5 +64,9 @@ public class Connection {
 	public String getUser() {
 		return user;
 	}
-
+	
+	public String getHostString() {
+		return user + "@" + host;
+	}
+	
 }

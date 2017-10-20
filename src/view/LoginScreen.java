@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 import control.Connection;
 
@@ -88,11 +89,19 @@ public class LoginScreen extends Screen {
 		try {
 			String pw = new String(tfPassword.getPassword());
 			final Connection con = new Connection(tfUser.getText(), pw);
+			
+			getStatusArea().setUsername(con.getHostString());
+			
 			callback.accept(con);
 		} catch (SQLException e) {
 			display.notice(MessageFatality.ERROR, "Connection couldn't be established", e.getMessage());
 		}
 
+	}
+	
+	@Override
+	public void addNavbar(JPanel navbar) {
+		// Screen would add StatusArea, but we don't want that on LoginScreen
 	}
 
 }

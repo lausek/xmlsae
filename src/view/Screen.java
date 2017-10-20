@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.function.Consumer;
@@ -8,6 +9,7 @@ import javax.swing.JPanel;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import view.Display.AppScreen;
+import view.atoms.StatusArea;
 
 /**
  * Screens get managed by the Display class. Each screen has its own main
@@ -21,10 +23,16 @@ import view.Display.AppScreen;
  */
 @SuppressWarnings("serial")
 public class Screen extends JPanel implements ActionListener {
-
+		
 	protected Display display;
 	protected Consumer<Object> callback;
-
+	
+	private static StatusArea status;
+	
+	static {
+		status = new StatusArea();
+	}
+	
 	public Screen(Display display) {
 		this.display = display;
 		this.build();
@@ -49,6 +57,7 @@ public class Screen extends JPanel implements ActionListener {
 	 * Add navigation icons to main frame
 	 */
 	public void addNavbar(JPanel navbar) {
+		navbar.add(status, BorderLayout.CENTER);
 	}
 	
 	/**
@@ -82,5 +91,9 @@ public class Screen extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 	}
-
+	
+	protected StatusArea getStatusArea() {
+		return status;
+	}
+	
 }

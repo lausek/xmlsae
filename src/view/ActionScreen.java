@@ -10,9 +10,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import view.Display.AppScreen;
 import view.atoms.CSwitchArrow;
@@ -21,19 +19,12 @@ import view.atoms.CSwitchArrow.MoveDirection;
 @SuppressWarnings("serial")
 public class ActionScreen extends Screen implements ActionListener {
 	
-	private JTextField tfUserLog;
-	private JTextField tf_choosedDB;
-	private JLabel labelUserLog;
-	private JLabel label_choosedDB;
-	
 	public ActionScreen(Display display) {
 		super(display);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public AppScreen getScreenId() {
-		// TODO Auto-generated method stub
 		return AppScreen.SELECT_ACTION;
 		
 	}
@@ -83,26 +74,6 @@ public class ActionScreen extends Screen implements ActionListener {
 
 		CSwitchArrow backArrow = new CSwitchArrow(display, AppScreen.SELECT_DB, MoveDirection.LEFT);
 		navbar.add(backArrow, BorderLayout.WEST);
-		
-		JPanel LogData = new JPanel();
-		
-		labelUserLog = new JLabel("Benutzer:");
-		LogData.add(labelUserLog);
-		
-		//TODO: add textfield for logged user and DB
-		tfUserLog = new JTextField();
-		tfUserLog.setEditable(false);
-		tfUserLog.setColumns(10);
-		LogData.add(tfUserLog);
-		
-		label_choosedDB = new JLabel("Datenbank:");
-		LogData.add(label_choosedDB);
-		navbar.add(LogData, BorderLayout.CENTER);
-		
-		tf_choosedDB = new JTextField();
-		tf_choosedDB.setEditable(false);
-		tf_choosedDB.setColumns(10);
-		LogData.add(tf_choosedDB);
 		
 	}
 	

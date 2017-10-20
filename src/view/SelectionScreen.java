@@ -127,6 +127,8 @@ public class SelectionScreen extends Screen {
 			} catch (SQLException e) {
 				display.notice(MessageFatality.ERROR, "Couldn't fetch databases from server");
 			}
+			
+			getStatusArea().setDatabases(null);
 		}
 
 	}
@@ -134,9 +136,10 @@ public class SelectionScreen extends Screen {
 	@Override
 	public void onLeave(AppScreen to) {
 		super.onLeave(to);
-
-		// jlist.getSelectedValuesList().forEach(item -> selected.add(item.getName()));
-		callback.accept(getSelectedItems());
+		
+		List<String> dbs = getSelectedItems();
+		getStatusArea().setDatabases(dbs);
+		callback.accept(dbs);
 	}
 
 	@Override
@@ -176,7 +179,7 @@ public class SelectionScreen extends Screen {
 		for (int i = 0; i < list.getSize(); i++) {
 			CListItem item = list.getElementAt(i);
 			if (item.isSelected()) {
-				selected.add(item.getName());
+				selected.add(item.getTitle());
 			}
 		}
 		return selected;
