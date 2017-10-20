@@ -18,15 +18,16 @@ import javax.swing.ImageIcon;
 @SuppressWarnings("serial")
 public class CListItem extends JPanel {
 
-	private final int WIDTH = 100;
-	private final int HEIGHT = 40;
-	private final Color COLOR_SELECTED = new Color(255, 156, 20);
-	private final Color COLOR_DESELECTED = new Color(100, true);
+	public static final Color COLOR_SELECTED = new Color(255, 156, 20);
+	public static final Color COLOR_DESELECTED = new Color(100, true);
+
+	private static final int WIDTH = 100;
+	private static final int HEIGHT = 40;
+	
+	private static ImageIcon icon;
 
 	private boolean selected;
 	private JLabel nameLabel;
-
-	private static ImageIcon icon;
 
 	static {
 		try {
@@ -65,12 +66,6 @@ public class CListItem extends JPanel {
 
 	public void toggleSelection() {
 		selected = !selected;
-		
-		if (selected) {
-			setBackground(COLOR_SELECTED);
-		} else {
-			setBackground(COLOR_DESELECTED);
-		}
 	}
 
 	public boolean isSelected() {
@@ -79,11 +74,6 @@ public class CListItem extends JPanel {
 
 	public String getTitle() {
 		return nameLabel.getText();
-	}
-
-	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
 	}
 
 	@Override

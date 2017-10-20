@@ -48,7 +48,7 @@ public class SelectionScreen extends Screen {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		list = new DefaultListModel<>();
-
+		
 		filterField = new CTextField("database...");
 		filterField.setColumns(30);
 		filterField.setMinimumSize(new java.awt.Dimension(240, 30));
@@ -89,10 +89,15 @@ public class SelectionScreen extends Screen {
 		add(Box.createVerticalStrut(20));
 		// avoid printing JPanels as String
 		jlist.setCellRenderer(new ListCellRenderer<CListItem>() {
-
+			
 			@Override
 			public Component getListCellRendererComponent(JList<? extends CListItem> list, CListItem value, int index,
 					boolean isSelected, boolean cellHasFocus) {
+				if (value.isSelected()) {
+					value.setBackground(CListItem.COLOR_SELECTED);
+				} else {
+					value.setBackground(CListItem.COLOR_DESELECTED);
+				}
 				return value;
 			}
 
@@ -129,6 +134,7 @@ public class SelectionScreen extends Screen {
 			}
 
 			getStatusArea().setDatabases(null);
+			
 		} else {
 
 			reloadList(null);
@@ -180,6 +186,9 @@ public class SelectionScreen extends Screen {
 			CListItem item = list.getElementAt(i);
 			item.setVisible(item.getTitle().contains(realQuery));
 		}
+		
+		jlist.revalidate();
+		jlist.repaint();
 
 	}
 
