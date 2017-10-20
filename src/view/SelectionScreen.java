@@ -184,7 +184,7 @@ public class SelectionScreen extends Screen {
 
 		for (int i = 0; i < list.getSize(); i++) {
 			CListItem item = list.getElementAt(i);
-			item.setVisible(item.getTitle().contains(realQuery));
+			item.setVisible(item.getName().contains(realQuery));
 		}
 		
 		jlist.revalidate();
@@ -199,7 +199,7 @@ public class SelectionScreen extends Screen {
 		for (int i = 0; i < list.getSize(); i++) {
 			CListItem item = list.getElementAt(i);
 			if (item.isSelected()) {
-				selected.add(item.getTitle());
+				selected.add(item.getName());
 			}
 		}
 		return selected;

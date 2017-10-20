@@ -2,7 +2,6 @@ package view.atoms;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -23,7 +22,7 @@ public class CListItem extends JPanel {
 
 	private static final int WIDTH = 100;
 	private static final int HEIGHT = 40;
-	
+
 	private static ImageIcon icon;
 
 	private boolean selected;
@@ -57,7 +56,7 @@ public class CListItem extends JPanel {
 
 		nameLabel = new JLabel(name);
 		add(nameLabel);
-		
+
 		// Make everything deselected
 		selected = true;
 		// toggleSelection makes 'selected' false
@@ -72,7 +71,7 @@ public class CListItem extends JPanel {
 		return selected;
 	}
 
-	public String getTitle() {
+	public String getName() {
 		return nameLabel.getText();
 	}
 

@@ -8,12 +8,15 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Component;
+import java.awt.Dimension;
+
 import javax.swing.Box;
 
 @SuppressWarnings("serial")
 public class StatusArea extends JPanel {
 	
-	private static final String DB_DEFAULT = "None";
+	private static final String DB_DEFAULT = "-";
+	private static final Dimension MAXIMUM_SIZE = new Dimension(300, 20);
 	
 	private JLabel lbUsername, lbDatabases;
 	
@@ -45,6 +48,8 @@ public class StatusArea extends JPanel {
 		gbc_lbUsername.anchor = GridBagConstraints.WEST;
 		gbc_lbUsername.gridx = 2;
 		gbc_lbUsername.gridy = 1;
+		lbUsername.setPreferredSize(MAXIMUM_SIZE);
+		lbUsername.setMaximumSize(MAXIMUM_SIZE);
 		add(lbUsername, gbc_lbUsername);
 		
 		Component horizontalStrutRight = Box.createHorizontalStrut(20);
@@ -60,6 +65,8 @@ public class StatusArea extends JPanel {
 		gbc_lbDatabases.anchor = GridBagConstraints.WEST;
 		gbc_lbDatabases.gridx = 2;
 		gbc_lbDatabases.gridy = 2;
+		lbDatabases.setPreferredSize(MAXIMUM_SIZE);
+		lbDatabases.setMaximumSize(MAXIMUM_SIZE);
 		add(lbDatabases, gbc_lbDatabases);
 		
 		JLabel lblDatabases = new JLabel("Databases:");
@@ -76,10 +83,14 @@ public class StatusArea extends JPanel {
 	
 	public void setUsername(String user) {
 		lbUsername.setText(user);
+		lbUsername.setToolTipText(user);
 	}
 	
 	public void setDatabases(List<String> dbs) {
-		lbDatabases.setText(dbs == null ? DB_DEFAULT : String.join(", ", dbs));
+		String text = dbs == null ? DB_DEFAULT : String.join(", ", dbs);
+		
+		lbDatabases.setText(text);
+		lbDatabases.setToolTipText(text);
 	}
 	
 }
