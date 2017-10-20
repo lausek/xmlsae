@@ -14,13 +14,13 @@ import java.io.IOException;
 
 @SuppressWarnings("serial")
 public class Display extends JFrame {
-	
+
 	public static final int SCREEN_WIDTH = 600;
 	public static final int SCREEN_HEIGHT = 400;
 	public static final int SCREEN_COUNT = AppScreen.values().length;
-	
+
 	private static Image appIcon = null;
-	
+
 	static {
 		try {
 			appIcon = javax.imageio.ImageIO.read(new File("media/img/app_128x128.png"));
@@ -28,7 +28,7 @@ public class Display extends JFrame {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public enum MessageFatality {
 		INFO, SUCCESS, WARNING, ERROR
 	}
@@ -41,11 +41,11 @@ public class Display extends JFrame {
 	private Screen currentScreen;
 	private Screen[] screens;
 	private Control parent;
-	
+
 	public static Image getAppIcon() {
 		return appIcon;
 	}
-	
+
 	public Display(Control parent) {
 		this.parent = parent;
 
@@ -55,7 +55,7 @@ public class Display extends JFrame {
 		screens[AppScreen.LOGIN.ordinal()] = new LoginScreen(this);
 		screens[AppScreen.SELECT_DB.ordinal()] = new SelectionScreen(this);
 		screens[AppScreen.SELECT_ACTION.ordinal()] = new ActionScreen(this);
-		screens[AppScreen.IMPORT.ordinal()] = new ImportScreen(this);	
+		screens[AppScreen.IMPORT.ordinal()] = new ImportScreen(this);
 		screens[AppScreen.EXPORT.ordinal()] = new ExportScreen(this);
 
 		getContentPane().setLayout(new java.awt.BorderLayout(0, 0));
@@ -83,9 +83,9 @@ public class Display extends JFrame {
 		setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
+
 		setIconImage(appIcon);
-			
+
 		setVisible(true);
 	}
 
@@ -111,7 +111,7 @@ public class Display extends JFrame {
 			currentScreen.onLeave(screen);
 			// Save screen id for next onEnter call
 			oldScreenId = currentScreen.getScreenId();
-			
+
 			// Remove old center component
 			BorderLayout layout = (BorderLayout) mainPanel.getLayout();
 			mainPanel.remove(layout.getLayoutComponent(BorderLayout.CENTER));
@@ -131,9 +131,9 @@ public class Display extends JFrame {
 
 		repaint();
 		revalidate();
-		
+
 		currentScreen = selected;
-		
+
 		return currentScreen;
 	}
 
