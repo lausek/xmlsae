@@ -47,7 +47,6 @@ public class CListItem extends JPanel {
 	}
 
 	public CListItem(String name) {
-		selected = false;
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
 		// TODO: add alternative path if icon is null
@@ -57,18 +56,21 @@ public class CListItem extends JPanel {
 
 		nameLabel = new JLabel(name);
 		add(nameLabel);
-
+		
+		// Make everything deselected
+		selected = true;
+		// toggleSelection makes 'selected' false
 		toggleSelection();
 	}
 
 	public void toggleSelection() {
+		selected = !selected;
+		
 		if (selected) {
 			setBackground(COLOR_SELECTED);
 		} else {
 			setBackground(COLOR_DESELECTED);
 		}
-
-		selected = !selected;
 	}
 
 	public boolean isSelected() {

@@ -135,10 +135,8 @@ public class SelectionScreen extends Screen {
 	public void onLeave(AppScreen to) {
 		super.onLeave(to);
 
-		// Push selected databases to control
-		List<String> selected = new ArrayList<>();
-		jlist.getSelectedValuesList().forEach(item -> selected.add(item.getName()));
-		callback.accept(selected);
+		// jlist.getSelectedValuesList().forEach(item -> selected.add(item.getName()));
+		callback.accept(getSelectedItems());
 	}
 
 	@Override
@@ -150,7 +148,7 @@ public class SelectionScreen extends Screen {
 
 		CSwitchArrow forwardArrow = new CSwitchArrow(display, AppScreen.SELECT_ACTION, MoveDirection.RIGHT);
 		forwardArrow.setCondition(x -> {
-			if (jlist.getSelectedIndices().length == 0) {
+			if (getSelectedItems().size() == 0) {
 				display.notice(MessageFatality.ERROR, "You have to select at least one database.");
 				return false;
 			}
@@ -169,6 +167,19 @@ public class SelectionScreen extends Screen {
 
 		databases.stream().filter(db -> db.getTitle().contains(realQuery)).forEach(list::addElement);
 
+	}
+
+	private List<String> getSelectedItems() {
+		// Push selected databases to control
+		List<String> selected = new ArrayList<>();
+
+		for (int i = 0; i < list.getSize(); i++) {
+			CListItem item = list.getElementAt(i);
+			if (item.isSelected()) {
+				selected.add(item.getName());
+			}
+		}
+		return selected;
 	}
 
 }

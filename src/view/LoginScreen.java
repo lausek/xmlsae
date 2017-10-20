@@ -2,7 +2,6 @@ package view;
 
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
-import java.util.function.Consumer;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
