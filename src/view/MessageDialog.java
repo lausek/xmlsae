@@ -36,6 +36,7 @@ public class MessageDialog {
 		frame.setSize(NORMAL_SIZE);
 		frame.setResizable(false);
 		frame.setIconImage(Display.getAppIcon());
+		frame.setAlwaysOnTop(true);
 
 		JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		frame.getContentPane().add(actionPanel, BorderLayout.SOUTH);
@@ -101,6 +102,7 @@ public class MessageDialog {
 		if (details == null) {
 			detailsButton.setVisible(false);
 		} else {
+			detailsButton.setVisible(true);
 			detailsArea.setText(details);
 		}
 		

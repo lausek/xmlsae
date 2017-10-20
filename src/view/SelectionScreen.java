@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +28,6 @@ import javax.swing.Box;
 @SuppressWarnings("serial")
 public class SelectionScreen extends Screen {
 
-	private List<CListItem> databases = new ArrayList<>();
 	private CFilteredListModel<CListItem> list;
 	private JList<CListItem> jlist;
 	private CTextField filterField;
@@ -60,24 +58,26 @@ public class SelectionScreen extends Screen {
 		add(filterField);
 
 		jlist = new JList<>();
-		jlist.setVisibleRowCount(6);
 		jlist.setModel(list);
 		jlist.addMouseListener(new java.awt.event.MouseListener() {
 			private CListItem selected;
-			
+
 			private CListItem getSelected(MouseEvent event) {
 				int i = jlist.locationToIndex(event.getPoint());
 				return list.get(i);
 			}
-			
-			@Override
-			public void mouseClicked(MouseEvent event) { }
 
 			@Override
-			public void mouseEntered(MouseEvent event) { }
+			public void mouseClicked(MouseEvent event) {
+			}
 
 			@Override
-			public void mouseExited(MouseEvent event) { }
+			public void mouseEntered(MouseEvent event) {
+			}
+
+			@Override
+			public void mouseExited(MouseEvent event) {
+			}
 
 			@Override
 			public void mousePressed(MouseEvent event) {
@@ -87,7 +87,8 @@ public class SelectionScreen extends Screen {
 			@Override
 			public void mouseReleased(MouseEvent event) {
 				CListItem item = getSelected(event);
-				if(item == selected) {
+				// Is item of event the same on which mousePress started?
+				if (item == selected) {
 					item.toggleSelection();
 					repaint();
 				}
@@ -127,14 +128,9 @@ public class SelectionScreen extends Screen {
 		// If this screen gets reentered, clean up
 		filterField.setText("");
 		if (from == AppScreen.LOGIN) {
-			// ...but only clean up databases if user reconnected
-			databases.clear();
 
 			// Load available databases from SQL server
 			try {
-
-				// Fetch database names from server and translate into a list of CListItems
-				display.getControl().getInterface().getDatabases().forEach(db -> databases.add(new CListItem(db)));
 
 				initList();
 
@@ -156,6 +152,7 @@ public class SelectionScreen extends Screen {
 	public void onLeave(AppScreen to) {
 		super.onLeave(to);
 
+		// Set databases in StatusArea and push selected databases to Control
 		List<String> dbs = getSelectedItems();
 		getStatusArea().setDatabases(dbs);
 		callback.accept(dbs);
@@ -167,7 +164,8 @@ public class SelectionScreen extends Screen {
 
 		CSwitchArrow backArrow = new CSwitchArrow(display, AppScreen.LOGIN, MoveDirection.LEFT);
 		navbar.add(backArrow, BorderLayout.WEST);
-
+		
+		// Only allow move to ActionScreen if at least one database was selected
 		CSwitchArrow forwardArrow = new CSwitchArrow(display, AppScreen.SELECT_ACTION, MoveDirection.RIGHT);
 		forwardArrow.setCondition(x -> {
 			if (getSelectedItems().size() == 0) {
@@ -179,27 +177,27 @@ public class SelectionScreen extends Screen {
 		navbar.add(forwardArrow, BorderLayout.EAST);
 
 	}
-
-	private void initList() {
+	
+	private void initList() throws SQLException {
+		// ...but only clean up databases if user reconnected
 		list.clear();
-
-		databases.stream().forEach(list::addElement);
+		
+		// Fetch database names from server and translate into a list of CListItems
+		display.getControl().getInterface().getDatabases().forEach(db -> list.addElement(new CListItem(db)));
 	}
 
 	private void reloadList(final String query) {
-		
+
 		// Loads all objects from 'databases' into list if query is null
 		String realQuery = query != null ? query : "";
-		
+
 		list.filter(item -> item.getName().contains(realQuery));
 
 	}
 
 	private List<String> getSelectedItems() {
 		// Filter List of selected CListItems into List of strings
-		return list.getList().stream()
-				.filter(x -> x.isSelected())
-				.map(item -> item.getName())
+		return list.getList().stream().filter(x -> x.isSelected()).map(item -> item.getName())
 				.collect(Collectors.toList());
 	}
 
