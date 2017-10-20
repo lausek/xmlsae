@@ -36,7 +36,7 @@ public class StatusArea extends JPanel {
 		GridBagConstraints gbc_lblUsername = new GridBagConstraints();
 		gbc_lblUsername.insets = new Insets(0, 0, 5, 5);
 		gbc_lblUsername.gridx = 1;
-		gbc_lblUsername.gridy = 0;
+		gbc_lblUsername.gridy = 1;
 		add(lblUsername, gbc_lblUsername);
 		
 		lbUsername = new JLabel();
@@ -44,7 +44,7 @@ public class StatusArea extends JPanel {
 		gbc_lbUsername.insets = new Insets(0, 0, 5, 5);
 		gbc_lbUsername.anchor = GridBagConstraints.WEST;
 		gbc_lbUsername.gridx = 2;
-		gbc_lbUsername.gridy = 0;
+		gbc_lbUsername.gridy = 1;
 		add(lbUsername, gbc_lbUsername);
 		
 		Component horizontalStrutRight = Box.createHorizontalStrut(20);
