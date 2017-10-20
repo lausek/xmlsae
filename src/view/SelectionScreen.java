@@ -63,28 +63,35 @@ public class SelectionScreen extends Screen {
 		jlist.setVisibleRowCount(6);
 		jlist.setModel(list);
 		jlist.addMouseListener(new java.awt.event.MouseListener() {
+			private CListItem selected;
+			
+			private CListItem getSelected(MouseEvent event) {
+				int i = jlist.locationToIndex(event.getPoint());
+				return list.get(i);
+			}
+			
 			@Override
-			public void mouseClicked(MouseEvent obj) {
-				// TODO: this doesn't work even if the target object is still the same
-				int i = jlist.locationToIndex(obj.getPoint());
-				list.get(i).toggleSelection();
-				repaint();
+			public void mouseClicked(MouseEvent event) { }
+
+			@Override
+			public void mouseEntered(MouseEvent event) { }
+
+			@Override
+			public void mouseExited(MouseEvent event) { }
+
+			@Override
+			public void mousePressed(MouseEvent event) {
+				selected = getSelected(event);
 			}
 
 			@Override
-			public void mouseEntered(MouseEvent arg0) {
-			}
-
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-			}
-
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
+			public void mouseReleased(MouseEvent event) {
+				CListItem item = getSelected(event);
+				if(item == selected) {
+					item.toggleSelection();
+					repaint();
+				}
+				selected = null;
 			}
 		});
 
