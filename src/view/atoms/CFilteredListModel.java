@@ -6,6 +6,17 @@ import java.util.function.Predicate;
 
 import javax.swing.DefaultListModel;
 
+/**
+ * Custom ListModel with filter logic. You can call method filter to modify the
+ * displayed list items. All visible list items can be obtained by getDisplayedList 
+ * while getList also returns every hidden element.
+ * 
+ * @author lausek
+ *
+ * @param <T>
+ *            A list item of type CListItem
+ */
+
 @SuppressWarnings("serial")
 public class CFilteredListModel<T extends CListItem> extends DefaultListModel<T> {
 
@@ -40,9 +51,10 @@ public class CFilteredListModel<T extends CListItem> extends DefaultListModel<T>
 
 		hiddenBuffer.addAll(nextHiddenBuffer);
 	}
-	
+
 	/**
 	 * This list contains all items that are currently displayed.
+	 * 
 	 * @return
 	 */
 	public List<T> getDisplayedList() {
@@ -52,49 +64,19 @@ public class CFilteredListModel<T extends CListItem> extends DefaultListModel<T>
 		}
 		return buffer;
 	}
-	
+
 	/**
-	 * This returns every element that could be in the list
-	 * even if it is currently not displayed.
+	 * This returns every element that could be in the list even if it is currently
+	 * not displayed.
+	 * 
 	 * @return
 	 */
 	public List<T> getList() {
 		List<T> buffer = getDisplayedList();
-		if(hiddenBuffer != null) {
+		if (hiddenBuffer != null) {
 			buffer.addAll(hiddenBuffer);
 		}
 		return buffer;
-	}
- 
-	public static void main(String[] args) {
-		CFilteredListModel<CListItem> list = new CFilteredListModel<>();
-
-		for (int i = 1; i <= 20; i++) {
-			list.addElement(new CListItem("" + i));
-		}
-
-		list.filter(x -> x.getName().contains("1"));
-		for (CListItem item : list.getDisplayedList()) {
-			System.out.print(item.getName());
-			System.out.println(", ");
-		}
-
-		System.out.println("--------");
-
-		list.filter(x -> x.getName().contains("2"));
-		for (CListItem item : list.getDisplayedList()) {
-			System.out.print(item.getName());
-			System.out.println(", ");
-		}
-
-		System.out.println("--------");
-
-		list.filter(x -> x.getName().contains("1"));
-		for (CListItem item : list.getDisplayedList()) {
-			System.out.print(item.getName());
-			System.out.println(", ");
-		}
-
 	}
 
 }
