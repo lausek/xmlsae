@@ -1,12 +1,18 @@
 package model;
 
+/**
+ * Class for customizing export process.
+ * 
+ * @author lausek
+ *
+ */
 public class ExportSettings {
 
 	private boolean isDefinitionRequired;
 	private boolean isDataRequired;
 
 	/**
-	 * 
+	 * Do we need to export definitions? (Tables, Views, Procedures, Triggers...)
 	 * @return
 	 */
 	public boolean isDefinitionRequired() {
@@ -22,7 +28,7 @@ public class ExportSettings {
 	}
 
 	/**
-	 * 
+	 * Do we need to export data? (Tables only)
 	 * @return
 	 */
 	public boolean isDataRequired() {
