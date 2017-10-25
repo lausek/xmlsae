@@ -2,7 +2,6 @@ package view.atoms;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -15,23 +14,29 @@ import javax.swing.SwingConstants;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 
+/**
+ * A custom panel that is used for displaying databases on SelectionScreen.
+ * 
+ * @author lausek
+ *
+ */
 @SuppressWarnings("serial")
 public class CListItem extends JPanel {
 
-	private final int WIDTH = 100;
-	private final int HEIGHT = 40;
-	private final Color COLOR_SELECTED = Color.LIGHT_GRAY;
-	private final Color COLOR_DESELECTED = new Color(100, true);
+	public static final Color COLOR_SELECTED = new Color(255, 156, 20);
+	public static final Color COLOR_DESELECTED = new Color(100, true);
+
+	private static final int WIDTH = 100;
+	private static final int HEIGHT = 40;
+
+	private static ImageIcon icon;
 
 	private boolean selected;
 	private JLabel nameLabel;
 
-	private static ImageIcon icon;
-
 	static {
 		try {
-			// TODO: replace this crappy image
-			Image img = javax.imageio.ImageIO.read(new java.io.File("media/img/db_64x64.png")).getScaledInstance(32, 32,
+			Image img = javax.imageio.ImageIO.read(new java.io.File("media/img/db_48x48.png")).getScaledInstance(32, 32,
 					Image.SCALE_DEFAULT);
 			// Create buffered version of this image (add alpha too)
 			BufferedImage buffer = new BufferedImage(32, 32, BufferedImage.TYPE_INT_ARGB);
@@ -48,7 +53,6 @@ public class CListItem extends JPanel {
 	}
 
 	public CListItem(String name) {
-		selected = false;
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
 		// TODO: add alternative path if icon is null
@@ -59,16 +63,13 @@ public class CListItem extends JPanel {
 		nameLabel = new JLabel(name);
 		add(nameLabel);
 
+		// Make everything deselected
+		selected = true;
+		// toggleSelection makes 'selected' false
 		toggleSelection();
 	}
 
 	public void toggleSelection() {
-		if (selected) {
-			setBackground(COLOR_SELECTED);
-		} else {
-			setBackground(COLOR_DESELECTED);
-		}
-
 		selected = !selected;
 	}
 
@@ -76,13 +77,8 @@ public class CListItem extends JPanel {
 		return selected;
 	}
 
-	public String getTitle() {
+	public String getName() {
 		return nameLabel.getText();
-	}
-
-	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
 	}
 
 	@Override

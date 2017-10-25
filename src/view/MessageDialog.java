@@ -21,6 +21,13 @@ import javax.swing.ScrollPaneConstants;
 
 import view.Display.MessageFatality;
 
+/**
+ * A custom dialog for displaying program erros, warnings and infos. Everything
+ * will be on one frame. Dialogs are not stackable.
+ * 
+ * @author lausek
+ *
+ */
 public class MessageDialog {
 
 	private static final Dimension NORMAL_SIZE = new Dimension(400, 140);
@@ -37,6 +44,8 @@ public class MessageDialog {
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.setSize(NORMAL_SIZE);
 		frame.setResizable(false);
+		frame.setIconImage(Display.getAppIcon());
+		frame.setAlwaysOnTop(true);
 
 		JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		frame.getContentPane().add(actionPanel, BorderLayout.SOUTH);
@@ -110,9 +119,10 @@ public class MessageDialog {
 		if (details == null) {
 			detailsButton.setVisible(false);
 		} else {
+			detailsButton.setVisible(true);
 			detailsArea.setText(details);
 		}
-		
+
 		Icon nextIcon;
 		switch (fatality) {
 		case SUCCESS:
@@ -129,7 +139,7 @@ public class MessageDialog {
 			nextIcon = UIManager.getIcon("OptionPane.informationIcon");
 			break;
 		}
-		
+
 		iconLabel.setIcon(nextIcon);
 
 		frame.setVisible(true);

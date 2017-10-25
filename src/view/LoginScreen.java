@@ -1,12 +1,12 @@
 package view;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.util.function.Consumer;
+import java.util.Arrays;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 import control.Connection;
 
@@ -22,12 +22,18 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import javax.swing.Box;
 
+/**
+ * A Screen child for login into a mysql server. If login is successful, this
+ * object calls callback with a Connection object.
+ * 
+ * @author wn00086506
+ *
+ */
 @SuppressWarnings("serial")
-public class LoginScreen extends Screen implements ActionListener {
-	
+public class LoginScreen extends Screen {
+
 	private static final int TF_WIDTH = 150;
-	
-	private Consumer<Object> callback;
+
 	private CTextField tfUser;
 	private CPasswordField tfPassword;
 
@@ -50,22 +56,22 @@ public class LoginScreen extends Screen implements ActionListener {
 				this.actionPerformed(null);
 			}
 		});
-		
+
 		setLayout(new BorderLayout(0, 0));
-		
+
 		Box verticalBox = new Box(BoxLayout.Y_AXIS);
 		verticalBox.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		verticalBox.add(Box.createVerticalGlue());
-		
+
 		tfUser = new CTextField("user@host...");
 		tfUser.setColumns(16);
 		tfUser.addKeyListener(keyHandler);
 		tfUser.setMinimumSize(new java.awt.Dimension(TF_WIDTH, 30));
 		tfUser.setMaximumSize(new java.awt.Dimension(TF_WIDTH, 30));
 		verticalBox.add(tfUser);
-		
+
 		verticalBox.add(Box.createVerticalStrut(20));
-		
+
 		tfPassword = new CPasswordField("password...");
 		tfPassword.setColumns(16);
 		tfPassword.addKeyListener(keyHandler);
@@ -74,33 +80,41 @@ public class LoginScreen extends Screen implements ActionListener {
 		verticalBox.add(tfPassword);
 
 		verticalBox.add(Box.createVerticalStrut(20));
-		
+
 		JButton btnLogin = new JButton("Login");
 		btnLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnLogin.addActionListener(this);
 		verticalBox.add(btnLogin);
-		
-		verticalBox.add(Box.createVerticalGlue());
-		
-		add(verticalBox);
-	}
 
-	@Override
-	public void setCallback(Consumer<Object> action) {
-		callback = action;
+		verticalBox.add(Box.createVerticalGlue());
+
+		add(verticalBox);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		// e could be null if this was called via an 'enter' hit
 		try {
-			String pw = new String(tfPassword.getPassword());
+			// If password gets transferred into a String,
+			// on could catch it out of the StringPool. We don't want that.
+			char[] pw = tfPassword.getPassword();
 			final Connection con = new Connection(tfUser.getText(), pw);
+
+			getStatusArea().setUsername(con.getHostString());
+
+			// Security note from oracle
+			Arrays.fill(pw, '0');
+
 			callback.accept(con);
 		} catch (SQLException e) {
 			display.notice(MessageFatality.ERROR, "Connection couldn't be established", e.getMessage());
 		}
 
+	}
+
+	@Override
+	public void addNavbar(JPanel navbar) {
+		// Screen would add StatusArea, but we don't want that on LoginScreen
 	}
 
 }
