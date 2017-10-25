@@ -92,7 +92,7 @@ public class ExportScreen extends Screen implements ActionListener {
 		LogData.add(tf_choosedDB);
 		
 	}
-	
+	//TODO: delete after class is done
 	public static void main(String[] args) {
 		new Display(null).setScreen(AppScreen.EXPORT);
 	}
