@@ -28,12 +28,10 @@ public class ImportScreen extends Screen implements ActionListener {
 
 	public ImportScreen(Display display) {
 		super(display);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
 	public AppScreen getScreenId() {
-		// TODO Auto-generated method stub
 		return AppScreen.IMPORT;
 		
 	}
@@ -71,27 +69,6 @@ public class ImportScreen extends Screen implements ActionListener {
 
 		CSwitchArrow backArrow = new CSwitchArrow(display, AppScreen.SELECT_ACTION, MoveDirection.LEFT);
 		navbar.add(backArrow, BorderLayout.WEST);
-		
-		JPanel LogData = new JPanel();
-		
-		labelUserLog = new JLabel("Benutzer:");
-		LogData.add(labelUserLog);
-		
-		//TODO: add textfield for logged user and DB
-		tfUserLog = new JTextField();
-		tfUserLog.setEditable(false);
-		tfUserLog.setColumns(15);
-		LogData.add(tfUserLog);
-		
-		label_choosedDB = new JLabel("Datenbank:");
-		LogData.add(label_choosedDB);
-		navbar.add(LogData, BorderLayout.CENTER);
-		
-		tf_choosedDB = new JTextField();
-		tf_choosedDB.setEditable(false);
-		tf_choosedDB.setColumns(15);
-		LogData.add(tf_choosedDB);
-		
 	}
 	
 	//TODO: delete after class is done
