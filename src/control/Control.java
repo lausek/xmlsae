@@ -51,7 +51,7 @@ public class Control {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
-			logger.debug(e.getMessage());
+			logger.error(e.getMessage(),e);
 		}
 
 		new Control().run();

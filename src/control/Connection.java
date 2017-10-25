@@ -18,7 +18,7 @@ public class Connection {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 		} catch (Exception e) {
-			logger.debug(e);
+			logger.error(e.getMessage(),e);
 		}
 	}
 
@@ -50,7 +50,7 @@ public class Connection {
 		try {
 			sqlConnection.close();
 		} catch (SQLException e) {
-			logger.debug(e.getMessage());
+			logger.error(e.getMessage(),e);
 		}
 	}
 

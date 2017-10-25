@@ -1,10 +1,20 @@
 package control;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
 import org.apache.log4j.*;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+import org.xml.sax.XMLReader;
 
 import model.ExportSettings;
 
@@ -51,16 +61,16 @@ public class DBInterface {
 	public void exportTo(String dbname, String filename, ExportSettings settings) {
 		logger.debug("Start export to "+dbname);
 		// tables := SHOW TABLES 
-		
+
 		// foreach table
 		// 		if isDefinitionRequired
 		// 			show columns for
 		// 		endif
-		
+
 		// 		if isDataRequired
 		// 			SELECT * FROM
 		// 		endif
-		
+
 	}
 
 	/**
@@ -75,9 +85,9 @@ public class DBInterface {
 			String[] split = filename.split("\\.");
 			split[0] += "_" + dbname;
 			String newFileName = String.join(".", split);
-			
+
 			exportTo(dbname, newFileName, settings);
-			
+
 			logger.debug("Exported " + dbname + " on file " + newFileName);
 		}
 	}
@@ -103,5 +113,54 @@ public class DBInterface {
 			importTo(dbname, filename);
 		}
 	}
+
+	/**
+	 * validate given xml
+	 * @param xml
+	 * @return boolean
+	 * @throws ParserConfigurationException
+	 * @throws IOException
+	 */
+	public static boolean validateWithDTDUsingSAX(String xml) throws ParserConfigurationException, IOException{
+		try {
+
+			SAXParserFactory factory = SAXParserFactory.newInstance();
+			factory.setValidating(true);
+			factory.setNamespaceAware(true);
+			XMLReader reader = factory.newSAXParser().getXMLReader();
+			reader.setErrorHandler(
+					new ErrorHandler() {
+						@Override
+						public void error(SAXParseException e) throws SAXException {
+							logger.error("ERROR : " + e.getMessage(),e);
+						}
+
+						@Override
+						public void fatalError(SAXParseException e) throws SAXException {
+							logger.error("FATAL : " + e.getMessage(),e);
+						}
+
+						@Override
+						public void warning(SAXParseException e) throws SAXException {
+							logger.error("WARNING : " + e.getMessage(),e);
+						}
+					}
+					);
+			reader.parse(new InputSource(xml));
+			logger.debug("Validating successfull");
+			return true;
+		} catch (ParserConfigurationException pce) {
+			logger.error(pce.getMessage(), pce);
+			throw pce;
+		} catch (IOException io) {
+			logger.error(io.getMessage(), io);
+			throw io;
+		} catch (SAXException se){
+			logger.error(se.getMessage(), se);
+			return false;
+		}
+	}
+
+
 
 }
