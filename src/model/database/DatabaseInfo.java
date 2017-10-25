@@ -10,7 +10,11 @@ public class DatabaseInfo extends InfoEntity {
 	public DatabaseInfo(String tagValue) {
 		super(tagValue);
 	}
-
+	
+	public void addObject(InfoEntity obj) {
+		dbObjects.add(obj);
+	}
+	
 	@Override
 	public StringBuilder toXML() {
 		StringBuilder buffer = new StringBuilder();
