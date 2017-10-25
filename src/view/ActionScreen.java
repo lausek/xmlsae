@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Box;
@@ -23,7 +24,7 @@ import view.atoms.CSwitchArrow.MoveDirection;
  *
  */
 @SuppressWarnings("serial")
-public class ActionScreen extends Screen implements ActionListener {
+public class ActionScreen extends Screen {
 	
 	public ActionScreen(Display display) {
 		super(display);
@@ -54,7 +55,12 @@ public class ActionScreen extends Screen implements ActionListener {
 		btnImport.setMaximumSize(new Dimension(300, 75));
 		btnImport.setMinimumSize(new Dimension(300, 75));
 		btnImport.setPreferredSize(new Dimension (300, 75));
-		btnImport.addActionListener(this);
+		btnImport.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				display.setScreen(AppScreen.IMPORT);
+			}
+		});
 		btnImport.setFont(newButtonFont);
 		verticalBox.add(btnImport);
 		
@@ -65,7 +71,12 @@ public class ActionScreen extends Screen implements ActionListener {
 		btnExport.setMaximumSize(new Dimension(300, 75));
 		btnExport.setMinimumSize(new Dimension(300, 75));
 		btnExport.setPreferredSize(new Dimension (300, 75));
-		btnExport.addActionListener(this);
+		btnExport.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				display.setScreen(AppScreen.EXPORT);
+			}
+		});
 		btnExport.setFont(newButtonFont);
 		verticalBox.add(btnExport);
 		
@@ -80,9 +91,9 @@ public class ActionScreen extends Screen implements ActionListener {
 
 		CSwitchArrow backArrow = new CSwitchArrow(display, AppScreen.SELECT_DB, MoveDirection.LEFT);
 		navbar.add(backArrow, BorderLayout.WEST);
-		
+    
 	}
-	
+	//TODO: delete after class is done
 	public static void main(String[] args) {
 		new Display(null).setScreen(AppScreen.SELECT_ACTION);
 	}
