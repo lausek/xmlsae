@@ -16,7 +16,7 @@ public class Control {
 	private static Logger logger;
 	
 	private Display display;
-	private DBInterface dataInterface;
+	private DatabaseActor databaseActor;
 	private List<String> databases;
 	
 	static {
@@ -39,7 +39,7 @@ public class Control {
 
 		@Override
 		public void accept(Object obj) {
-			dataInterface = new DBInterface((Connection) obj);
+			databaseActor = new DatabaseActor((Connection) obj);
 			
 			// getMainResult looks better here
 			display.setScreen(AppScreen.SELECT_DB).setCallback(databasesCallback);
@@ -64,8 +64,8 @@ public class Control {
 		display.setScreen(AppScreen.LOGIN).setCallback(connectionCallback);
 	}
 
-	public DBInterface getInterface() {
-		return dataInterface;
+	public DatabaseActor getInterface() {
+		return databaseActor;
 	}
 
 	// Will be used by ImportScreen and ExportScreen
