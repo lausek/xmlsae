@@ -17,13 +17,13 @@ import model.ExportSettings;
  */
 public class DatabaseActor {
 
-	private static final String LOG4J_PATH = "properties/propertiesDBI.properties";
+	private static final String LOG4J_PATH = "properties/propertiesDBActor.properties";
 	private static Logger logger;
 
 	private Connection connection;
 
 	static {
-		logger = Logger.getLogger("DBInterface");
+		logger = Logger.getLogger("DatabaseActor");
 		PropertyConfigurator.configure(LOG4J_PATH);
 	}
 
