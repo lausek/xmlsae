@@ -15,7 +15,7 @@ import model.ExportSettings;
  * @author lausek
  *
  */
-public class DBInterface {
+public class DatabaseActor {
 
 	private static final String LOG4J_PATH = "properties/propertiesDBI.properties";
 	private static Logger logger;
@@ -31,7 +31,7 @@ public class DBInterface {
 	 * 
 	 * @param connection
 	 */
-	public DBInterface(Connection connection) {
+	public DatabaseActor(Connection connection) {
 		this.connection = connection;
 	}
 	
