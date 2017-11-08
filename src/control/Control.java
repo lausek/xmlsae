@@ -11,19 +11,19 @@ import view.Display;
 import view.Display.AppScreen;
 
 public class Control {
-	
+
 	private static final String LOG4J_PATH = "properties/propertiesControl.properties";
 	private static Logger logger;
-	
+
 	private Display display;
 	private DatabaseActor databaseActor;
 	private List<String> databases;
-	
+
 	static {
 		logger = Logger.getLogger("Control");
 		PropertyConfigurator.configure(LOG4J_PATH);
 	}
-	
+
 	private Consumer<Object> databasesCallback = new Consumer<Object>() {
 
 		@SuppressWarnings("unchecked")
@@ -40,7 +40,7 @@ public class Control {
 		@Override
 		public void accept(Object obj) {
 			databaseActor = new DatabaseActor((Connection) obj);
-			
+
 			// getMainResult looks better here
 			display.setScreen(AppScreen.SELECT_DB).setCallback(databasesCallback);
 		}
@@ -52,7 +52,7 @@ public class Control {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
-			logger.error(e.getMessage(),e);
+			logger.error(e.getMessage(), e);
 		}
 
 		new Control().run();
