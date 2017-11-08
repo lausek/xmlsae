@@ -87,7 +87,6 @@ public class ExportScreen extends Screen implements ActionListener {
 
 		CSwitchArrow backArrow = new CSwitchArrow(display, AppScreen.SELECT_ACTION, MoveDirection.LEFT);
 		navbar.add(backArrow, BorderLayout.WEST);
-
 	}
 
 	@Override
@@ -98,11 +97,6 @@ public class ExportScreen extends Screen implements ActionListener {
 		} else if (source == btnExport) {
 			// TODO: select folder
 		}
-	}
-
-	// TODO: delete after class is done
-	public static void main(String[] args) {
-		new Display(null).setScreen(AppScreen.EXPORT);
 	}
 
 }
