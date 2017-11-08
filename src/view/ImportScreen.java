@@ -10,9 +10,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import view.Display.AppScreen;
 import view.atoms.CSwitchArrow;
@@ -20,11 +18,6 @@ import view.atoms.CSwitchArrow.MoveDirection;
 
 @SuppressWarnings("serial")
 public class ImportScreen extends Screen implements ActionListener {
-	
-	private JTextField tfUserLog;
-	private JTextField tf_choosedDB;
-	private JLabel labelUserLog;
-	private JLabel label_choosedDB;
 
 	public ImportScreen(Display display) {
 		super(display);
