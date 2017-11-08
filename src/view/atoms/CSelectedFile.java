@@ -62,7 +62,7 @@ public class CSelectedFile extends JPanel {
 		lbSelectedFile.setMaximumSize(new Dimension(300, 30));
 		add(lbSelectedFile);
 
-		cmdRemove.setVisible(false);
+		setRemovable(false);
 		add(cmdRemove);
 
 	}
@@ -70,10 +70,26 @@ public class CSelectedFile extends JPanel {
 	public boolean isEmpty() {
 		return selectedFile == null || !selectedFile.isFile();
 	}
-
+	
+	public void setRemovable(boolean removable) {
+		if(removable) {
+			cmdRemove.setText("-");
+			cmdRemove.setOpaque(true);
+			cmdRemove.setContentAreaFilled(true);
+			cmdRemove.setBorderPainted(true);
+			cmdRemove.setEnabled(true);
+		} else {
+			cmdRemove.setText("");
+			cmdRemove.setOpaque(false);
+			cmdRemove.setContentAreaFilled(false);
+			cmdRemove.setBorderPainted(false);
+			cmdRemove.setEnabled(false);
+		}
+	}
+ 
 	public void setLabel(String name) {
 		lbSelectedFile.setText(name);
-		cmdRemove.setVisible(!name.isEmpty());
+		setRemovable(!name.isEmpty());
 		revalidate();
 	}
 
