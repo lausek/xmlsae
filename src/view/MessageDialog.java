@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JPanel;
@@ -19,6 +21,13 @@ import javax.swing.ScrollPaneConstants;
 
 import view.Display.MessageFatality;
 
+/**
+ * A custom dialog for displaying program erros, warnings and infos. Everything
+ * will be on one frame. Dialogs are not stackable.
+ * 
+ * @author lausek
+ *
+ */
 public class MessageDialog {
 
 	private static final Dimension NORMAL_SIZE = new Dimension(400, 140);
@@ -35,6 +44,8 @@ public class MessageDialog {
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.setSize(NORMAL_SIZE);
 		frame.setResizable(false);
+		frame.setIconImage(Display.getAppIcon());
+		frame.setAlwaysOnTop(true);
 
 		JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		frame.getContentPane().add(actionPanel, BorderLayout.SOUTH);
@@ -84,6 +95,14 @@ public class MessageDialog {
 		scrollDetails.setBounds(10, 60, EXTENDED_SIZE.width - 20, 100);
 		scrollDetails.setVisible(false);
 		messagePanel.add(scrollDetails);
+		
+		frame.addWindowFocusListener(new WindowFocusListener() {
+		    public void windowLostFocus(WindowEvent evt) {
+		    }
+		    public void windowGainedFocus(WindowEvent evt) {
+		    	confirmButton.requestFocus();
+		    }
+		});
 	}
 
 	public static void display(JFrame displayOn, MessageFatality fatality, String message, String details) {
@@ -100,9 +119,10 @@ public class MessageDialog {
 		if (details == null) {
 			detailsButton.setVisible(false);
 		} else {
+			detailsButton.setVisible(true);
 			detailsArea.setText(details);
 		}
-		
+
 		Icon nextIcon;
 		switch (fatality) {
 		case SUCCESS:
@@ -119,7 +139,7 @@ public class MessageDialog {
 			nextIcon = UIManager.getIcon("OptionPane.informationIcon");
 			break;
 		}
-		
+
 		iconLabel.setIcon(nextIcon);
 
 		frame.setVisible(true);

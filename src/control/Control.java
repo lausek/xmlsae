@@ -2,6 +2,7 @@ package control;
 
 import java.util.List;
 import java.util.function.Consumer;
+
 import javax.swing.UIManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -10,12 +11,12 @@ import view.Display;
 import view.Display.AppScreen;
 
 public class Control {
-
+	
 	private static final String LOG4J_PATH = "properties/propertiesControl.properties";
 	private static Logger logger;
 	
 	private Display display;
-	private DBInterface dataInterface;
+	private DatabaseActor databaseActor;
 	private List<String> databases;
 	
 	static {
@@ -38,7 +39,7 @@ public class Control {
 
 		@Override
 		public void accept(Object obj) {
-			dataInterface = new DBInterface((Connection) obj);
+			databaseActor = new DatabaseActor((Connection) obj);
 			
 			// getMainResult looks better here
 			display.setScreen(AppScreen.SELECT_DB).setCallback(databasesCallback);
@@ -63,11 +64,11 @@ public class Control {
 		display.setScreen(AppScreen.LOGIN).setCallback(connectionCallback);
 	}
 
-	public DBInterface getInterface() {
-		return dataInterface;
+	public DatabaseActor getInterface() {
+		return databaseActor;
 	}
 
-	// TODO: not used yet; check if needed
+	// Will be used by ImportScreen and ExportScreen
 	public List<String> getSelectedDB() {
 		return databases;
 	}

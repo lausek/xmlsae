@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.function.Consumer;
@@ -21,9 +22,16 @@ import view.Display.AppScreen;
  */
 @SuppressWarnings("serial")
 public class Screen extends JPanel implements ActionListener {
-
+		
 	protected Display display;
-
+	protected Consumer<Object> callback;
+	
+	private static StatusArea status;
+	
+	static {
+		status = new StatusArea();
+	}
+	
 	public Screen(Display display) {
 		this.display = display;
 		this.build();
@@ -48,6 +56,7 @@ public class Screen extends JPanel implements ActionListener {
 	 * Add navigation icons to main frame
 	 */
 	public void addNavbar(JPanel navbar) {
+		navbar.add(status, BorderLayout.CENTER);
 	}
 	
 	/**
@@ -72,6 +81,7 @@ public class Screen extends JPanel implements ActionListener {
 	 * Override in subclasses
 	 */
 	public void setCallback(Consumer<Object> action) {
+		callback = action;
 	}
 
 	/**
@@ -80,5 +90,9 @@ public class Screen extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 	}
-
+	
+	protected StatusArea getStatusArea() {
+		return status;
+	}
+	
 }

@@ -4,36 +4,34 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import view.Display.AppScreen;
 import view.atoms.CSwitchArrow;
 import view.atoms.CSwitchArrow.MoveDirection;
 
+/**
+ * Screen for choosing between import and export.
+ * 
+ * @author lausek
+ *
+ */
 @SuppressWarnings("serial")
-public class ActionScreen extends Screen implements ActionListener {
-	
-	private JTextField tfUserLog;
-	private JTextField tf_choosedDB;
-	private JLabel labelUserLog;
-	private JLabel label_choosedDB;
+public class ActionScreen extends Screen {
 	
 	public ActionScreen(Display display) {
 		super(display);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public AppScreen getScreenId() {
-		// TODO Auto-generated method stub
 		return AppScreen.SELECT_ACTION;
 		
 	}
@@ -57,7 +55,12 @@ public class ActionScreen extends Screen implements ActionListener {
 		btnImport.setMaximumSize(new Dimension(300, 75));
 		btnImport.setMinimumSize(new Dimension(300, 75));
 		btnImport.setPreferredSize(new Dimension (300, 75));
-		btnImport.addActionListener(this);
+		btnImport.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				display.setScreen(AppScreen.IMPORT);
+			}
+		});
 		btnImport.setFont(newButtonFont);
 		verticalBox.add(btnImport);
 		
@@ -68,7 +71,12 @@ public class ActionScreen extends Screen implements ActionListener {
 		btnExport.setMaximumSize(new Dimension(300, 75));
 		btnExport.setMinimumSize(new Dimension(300, 75));
 		btnExport.setPreferredSize(new Dimension (300, 75));
-		btnExport.addActionListener(this);
+		btnExport.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				display.setScreen(AppScreen.EXPORT);
+			}
+		});
 		btnExport.setFont(newButtonFont);
 		verticalBox.add(btnExport);
 		
@@ -83,29 +91,9 @@ public class ActionScreen extends Screen implements ActionListener {
 
 		CSwitchArrow backArrow = new CSwitchArrow(display, AppScreen.SELECT_DB, MoveDirection.LEFT);
 		navbar.add(backArrow, BorderLayout.WEST);
-		
-		JPanel LogData = new JPanel();
-		
-		labelUserLog = new JLabel("Benutzer:");
-		LogData.add(labelUserLog);
-		
-		//TODO: add textfield for logged user and DB
-		tfUserLog = new JTextField();
-		tfUserLog.setEditable(false);
-		tfUserLog.setColumns(10);
-		LogData.add(tfUserLog);
-		
-		label_choosedDB = new JLabel("Datenbank:");
-		LogData.add(label_choosedDB);
-		navbar.add(LogData, BorderLayout.CENTER);
-		
-		tf_choosedDB = new JTextField();
-		tf_choosedDB.setEditable(false);
-		tf_choosedDB.setColumns(10);
-		LogData.add(tf_choosedDB);
-		
+    
 	}
-	
+	//TODO: delete after class is done
 	public static void main(String[] args) {
 		new Display(null).setScreen(AppScreen.SELECT_ACTION);
 	}

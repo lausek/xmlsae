@@ -1,10 +1,15 @@
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -14,7 +19,7 @@ import view.atoms.CSwitchArrow;
 import view.atoms.CSwitchArrow.MoveDirection;
 
 @SuppressWarnings("serial")
-public class ExportScreen extends Screen {
+public class ExportScreen extends Screen implements ActionListener {
 	
 	private JTextField tfUserLog;
 	private JTextField tf_choosedDB;
@@ -38,47 +43,36 @@ public class ExportScreen extends Screen {
 		super.build();
 		setLayout(null);
 		
-		CSwitchArrow backArrow = new CSwitchArrow(display, AppScreen.SELECT_ACTION).setDirection(MoveDirection.LEFT);
-		add(backArrow);
+		setLayout(new BorderLayout(0, 0));
 		
-		//ToDo: get Textfield for logged User and DB
-		tfUserLog = new JTextField();
-		tfUserLog.setEditable(false);
-		tfUserLog.setBounds(375, 65, 175, 25);
-		tfUserLog.setColumns(10);
-		add(tfUserLog);
-		
-		tf_choosedDB = new JTextField();
-		tf_choosedDB.setEditable(false);
-		tf_choosedDB.setBounds(375, 100, 175, 25);
-		tf_choosedDB.setColumns(10);
-		add(tf_choosedDB);
-		
-		labelUserLog = new JLabel("Eingeloggt als");
-		labelUserLog.setBounds(250, 65, 100, 25);
-		add(labelUserLog);
-		
-		label_choosedDB = new JLabel("Datenbank:");
-		label_choosedDB.setBounds(250, 100, 100, 25);
-		add(label_choosedDB);
+		Box verticalBox = new Box(BoxLayout.Y_AXIS);
+		verticalBox.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+		verticalBox.add(Box.createVerticalGlue());
 
-		//ToDo: add action for buttons
+		//TODO: add action for buttons
 		JButton btnExport = new JButton("Export Database");
+		btnExport.setAlignmentX(Component.CENTER_ALIGNMENT);
 		Font newButtonFont = new Font(btnExport.getFont().getName(),btnExport.getFont().getStyle(),24);
-		btnExport.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-			}
-		});
-		btnExport.setBounds(250, 300, 300, 75);
+		btnExport.setMaximumSize(new Dimension(300, 75));
+		btnExport.setMinimumSize(new Dimension(300, 75));
+		btnExport.setPreferredSize(new Dimension (300, 75));
+		btnExport.addActionListener(this);
 		btnExport.setFont(newButtonFont);
-		add(btnExport);
-
-		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 10, 10);
-		add(panel);
+		verticalBox.add(btnExport);
+		
+		verticalBox.add(Box.createVerticalGlue());
+		add(verticalBox);
 	}
 	
+	@Override
+	public void addNavbar(JPanel navbar) {
+		super.addNavbar(navbar);
+
+		CSwitchArrow backArrow = new CSwitchArrow(display, AppScreen.SELECT_ACTION, MoveDirection.LEFT);
+		navbar.add(backArrow, BorderLayout.WEST);
+		
+	}
+	//TODO: delete after class is done
 	public static void main(String[] args) {
 		new Display(null).setScreen(AppScreen.EXPORT);
 	}
