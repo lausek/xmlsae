@@ -38,7 +38,7 @@ public class CSelectedFile extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				importScreen.remove(CSelectedFile.this);
 			}
-			
+
 		});
 
 		JButton cmdSelect = new JButton("...");
@@ -70,23 +70,15 @@ public class CSelectedFile extends JPanel {
 	public boolean isEmpty() {
 		return selectedFile == null || !selectedFile.isFile();
 	}
-	
+
 	public void setRemovable(boolean removable) {
-		if(removable) {
-			cmdRemove.setText("-");
-			cmdRemove.setOpaque(true);
-			cmdRemove.setContentAreaFilled(true);
-			cmdRemove.setBorderPainted(true);
-			cmdRemove.setEnabled(true);
-		} else {
-			cmdRemove.setText("");
-			cmdRemove.setOpaque(false);
-			cmdRemove.setContentAreaFilled(false);
-			cmdRemove.setBorderPainted(false);
-			cmdRemove.setEnabled(false);
-		}
+		cmdRemove.setText(removable ? "-" : "");
+		cmdRemove.setOpaque(removable);
+		cmdRemove.setContentAreaFilled(removable);
+		cmdRemove.setBorderPainted(removable);
+		cmdRemove.setEnabled(removable);
 	}
- 
+
 	public void setLabel(String name) {
 		lbSelectedFile.setText(name);
 		setRemovable(!name.isEmpty());
