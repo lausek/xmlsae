@@ -33,22 +33,21 @@ public class ImportScreen extends Screen implements ActionListener {
 	@Override
 	public AppScreen getScreenId() {
 		return AppScreen.IMPORT;
-
 	}
 
 	@Override
 	public void build() {
 		super.build();
 
+		JScrollPane fileScrollPane = new JScrollPane(filePanel);
 		Box verticalBox = new Box(BoxLayout.Y_AXIS);
-		JButton btnImport = new JButton("Import Database");
+		JButton cmdAddFile = new JButton("+");
+		JButton btnImport = new JButton("Import");
 
 		filePanel = new JPanel();
-		JScrollPane fileScrollPane = new JScrollPane(filePanel);
 		fileScrollPane.setBorder(null);
 
 		addFilePanel = new JPanel();
-		JButton cmdAddFile = new JButton("+");
 		addFilePanel.add(cmdAddFile);
 
 		setLayout(new BorderLayout(0, 0));
@@ -83,7 +82,6 @@ public class ImportScreen extends Screen implements ActionListener {
 
 		verticalBox.add(Box.createVerticalGlue());
 		add(verticalBox);
-
 	}
 
 	@Override
@@ -129,11 +127,6 @@ public class ImportScreen extends Screen implements ActionListener {
 		}
 
 		revalidate();
-	}
-
-	// TODO: delete after class is done
-	public static void main(String[] args) {
-		new Display(null).setScreen(AppScreen.IMPORT);
 	}
 
 }
