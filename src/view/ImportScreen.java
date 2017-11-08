@@ -24,6 +24,7 @@ import view.atoms.CSwitchArrow.MoveDirection;
 public class ImportScreen extends Screen implements ActionListener {
 
 	private List<CSelectedFile> files;
+	private JScrollPane fileScrollPane;
 	private JPanel filePanel, addFilePanel;
 
 	public ImportScreen(Display display) {
@@ -39,15 +40,15 @@ public class ImportScreen extends Screen implements ActionListener {
 	public void build() {
 		super.build();
 
-		JScrollPane fileScrollPane = new JScrollPane(filePanel);
+		filePanel = new JPanel();
+		addFilePanel = new JPanel();
+		fileScrollPane = new JScrollPane(filePanel);
 		Box verticalBox = new Box(BoxLayout.Y_AXIS);
 		JButton cmdAddFile = new JButton("+");
 		JButton btnImport = new JButton("Import");
 
-		filePanel = new JPanel();
 		fileScrollPane.setBorder(null);
 
-		addFilePanel = new JPanel();
 		addFilePanel.add(cmdAddFile);
 
 		setLayout(new BorderLayout(0, 0));
@@ -70,7 +71,6 @@ public class ImportScreen extends Screen implements ActionListener {
 
 		verticalBox.add(Box.createVerticalStrut(40));
 
-		// TODO: add action for buttons
 		btnImport.setAlignmentX(Component.CENTER_ALIGNMENT);
 		Font newButtonFont = new Font(btnImport.getFont().getName(), btnImport.getFont().getStyle(), 24);
 		btnImport.setMaximumSize(new Dimension(300, 75));
@@ -96,9 +96,7 @@ public class ImportScreen extends Screen implements ActionListener {
 		CSelectedFile next = new CSelectedFile(this);
 
 		if (files == null) {
-
 			files = new java.util.ArrayList<>();
-
 		}
 
 		if (!files.isEmpty()) {
@@ -114,8 +112,13 @@ public class ImportScreen extends Screen implements ActionListener {
 		filePanel.setLayout(new BoxLayout(filePanel, BoxLayout.Y_AXIS));
 		filePanel.add(next);
 		filePanel.add(addFilePanel);
-
+		
 		revalidate();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+
 	}
 
 	public void remove(CSelectedFile obj) {
