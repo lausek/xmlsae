@@ -51,8 +51,6 @@ public class ImportScreen extends Screen implements ActionListener {
 		JButton cmdAddFile = new JButton("+");
 		addFilePanel.add(cmdAddFile);
 
-		// TODO: why both?
-		setLayout(null);
 		setLayout(new BorderLayout(0, 0));
 
 		cmdAddFile.addActionListener(new ActionListener() {

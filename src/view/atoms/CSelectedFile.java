@@ -30,7 +30,7 @@ public class CSelectedFile extends JPanel {
 	public CSelectedFile(ImportScreen parent) {
 
 		this.importScreen = parent;
-
+		
 		cmdRemove = new JButton("-");
 		cmdRemove.addActionListener(new ActionListener() {
 
