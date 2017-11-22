@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import view.Display.AppScreen;
+import view.Display.MessageFatality;
 import view.atoms.CSelectedFile;
 import view.atoms.CSwitchArrow;
 import view.atoms.CSwitchArrow.MoveDirection;
@@ -72,7 +73,8 @@ public class ImportScreen extends Screen implements ActionListener {
 		verticalBox.add(Box.createVerticalStrut(40));
 
 		btnImport.setAlignmentX(Component.CENTER_ALIGNMENT);
-		Font newButtonFont = new Font(btnImport.getFont().getName(), btnImport.getFont().getStyle(), 24);
+		Font newButtonFont = new Font(btnImport.getFont().getName(), btnImport
+				.getFont().getStyle(), 24);
 		btnImport.setMaximumSize(new Dimension(300, 75));
 		btnImport.setMinimumSize(new Dimension(300, 75));
 		btnImport.setPreferredSize(new Dimension(300, 75));
@@ -88,7 +90,8 @@ public class ImportScreen extends Screen implements ActionListener {
 	public void addNavbar(JPanel navbar) {
 		super.addNavbar(navbar);
 
-		CSwitchArrow backArrow = new CSwitchArrow(display, AppScreen.SELECT_ACTION, MoveDirection.LEFT);
+		CSwitchArrow backArrow = new CSwitchArrow(display,
+				AppScreen.SELECT_ACTION, MoveDirection.LEFT);
 		navbar.add(backArrow, BorderLayout.WEST);
 	}
 
@@ -112,12 +115,17 @@ public class ImportScreen extends Screen implements ActionListener {
 		filePanel.setLayout(new BoxLayout(filePanel, BoxLayout.Y_AXIS));
 		filePanel.add(next);
 		filePanel.add(addFilePanel);
-		
+
 		revalidate();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+
+		if (files.size() == 1 && files.get(0).isEmpty()) {
+			display.notice(MessageFatality.ERROR, "No files for import!");
+			return;
+		}
 
 	}
 
