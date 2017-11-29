@@ -11,41 +11,18 @@ import view.Display;
 import view.Display.AppScreen;
 
 public class Control {
-	
+
 	private static final String LOG4J_PATH = "properties/propertiesControl.properties";
 	private static Logger logger;
-	
+
 	private Display display;
 	private DatabaseActor databaseActor;
 	private List<String> databases;
-	
+
 	static {
 		logger = Logger.getLogger("Control");
 		PropertyConfigurator.configure(LOG4J_PATH);
 	}
-	
-	private Consumer<Object> databasesCallback = new Consumer<Object>() {
-
-		@SuppressWarnings("unchecked")
-		@Override
-		public void accept(Object obj) {
-			databases = (List<String>) obj;
-			// Leave will be done in SelectionScreen itself
-		}
-
-	};
-
-	private Consumer<Object> connectionCallback = new Consumer<Object>() {
-
-		@Override
-		public void accept(Object obj) {
-			databaseActor = new DatabaseActor((Connection) obj);
-			
-			// getMainResult looks better here
-			display.setScreen(AppScreen.SELECT_DB).setCallback(databasesCallback);
-		}
-
-	};
 
 	public static void main(String[] args) {
 		// Try to make program look like it is platform dependent
@@ -61,7 +38,7 @@ public class Control {
 	public void run() {
 		display = new Display(this);
 
-		display.setScreen(AppScreen.LOGIN).setCallback(connectionCallback);
+		display.setScreen(AppScreen.LOGIN);
 	}
 
 	public DatabaseActor getInterface() {
@@ -73,4 +50,45 @@ public class Control {
 		return databases;
 	}
 
+	public Consumer<Object> databasesCallback = new Consumer<Object>() {
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public void accept(Object obj) {
+			databases = (List<String>) obj;
+			// Leave will be done in SelectionScreen itself
+		}
+
+	};
+
+	public Consumer<Object> connectionCallback = new Consumer<Object>() {
+
+		@Override
+		public void accept(Object obj) {
+			databaseActor = new DatabaseActor((Connection) obj);
+
+			// getMainResult looks better here
+			display.setScreen(AppScreen.SELECT_DB);
+		}
+
+	};
+	
+	public Consumer<Object> importCallback = new Consumer<Object>() {
+
+		@Override
+		public void accept(Object arg0) {
+			
+		}
+				
+	};
+
+	public Consumer<Object> exportCallback = new Consumer<Object>() {
+
+		@Override
+		public void accept(Object arg0) {
+			
+		}
+				
+	};
+	
 }

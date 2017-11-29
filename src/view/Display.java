@@ -65,6 +65,11 @@ public class Display extends JFrame {
 		screens[AppScreen.IMPORT.ordinal()] = new ImportScreen(this);
 		screens[AppScreen.EXPORT.ordinal()] = new ExportScreen(this);
 
+		screens[AppScreen.LOGIN.ordinal()].setCallback(parent.connectionCallback);
+		screens[AppScreen.SELECT_DB.ordinal()].setCallback(parent.databasesCallback);
+		screens[AppScreen.IMPORT.ordinal()].setCallback(parent.importCallback);
+		screens[AppScreen.EXPORT.ordinal()].setCallback(parent.exportCallback);
+		
 		getContentPane().setLayout(new java.awt.BorderLayout(0, 0));
 
 		navbar = new JPanel();
