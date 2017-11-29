@@ -1,16 +1,29 @@
 package model;
 
+import java.util.List;
+
 /**
  * Class for customizing export process.
  * 
  * @author lausek
  *
  */
-public class ExportSettings {
-
+public class ProcessSettings {
+	
+	private List<String> databases;
+	private List<String> selectedFiles;
 	private boolean isDefinitionRequired;
 	private boolean isDataRequired;
-
+	
+	public ProcessSettings() {
+		this.databases = new java.util.ArrayList<>();
+		this.selectedFiles = new java.util.ArrayList<>();
+	}
+	
+	public ProcessSettings(List<String> databases) {
+		this.databases = databases;
+	}
+	
 	/**
 	 * Do we need to export definitions? (Tables, Views, Procedures, Triggers...)
 	 * @return
@@ -42,5 +55,13 @@ public class ExportSettings {
 	public void setDataRequired(boolean isDataRequired) {
 		this.isDataRequired = isDataRequired;
 	}
-
+	
+	public List<String> getDatabases() {
+		return this.databases;
+	}
+	
+	public List<String> getSelectedFiles() {
+		return this.selectedFiles;
+	}
+	
 }

@@ -25,6 +25,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.BoxLayout;
 import javax.swing.Box;
 
+import control.DatabaseActor;
+
 /**
  * Screen for selecting on which databases an operation should be performed.
  * 
@@ -190,7 +192,7 @@ public class SelectionScreen extends Screen {
 		list.clear();
 		
 		// Fetch database names from server and translate into a list of CListItems
-		display.getControl().getInterface().getDatabases().forEach(db -> list.addElement(new CListItem(db)));
+		DatabaseActor.getDatabases().forEach(db -> list.addElement(new CListItem(db)));
 	}
 
 	private void reloadList(final String query) {
