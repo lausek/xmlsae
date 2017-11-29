@@ -76,7 +76,7 @@ public class ExportScreen extends Screen implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent evt) {
 
-		ProcessSettings settings = new ProcessSettings();
+		ProcessSettings settings = new ProcessSettings(display.getControl().getSelectedDB());
 
 		DatabaseExporter exporter = new DatabaseExporter(settings);
 

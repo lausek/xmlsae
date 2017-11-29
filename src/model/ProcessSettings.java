@@ -11,13 +11,11 @@ import java.util.List;
 public class ProcessSettings {
 	
 	private List<String> databases;
-	private List<String> selectedFiles;
 	private boolean isDefinitionRequired;
 	private boolean isDataRequired;
 	
 	public ProcessSettings() {
 		this.databases = new java.util.ArrayList<>();
-		this.selectedFiles = new java.util.ArrayList<>();
 	}
 	
 	public ProcessSettings(List<String> databases) {
@@ -58,10 +56,6 @@ public class ProcessSettings {
 	
 	public List<String> getDatabases() {
 		return this.databases;
-	}
-	
-	public List<String> getSelectedFiles() {
-		return this.selectedFiles;
 	}
 	
 }

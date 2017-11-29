@@ -16,7 +16,7 @@ public class DatabaseImporter {
 	}
 
 	public void start() throws IOException {
-		for (String dbfile : settings.getSelectedFiles()) {
+		for (String dbfile : settings.getDatabases()) {
 
 			File file = new File(dbfile);
 
