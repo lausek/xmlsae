@@ -6,22 +6,27 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
-import control.DatabaseImporter;
-import model.ProcessSettings;
 import view.Display.AppScreen;
+import view.Display.MessageFatality;
+import view.atoms.CSelectedFile;
 import view.atoms.CSwitchArrow;
 import view.atoms.CSwitchArrow.MoveDirection;
 
 @SuppressWarnings("serial")
 public class ImportScreen extends Screen implements ActionListener {
+
+	private List<CSelectedFile> files;
+	private JScrollPane fileScrollPane;
+	private JPanel filePanel, addFilePanel;
 
 	public ImportScreen(Display display) {
 		super(display);
@@ -30,22 +35,43 @@ public class ImportScreen extends Screen implements ActionListener {
 	@Override
 	public AppScreen getScreenId() {
 		return AppScreen.IMPORT;
-
 	}
 
 	@Override
 	public void build() {
 		super.build();
-		setLayout(null);
+
+		filePanel = new JPanel();
+		addFilePanel = new JPanel();
+		fileScrollPane = new JScrollPane(filePanel);
+		Box verticalBox = new Box(BoxLayout.Y_AXIS);
+		JButton cmdAddFile = new JButton("+");
+		JButton btnImport = new JButton("Import");
+
+		fileScrollPane.setBorder(null);
+
+		addFilePanel.add(cmdAddFile);
 
 		setLayout(new BorderLayout(0, 0));
 
-		Box verticalBox = new Box(BoxLayout.Y_AXIS);
+		cmdAddFile.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				addFileOption();
+			}
+
+		});
+
 		verticalBox.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+
 		verticalBox.add(Box.createVerticalGlue());
 
-		// TODO: add action for buttons
-		JButton btnImport = new JButton("Import Database");
+		verticalBox.add(fileScrollPane);
+		addFileOption();
+
+		verticalBox.add(Box.createVerticalStrut(40));
+
 		btnImport.setAlignmentX(Component.CENTER_ALIGNMENT);
 		Font newButtonFont = new Font(btnImport.getFont().getName(), btnImport
 				.getFont().getStyle(), 24);
@@ -58,7 +84,6 @@ public class ImportScreen extends Screen implements ActionListener {
 
 		verticalBox.add(Box.createVerticalGlue());
 		add(verticalBox);
-
 	}
 
 	@Override
@@ -70,22 +95,49 @@ public class ImportScreen extends Screen implements ActionListener {
 		navbar.add(backArrow, BorderLayout.WEST);
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent evt) {
+	public void addFileOption() {
+		CSelectedFile next = new CSelectedFile(this);
 
-		// TODO: Select File
-
-		ProcessSettings settings = new ProcessSettings(display.getControl()
-				.getSelectedDB());
-
-		DatabaseImporter importer = new DatabaseImporter(settings);
-
-		try {
-			importer.start();
-		} catch (IOException e) {
-			// TODO: Add Logger here
-			e.printStackTrace();
+		if (files == null) {
+			files = new java.util.ArrayList<>();
 		}
+
+		if (!files.isEmpty()) {
+			// after we pushed the first one in
+			if (files.get(files.size() - 1).isEmpty()) {
+				return;
+			}
+		}
+
+		files.add(next);
+
+		filePanel.remove(addFilePanel);
+		filePanel.setLayout(new BoxLayout(filePanel, BoxLayout.Y_AXIS));
+		filePanel.add(next);
+		filePanel.add(addFilePanel);
+
+		revalidate();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+
+		if (files.size() == 1 && files.get(0).isEmpty()) {
+			display.notice(MessageFatality.ERROR, "No files for import!");
+			return;
+		}
+
+	}
+
+	public void remove(CSelectedFile obj) {
+		files.remove(obj);
+		filePanel.remove(obj);
+
+		if (files.size() == 0) {
+			addFileOption();
+		}
+
+		revalidate();
 	}
 
 }

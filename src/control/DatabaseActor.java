@@ -25,6 +25,10 @@ public class DatabaseActor {
 		PropertyConfigurator.configure(LOG4J_PATH);
 	}
 	
+	public DatabaseActor(Connection con) {
+		setConnection(con);
+	}
+	
 	@Override
 	protected void finalize() throws Throwable {
 		super.finalize();
