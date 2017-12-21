@@ -82,32 +82,34 @@ public class DatabaseExporter {
 
 		stat.executeQuery("SHOW TABLE STATUS LIKE '" + table + "'");
 		result = stat.getResultSet();
-		result.next();
+		if (result.next()) {
+			
+			write(stream, "<table name='" + table + "' collation='" + result.getString(15) + "'>");
 
-		write(stream, "<table name='" + table + "' collation='" + result.getString(15) + "'>");
+			if (settings.isDefinitionRequired()) {
 
-		if (settings.isDefinitionRequired()) {
+				stat.executeQuery("SHOW COLUMNS FROM " + table);
+				result = stat.getResultSet();
 
-			stat.executeQuery("SHOW COLUMNS FROM " + table);
-			result = stat.getResultSet();
+				// TODO: check if query was successful
 
-			// TODO: check if query was successful
+				write(stream, "<definition>");
 
-			write(stream, "<definition>");
+				while (result.next()) {
+					write(stream, wrapColumn(result));
+				}
 
-			while (result.next()) {
-				write(stream, wrapColumn(result));
+				write(stream, "</definition>");
+
 			}
 
-			write(stream, "</definition>");
+			if (settings.isDataRequired()) {
 
+			}
+
+			write(stream, "</table>");
+			
 		}
-
-		if (settings.isDataRequired()) {
-
-		}
-
-		write(stream, "</table>");
 	}
 
 	public void wrapView(OutputStream stream, String view) throws IOException, SQLException {
