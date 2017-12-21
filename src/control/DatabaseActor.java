@@ -2,6 +2,7 @@ package control;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import org.apache.log4j.*;
@@ -18,14 +19,14 @@ public class DatabaseActor {
 	private static final String LOG4J_PATH = "properties/propertiesDBActor.properties";
 	private static Logger logger;
 
-	private static Connection connection;
+	private static RichConnection connection;
 
 	static {
 		logger = Logger.getLogger("DatabaseActor");
 		PropertyConfigurator.configure(LOG4J_PATH);
 	}
 	
-	public DatabaseActor(Connection con) {
+	public DatabaseActor(RichConnection con) {
 		setConnection(con);
 	}
 	
@@ -35,16 +36,17 @@ public class DatabaseActor {
 		connection.logout();
 	}
 	
-	public static void setConnection(Connection con) {
+	public static void setConnection(RichConnection con) {
 		DatabaseActor.connection = con;
 	}
 	
-	public static Connection getConnection() {
+	public static RichConnection getConnection() {
 		return connection;
 	}
 
 	public static List<String> getDatabases() throws SQLException {
-		final ResultSet result = connection.newStatement().executeQuery("SHOW DATABASES");
+		final Statement stmt = connection.newStatement();
+		final ResultSet result = stmt.executeQuery("SHOW DATABASES");
 		List<String> asList = new java.util.ArrayList<>();
 		while (result.next()) {
 			asList.add(result.getString(1));

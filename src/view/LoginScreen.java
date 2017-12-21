@@ -8,7 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import control.Connection;
+import control.RichConnection;
 
 import view.Display.AppScreen;
 import view.Display.MessageFatality;
@@ -98,7 +98,7 @@ public class LoginScreen extends Screen {
 			// If password gets transferred into a String,
 			// on could catch it out of the StringPool. We don't want that.
 			char[] pw = tfPassword.getPassword();
-			final Connection con = new Connection(tfUser.getText(), pw);
+			final RichConnection con = new RichConnection(tfUser.getText(), pw);
 
 			getStatusArea().setUsername(con.getHostString());
 

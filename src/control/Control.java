@@ -1,5 +1,7 @@
 package control;
 
+import java.sql.SQLException;
+import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -7,6 +9,7 @@ import javax.swing.UIManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
+import model.ProcessSettings;
 import view.Display;
 import view.Display.AppScreen;
 
@@ -65,7 +68,7 @@ public class Control {
 
 		@Override
 		public void accept(Object obj) {
-			databaseActor = new DatabaseActor((Connection) obj);
+			databaseActor = new DatabaseActor((RichConnection) obj);
 
 			// getMainResult looks better here
 			display.setScreen(AppScreen.SELECT_DB);
@@ -76,7 +79,7 @@ public class Control {
 	public Consumer<Object> importCallback = new Consumer<Object>() {
 
 		@Override
-		public void accept(Object arg0) {
+		public void accept(Object settings) {
 			
 		}
 				
@@ -85,8 +88,15 @@ public class Control {
 	public Consumer<Object> exportCallback = new Consumer<Object>() {
 
 		@Override
-		public void accept(Object arg0) {
-			
+		public void accept(Object settings) {
+			try {
+				new DatabaseExporter((ProcessSettings)settings).start();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 				
 	};

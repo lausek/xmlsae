@@ -3,6 +3,7 @@ package control;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Connection;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -14,7 +15,7 @@ import org.apache.log4j.PropertyConfigurator;
  * @author lausek
  *
  */
-public class Connection {
+public class RichConnection {
 
 	private static final String LOG4J_PATH = "properties/propertiesConnection.properties";
 	private static Logger logger;
@@ -29,7 +30,7 @@ public class Connection {
 		}
 	}
 
-	private java.sql.Connection sqlConnection;
+	private Connection sqlConnection;
 	private String host, user;
 
 	/**
@@ -39,7 +40,7 @@ public class Connection {
 	 * @param passwd
 	 * @throws Exception
 	 */
-	public Connection(String hostString, char[] passwd) throws SQLException {
+	public RichConnection(String hostString, char[] passwd) throws SQLException {
 
 		String[] parts = hostString.split("@");
 
@@ -62,7 +63,7 @@ public class Connection {
 	public Statement newStatement() throws SQLException {
 		return sqlConnection.createStatement();
 	}
-
+	
 	public String getHost() {
 		return host;
 	}
@@ -73,6 +74,10 @@ public class Connection {
 
 	public String getHostString() {
 		return user + "@" + host;
+	}
+	
+	public void setCatalog(String db) throws SQLException {
+		sqlConnection.setCatalog(db);
 	}
 
 }

@@ -1,5 +1,6 @@
 package model;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -11,6 +12,7 @@ import java.util.List;
 public class ProcessSettings {
 	
 	private List<String> databases;
+	private File directory;
 	private boolean isDefinitionRequired;
 	private boolean isDataRequired;
 	
@@ -20,6 +22,14 @@ public class ProcessSettings {
 	
 	public ProcessSettings(List<String> databases) {
 		this.databases = databases;
+	}
+	
+	public void setDirectory(File directory) {
+		this.directory = directory;
+	}
+	
+	public File getDirectory() {
+		return this.directory;
 	}
 	
 	/**

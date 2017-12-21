@@ -15,6 +15,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import model.ProcessSettings;
 import view.Display.AppScreen;
 import view.Display.MessageFatality;
 import view.atoms.CSelectedFile;
@@ -126,6 +127,8 @@ public class ImportScreen extends Screen implements ActionListener {
 			display.notice(MessageFatality.ERROR, "No files for import!");
 			return;
 		}
+		
+		callback.accept(new ProcessSettings());
 
 	}
 
