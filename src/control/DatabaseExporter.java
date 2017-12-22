@@ -25,8 +25,12 @@ public class DatabaseExporter {
 			File file = new File(settings.getDirectory().getAbsolutePath() + "/" + db + ".xml");
 
 			try (OutputStream stream = new FileOutputStream(file)) {
-
+				
+				// add temporary version
+				write(stream, "<meta><version>1.0</version></meta>");
+				
 				DatabaseActor.getConnection().setCatalog(db);
+				
 				wrapDatabase(stream, db);
 
 			}
@@ -135,7 +139,7 @@ public class DatabaseExporter {
 	public String wrapColumn(ResultSet result) throws SQLException {
 		return "<column " + "name='" + result.getString(1) + "'" + "type='" + result.getString(2) + "'" + "key='"
 				+ result.getString(3) + "'" + "default='" + result.getString(5) + "'" + "null='" + result.getString(3)
-				+ "'" + "extra='" + result.getString(6) + "'" + "</column>";
+				+ "'" + "extra='" + result.getString(6) + "' />";
 	}
 
 }

@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!ELEMENT meta (version)>
+<!ELEMENT version #PCDATA>
+
 <!ELEMENT database (view|table)*>
 <!ATTLIST database 	charset 	CDATA
 					collation 	CDATA >
