@@ -127,6 +127,8 @@ public class ExportScreen extends Screen implements ActionListener {
 			
 			ProcessSettings settings = new ProcessSettings(display.getControl().getSelectedDB());
 			settings.setDirectory(saveTo);
+			settings.setDefinitionRequired(bxDefinition.isSelected());
+			settings.setDataRequired(bxData.isSelected());
 			
 			callback.accept(settings);
 

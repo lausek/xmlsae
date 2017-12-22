@@ -11,6 +11,7 @@ import java.sql.Statement;
 import model.ProcessSettings;
 
 // TODO: Add constants for column index
+// TODO: Escape string to prevent confusion with xml 
 public class DatabaseExporter {
 
 	private ProcessSettings settings;
@@ -25,12 +26,12 @@ public class DatabaseExporter {
 			File file = new File(settings.getDirectory().getAbsolutePath() + "/" + db + ".xml");
 
 			try (OutputStream stream = new FileOutputStream(file)) {
-				
+
 				// add temporary version
 				write(stream, "<meta><version>1.0</version></meta>");
-				
+
 				DatabaseActor.getConnection().setCatalog(db);
-				
+
 				wrapDatabase(stream, db);
 
 			}
@@ -88,6 +89,7 @@ public class DatabaseExporter {
 		result = stat.getResultSet();
 		if (result.next()) {
 			
+			// TODO: remove collation if column 15 is null
 			write(stream, "<table name='" + table + "' collation='" + result.getString(15) + "'>");
 
 			if (settings.isDefinitionRequired()) {
@@ -109,10 +111,22 @@ public class DatabaseExporter {
 
 			if (settings.isDataRequired()) {
 
+				stat.executeQuery("SELECT * FROM " + table);
+				result = stat.getResultSet();
+				int columns = result.getMetaData().getColumnCount();
+
+				write(stream, "<data>");
+
+				while (result.next()) {
+					write(stream, wrapEntry(result, columns));
+				}
+
+				write(stream, "</data>");
+
 			}
 
 			write(stream, "</table>");
-			
+
 		}
 	}
 
@@ -137,9 +151,19 @@ public class DatabaseExporter {
 	}
 
 	public String wrapColumn(ResultSet result) throws SQLException {
-		return "<column " + "name='" + result.getString(1) + "'" + "type='" + result.getString(2) + "'" + "key='"
-				+ result.getString(3) + "'" + "default='" + result.getString(5) + "'" + "null='" + result.getString(3)
-				+ "'" + "extra='" + result.getString(6) + "' />";
+		return "<column name='" + result.getString(1) + "' type='" + result.getString(2) + "' key='"
+				+ result.getString(3) + "' default='" + result.getString(5) + "' null='" + result.getString(3)
+				+ "' extra='" + result.getString(6) + "' />";
+	}
+
+	public String wrapEntry(ResultSet result, int columns) throws SQLException {
+		String buffer = "<entry>";
+
+		for (int i = 1; i <= columns; i++) {
+			buffer += "<val>" + result.getString(i) + "</val>";
+		}
+
+		return buffer + "</entry>";
 	}
 
 }
