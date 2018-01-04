@@ -7,7 +7,6 @@ import java.io.InputStream;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import javax.xml.validation.SchemaFactory;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -29,14 +28,12 @@ public class DatabaseImporter {
  
 			SAXParserFactory parserFactory = SAXParserFactory.newInstance();
 			parserFactory.setValidating(true);
-//			parserFactory.setSchema(schema);
 			
 			try (InputStream stream = new FileInputStream(file.get())) {
 				
 				try {
 					SAXParser parser = parserFactory.newSAXParser();
 					XMLReader reader = parser.getXMLReader();
-					//reader.setEntityResolver(new DTDEntityResolver());
 					
 					reader.parse(new InputSource(stream));
 					
