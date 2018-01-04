@@ -21,7 +21,7 @@ import view.Display.AppScreen;
  *
  */
 @SuppressWarnings("serial")
-public class Screen extends JPanel implements ActionListener {
+public abstract class Screen extends JPanel implements ActionListener {
 		
 	protected Display display;
 	protected Consumer<Object> callback;
