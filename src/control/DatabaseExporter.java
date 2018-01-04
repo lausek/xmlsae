@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.apache.commons.text.StringEscapeUtils;
+
 import model.ProcessSettings;
 
 // TODO: Add constants for column index
@@ -40,6 +42,10 @@ public class DatabaseExporter {
 
 	private void write(OutputStream stream, String db) throws IOException {
 		stream.write(db.getBytes());
+	}
+
+	private String escape(String val) {
+		return StringEscapeUtils.escapeXml10(val);
 	}
 
 	public void wrapDatabase(OutputStream stream, String db) throws IOException {
@@ -88,7 +94,7 @@ public class DatabaseExporter {
 		stat.executeQuery("SHOW TABLE STATUS LIKE '" + table + "'");
 		result = stat.getResultSet();
 		if (result.next()) {
-			
+
 			// TODO: remove collation if column 15 is null
 			write(stream, "<table name='" + table + "' collation='" + result.getString(15) + "'>");
 
@@ -145,7 +151,7 @@ public class DatabaseExporter {
 
 		write(stream, "<view name='" + view + "'>");
 
-		write(stream, "<![CDATA[" + result.getString(2) + "]]>");
+		write(stream, escape(result.getString(2)));
 
 		write(stream, "</view>");
 	}
@@ -160,7 +166,7 @@ public class DatabaseExporter {
 		String buffer = "<entry>";
 
 		for (int i = 1; i <= columns; i++) {
-			buffer += "<val>" + result.getString(i) + "</val>";
+			buffer += "<val>" + escape(result.getString(i)) + "</val>";
 		}
 
 		return buffer + "</entry>";
