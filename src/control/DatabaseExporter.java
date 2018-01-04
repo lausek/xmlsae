@@ -10,15 +10,15 @@ import java.sql.Statement;
 
 import org.apache.commons.text.StringEscapeUtils;
 
-import model.ProcessSettings;
+import model.ExportSettings;
 
 // TODO: Add constants for column index
 // TODO: Escape string to prevent confusion with xml 
 public class DatabaseExporter {
 
-	private ProcessSettings settings;
+	private ExportSettings settings;
 
-	public DatabaseExporter(ProcessSettings settings) {
+	public DatabaseExporter(ExportSettings settings) {
 		this.settings = settings;
 	}
 
@@ -29,13 +29,15 @@ public class DatabaseExporter {
 
 			try (OutputStream stream = new FileOutputStream(file)) {
 
-				// add temporary version
-				write(stream, "<meta><version>1.0</version></meta>");
+				// add temporary version				
+				write(stream, "<file><meta><version>1.0</version></meta>");
 
 				DatabaseActor.getConnection().setCatalog(db);
 
 				wrapDatabase(stream, db);
 
+				write(stream, "</file>");
+				
 			}
 		}
 	}

@@ -14,13 +14,13 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
-import model.ProcessSettings;
+import model.Settings;
 
 public class DatabaseImporter {
 
-	private ProcessSettings settings;
+	private Settings settings;
 
-	public DatabaseImporter(ProcessSettings settings) {
+	public DatabaseImporter(Settings settings) {
 		this.settings = settings;
 	}
 
@@ -28,7 +28,7 @@ public class DatabaseImporter {
 		for (String dbfile : settings.getDatabases()) {
 
 			File file = new File(dbfile);
-
+ 
 			SAXParserFactory parserFactory = SAXParserFactory.newInstance();
 			parserFactory.setValidating(true);
 //			parserFactory.setSchema(schema);

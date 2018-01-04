@@ -9,7 +9,8 @@ import javax.swing.UIManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-import model.ProcessSettings;
+import model.ExportSettings;
+import model.ImportSettings;
 import view.Display;
 import view.Display.AppScreen;
 
@@ -80,7 +81,11 @@ public class Control {
 
 		@Override
 		public void accept(Object settings) {
-			
+			try {
+				new DatabaseImporter((ImportSettings)settings).start();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 				
 	};
@@ -90,7 +95,7 @@ public class Control {
 		@Override
 		public void accept(Object settings) {
 			try {
-				new DatabaseExporter((ProcessSettings)settings).start();
+				new DatabaseExporter((ExportSettings)settings).start();
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (SQLException e) {
