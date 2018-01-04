@@ -1,6 +1,5 @@
 package control;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,31 +13,30 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
-import model.Settings;
+import model.ImportSettings;
+import view.atoms.CSelectedFile;
 
 public class DatabaseImporter {
 
-	private Settings settings;
+	private ImportSettings settings;
 
-	public DatabaseImporter(Settings settings) {
+	public DatabaseImporter(ImportSettings settings) {
 		this.settings = settings;
 	}
 
 	public void start() throws IOException {
-		for (String dbfile : settings.getDatabases()) {
-
-			File file = new File(dbfile);
+		for (CSelectedFile file : settings.getFiles()) {
  
 			SAXParserFactory parserFactory = SAXParserFactory.newInstance();
 			parserFactory.setValidating(true);
 //			parserFactory.setSchema(schema);
 			
-			try (InputStream stream = new FileInputStream(file)) {
+			try (InputStream stream = new FileInputStream(file.get())) {
 				
 				try {
 					SAXParser parser = parserFactory.newSAXParser();
 					XMLReader reader = parser.getXMLReader();
-					reader.setEntityResolver(new DTDEntityResolver());
+					//reader.setEntityResolver(new DTDEntityResolver());
 					
 					reader.parse(new InputSource(stream));
 					

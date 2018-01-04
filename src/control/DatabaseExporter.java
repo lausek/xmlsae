@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -15,7 +16,9 @@ import model.ExportSettings;
 // TODO: Add constants for column index
 // TODO: Escape string to prevent confusion with xml 
 public class DatabaseExporter {
-
+	
+	public final String XML_SIGNATURE = "<?xml version=\"1.0\"?><!DOCTYPE file SYSTEM \"media/standard.dtd\">";
+	
 	private ExportSettings settings;
 
 	public DatabaseExporter(ExportSettings settings) {
@@ -28,29 +31,35 @@ public class DatabaseExporter {
 			File file = new File(settings.getDirectory().getAbsolutePath() + "/" + db + ".xml");
 
 			try (OutputStream stream = new FileOutputStream(file)) {
-
+				
+				OutputStreamWriter writer = new OutputStreamWriter(stream, "UTF-8");
+				
+				write(writer, XML_SIGNATURE);
+				
 				// add temporary version				
-				write(stream, "<file><meta><version>1.0</version></meta>");
+				write(writer, "<file><meta><version>1.0</version></meta>");
 
 				DatabaseActor.getConnection().setCatalog(db);
 
-				wrapDatabase(stream, db);
+				wrapDatabase(writer, db);
 
-				write(stream, "</file>");
+				write(writer, "</file>");
+				
+				writer.close();
 				
 			}
 		}
 	}
 
-	private void write(OutputStream stream, String db) throws IOException {
-		stream.write(db.getBytes());
+	private void write(OutputStreamWriter writer, String db) throws IOException {
+		writer.append(db);
 	}
 
 	private String escape(String val) {
 		return StringEscapeUtils.escapeXml10(val);
 	}
 
-	public void wrapDatabase(OutputStream stream, String db) throws IOException {
+	public void wrapDatabase(OutputStreamWriter writer, String db) throws IOException {
 
 		RichConnection con = DatabaseActor.getConnection();
 
@@ -65,18 +74,18 @@ public class DatabaseExporter {
 				throw new SQLException();
 			}
 
-			write(stream, "<database collation='" + result.getString(1) + "' charset='" + result.getString(2) + "'>");
+			write(writer, "<database collation='" + result.getString(1) + "' charset='" + result.getString(2) + "'>");
 
 			stat.executeQuery("SHOW TABLES");
 			result = stat.getResultSet();
 			while (result.next()) {
-				wrapTable(stream, result.getString(1));
+				wrapTable(writer, result.getString(1));
 			}
 
 			stat.executeQuery("SHOW FULL TABLES IN " + db + " WHERE TABLE_TYPE LIKE 'VIEW'");
 			result = stat.getResultSet();
 			while (result.next()) {
-				wrapView(stream, result.getString(1));
+				wrapView(writer, result.getString(1));
 			}
 
 		} catch (SQLException e) {
@@ -84,11 +93,11 @@ public class DatabaseExporter {
 			e.printStackTrace();
 		}
 
-		write(stream, "</database>");
+		write(writer, "</database>");
 
 	}
 
-	public void wrapTable(OutputStream stream, String table) throws IOException, SQLException {
+	public void wrapTable(OutputStreamWriter writer, String table) throws IOException, SQLException {
 		RichConnection con = DatabaseActor.getConnection();
 		Statement stat = con.newStatement();
 		ResultSet result;
@@ -98,7 +107,7 @@ public class DatabaseExporter {
 		if (result.next()) {
 
 			// TODO: remove collation if column 15 is null
-			write(stream, "<table name='" + table + "' collation='" + result.getString(15) + "'>");
+			write(writer, "<table name='" + table + "' collation='" + result.getString(15) + "'>");
 
 			if (settings.isDefinitionRequired()) {
 
@@ -107,13 +116,13 @@ public class DatabaseExporter {
 
 				// TODO: check if query was successful
 
-				write(stream, "<definition>");
+				write(writer, "<definition>");
 
 				while (result.next()) {
-					write(stream, wrapColumn(result));
+					write(writer, wrapColumn(result));
 				}
 
-				write(stream, "</definition>");
+				write(writer, "</definition>");
 
 			}
 
@@ -123,22 +132,22 @@ public class DatabaseExporter {
 				result = stat.getResultSet();
 				int columns = result.getMetaData().getColumnCount();
 
-				write(stream, "<data>");
+				write(writer, "<data>");
 
 				while (result.next()) {
-					write(stream, wrapEntry(result, columns));
+					write(writer, wrapEntry(result, columns));
 				}
 
-				write(stream, "</data>");
+				write(writer, "</data>");
 
 			}
 
-			write(stream, "</table>");
+			write(writer, "</table>");
 
 		}
 	}
 
-	public void wrapView(OutputStream stream, String view) throws IOException, SQLException {
+	public void wrapView(OutputStreamWriter writer, String view) throws IOException, SQLException {
 		RichConnection con = DatabaseActor.getConnection();
 
 		Statement stat = con.newStatement();
@@ -151,11 +160,11 @@ public class DatabaseExporter {
 			throw new SQLException();
 		}
 
-		write(stream, "<view name='" + view + "'>");
+		write(writer, "<view name='" + view + "'>");
 
-		write(stream, escape(result.getString(2)));
+		write(writer, escape(result.getString(2)));
 
-		write(stream, "</view>");
+		write(writer, "</view>");
 	}
 
 	public String wrapColumn(ResultSet result) throws SQLException {

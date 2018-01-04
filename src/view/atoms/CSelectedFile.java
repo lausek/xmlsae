@@ -84,5 +84,9 @@ public class CSelectedFile extends JPanel {
 		setRemovable(!name.isEmpty());
 		revalidate();
 	}
-
+	
+	public File get() {
+		return this.selectedFile;
+	}
+	
 }

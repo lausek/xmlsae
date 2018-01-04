@@ -129,6 +129,7 @@ public class ImportScreen extends Screen implements ActionListener {
 		}
 		
 		ImportSettings settings = new ImportSettings(display.getControl().getSelectedDB());
+		settings.setFiles(files);
 		
 		callback.accept(settings);
 
