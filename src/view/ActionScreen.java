@@ -37,8 +37,12 @@ public class ActionScreen extends Screen {
 	}
 	
 	@Override
+	public void onEnter(AppScreen from) {
+		
+	}
+	
+	@Override
 	public void build() {
-		super.build();
 		setLayout(null);
 		
 		setLayout(new BorderLayout(0, 0));
@@ -96,5 +100,22 @@ public class ActionScreen extends Screen {
 	//TODO: delete after class is done
 	public static void main(String[] args) {
 		new Display(null).setScreen(AppScreen.SELECT_ACTION);
+	}
+
+	@Override
+	public void addToolbar(JPanel toolbar) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onLeave(AppScreen to) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+	
 	}
 }

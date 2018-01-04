@@ -22,7 +22,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 
 import java.awt.FlowLayout;
-import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class ExportScreen extends Screen implements ActionListener {
