@@ -31,6 +31,6 @@
 	extra	CDATA #IMPLIED
 	>
 
-<!ELEMENT data (entry)+>
-<!ELEMENT entry (val)+>
+<!ELEMENT data (entry)*>
+<!ELEMENT entry (val)*>
 <!ELEMENT val (#PCDATA)>
