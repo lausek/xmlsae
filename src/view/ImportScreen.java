@@ -15,7 +15,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import model.ProcessSettings;
+import model.ImportSettings;
 import view.Display.AppScreen;
 import view.Display.MessageFatality;
 import view.atoms.CSelectedFile;
@@ -128,7 +128,9 @@ public class ImportScreen extends Screen implements ActionListener {
 			return;
 		}
 		
-		callback.accept(new ProcessSettings());
+		ImportSettings settings = new ImportSettings(display.getControl().getSelectedDB());
+		
+		callback.accept(settings);
 
 	}
 

@@ -1,6 +1,5 @@
 package model;
 
-import java.io.File;
 import java.util.List;
 
 /**
@@ -9,27 +8,18 @@ import java.util.List;
  * @author lausek
  *
  */
-public class ProcessSettings {
+public abstract class Settings {
 	
-	private List<String> databases;
-	private File directory;
-	private boolean isDefinitionRequired;
-	private boolean isDataRequired;
+	protected List<String> databases;
+	protected boolean isDefinitionRequired;
+	protected boolean isDataRequired;
 	
-	public ProcessSettings() {
+	public Settings() {
 		this.databases = new java.util.ArrayList<>();
 	}
 	
-	public ProcessSettings(List<String> databases) {
+	public Settings(List<String> databases) {
 		this.databases = databases;
-	}
-	
-	public void setDirectory(File directory) {
-		this.directory = directory;
-	}
-	
-	public File getDirectory() {
-		return this.directory;
 	}
 	
 	/**

@@ -13,7 +13,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import model.ProcessSettings;
+import model.ExportSettings;
 import view.Display.AppScreen;
 import view.atoms.CSwitchArrow;
 import view.atoms.CSwitchArrow.MoveDirection;
@@ -124,7 +124,7 @@ public class ExportScreen extends Screen implements ActionListener {
 			
 		} else if (source == btnExport) {
 			
-			ProcessSettings settings = new ProcessSettings(display.getControl().getSelectedDB());
+			ExportSettings settings = new ExportSettings(display.getControl().getSelectedDB());
 			settings.setDirectory(saveTo);
 			settings.setDefinitionRequired(bxDefinition.isSelected());
 			settings.setDataRequired(bxData.isSelected());
