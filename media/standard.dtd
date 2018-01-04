@@ -2,29 +2,35 @@
 <!ELEMENT file (meta,database)>
 
 <!ELEMENT meta (version)>
-<!ELEMENT version #PCDATA>
+<!ELEMENT version (#PCDATA)>
 
 <!ELEMENT database (view|table)*>
-<!ATTLIST database 	charset 	CDATA
-					collation 	CDATA >
+<!ATTLIST database
+	charset 	CDATA #IMPLIED
+	collation 	CDATA #IMPLIED
+	>
 					
 <!ELEMENT view (#PCDATA)>
 <!ATTLIST view name CDATA #REQUIRED>
 
 <!ELEMENT table (definition,data)>
-<!ATTLIST table		name 		CDATA #REQUIRED
-					collation 	CDATA
-					autoinc		CDATA >
+<!ATTLIST table
+	name 		CDATA #REQUIRED
+	collation	CDATA #IMPLIED
+	autoinc		CDATA #IMPLIED
+	>
 
-<!ELEMENT definition>
-<!ELEMENT column>
-<!ATTLIST column	name 	CDATA #REQUIRED
-					type 	CDATA
-					key		CDATA
-					default CDATA
-					null	CDATA
-					extra	CDATA >
+<!ELEMENT definition (column)*>
+<!ELEMENT column EMPTY>
+<!ATTLIST column
+	name 	CDATA #REQUIRED
+	type 	CDATA #IMPLIED
+	key		CDATA #IMPLIED
+	default CDATA #IMPLIED
+	null	CDATA #IMPLIED
+	extra	CDATA #IMPLIED
+	>
 
 <!ELEMENT data (entry)+>
 <!ELEMENT entry (val)+>
-<!ELEMENT value #PCDATA>
+<!ELEMENT val (#PCDATA)>
