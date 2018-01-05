@@ -30,7 +30,7 @@ public class ImportContentHandler implements ContentHandler {
 	public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
 		switch(qName) {			
 		case "database":
-			dbImporter.createDatabase(qName, atts);
+			dbImporter.createDatabase(atts.getValue("name"), atts);
 			break;
 			
 		case "view":
@@ -102,13 +102,13 @@ public class ImportContentHandler implements ContentHandler {
 	public void characters(char[] chars, int start, int len) throws SAXException {
 		switch(in) {
 		case VERSION:
-			version += String.valueOf(Arrays.copyOfRange(chars, start, len));
+			version += String.valueOf(Arrays.copyOfRange(chars, start, start+len));
 			break;
 		
 		case VIEW_QUERY:
 		case ENTRY_VALUE:
 			// fallthrough
-			generalBuffer += String.valueOf(Arrays.copyOfRange(chars, start, len));
+			generalBuffer += String.valueOf(Arrays.copyOfRange(chars, start, start+len));
 			break;
 		
 		default:

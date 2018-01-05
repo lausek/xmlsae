@@ -62,7 +62,7 @@ public class DatabaseImporter {
 				i++;
 				stmt.setString(i, val);
 			}
-			stmt.executeQuery();
+			stmt.executeUpdate();
 		} catch (SQLException e) {
 			throw new SAXException("Couldn't insert");
 		}
@@ -86,7 +86,7 @@ public class DatabaseImporter {
 			stmt.setString(1, name);
 			stmt.setString(2, query);
 			
-			stmt.executeQuery();
+			stmt.executeUpdate();
 			
 		} catch(SQLException e) {
 			throw new SAXException("View couldn't be created");
@@ -97,7 +97,7 @@ public class DatabaseImporter {
 		String collation = atts.getValue("collation");
 		String charset = atts.getValue("charset");
 		try {
-			String query = "CREATE DATABASE ?";
+			String query = "CREATE DATABASE IF NOT EXISTS ?";
 			
 			if(charset != null) {
 				query += " CHARACTER SET ?";
@@ -120,7 +120,7 @@ public class DatabaseImporter {
 				stmt.setString(2, collation);
 			}
 			
-			stmt.executeQuery();
+			stmt.executeUpdate();
 			
 		} catch (SQLException e) {
 			throw new SAXException("Database couldn't be created");
