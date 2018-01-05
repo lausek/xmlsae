@@ -6,6 +6,7 @@
 
 <!ELEMENT database (view|table)*>
 <!ATTLIST database
+	name		CDATA #IMPLIED
 	charset 	CDATA #IMPLIED
 	collation 	CDATA #IMPLIED
 	>
