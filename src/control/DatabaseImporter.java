@@ -51,35 +51,31 @@ public class DatabaseImporter {
 		}
 	}
 	
-	public void insertInto(String table, List<String> entry) {
-		
+	public void insertInto(TableInfo table, List<String> entry) throws SAXException {
+		PreparedStatement stmt;
+		try {
+			stmt = table.getInsertStatement();
+			int i = 1;
+			// first ? is table name
+			stmt.setString(i, table.getName());
+			for(String val : entry) {
+				i++;
+				stmt.setString(i, val);
+			}
+			stmt.executeQuery();
+		} catch (SQLException e) {
+			throw new SAXException("Couldn't insert");
+		}
 	}
 	
-	public void createTable(String name, Attributes atts) throws SAXException {
-		String query = "CREATE TABLE IF NOT EXISTS ?";
-		String collation = atts.getValue("collation");
-		String autoinc = atts.getValue("autoinc");
+	public void createTable(TableInfo table) throws SAXException {
 		try {
 			
-			if(collation != null) {
-				query += " ";
-			}
-			
-			if(autoinc != null) {
-				query += " ";
-			}
-			
-			PreparedStatement stmt = DatabaseActor.getConnection().newPreparedStatement(query);
-		
-			stmt.executeQuery();
+			table.getCreateStatement().executeQuery();
 			
 		} catch(SQLException e) {
 			throw new SAXException("Table couldn't be created");
 		}
-	}
-	
-	public void alterTable(String name, Attributes atts) { 
-		
 	}
 	
 	public void createView(String name, String selectQuery) throws SAXException {

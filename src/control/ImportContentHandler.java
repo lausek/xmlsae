@@ -11,7 +11,7 @@ import org.xml.sax.SAXException;
 public class ImportContentHandler implements ContentHandler {
 	
 	private enum Tag {
-		VERSION, ENTRY, ENTRY_VALUE, VIEW_QUERY, NONE
+		VERSION, DEFINITION, ENTRY, ENTRY_VALUE, VIEW_QUERY, NONE
 	};
 	
 	private DatabaseImporter dbImporter;
@@ -45,6 +45,7 @@ public class ImportContentHandler implements ContentHandler {
 			break;
 			
 		case "definition":
+			in = Tag.DEFINITION;
 			break;
 		
 		case "column":
@@ -74,13 +75,16 @@ public class ImportContentHandler implements ContentHandler {
 			generalBufferList.add(generalBuffer);
 			generalBuffer = "";
 			in = Tag.ENTRY;
-			break;
+			return;
 			
 		case ENTRY:
-			dbImporter.insertInto(currentTable.getName(), generalBufferList);
-			in = Tag.NONE;
+			dbImporter.insertInto(currentTable, generalBufferList);
 			break;
-			
+		
+		case DEFINITION:
+			dbImporter.createTable(currentTable);
+			break;
+		
 		case VIEW_QUERY:
 			dbImporter.createView(qName, generalBuffer);
 			// fallthrough
@@ -88,9 +92,10 @@ public class ImportContentHandler implements ContentHandler {
 			generalBuffer = "";
 			// fallthrough
 		default:
-			in = Tag.NONE;
+			// do nothing
 			break;
 		}
+		in = Tag.NONE;
 	}
 	
 	@Override
