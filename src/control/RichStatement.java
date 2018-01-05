@@ -1,28 +1,32 @@
 package control;
 
 import java.sql.SQLException;
-import java.sql.Statement;
-
-import org.apache.commons.lang3.text.*;
-import org.apache.commons.lang3.StringEscapeUtils;
+import java.util.List;
 
 public class RichStatement {
-	
-	private Statement stmt;
+
 	private String query;
-	private int insertIndex;
-	
+	private List<String> params;
+
 	public RichStatement(String query) throws SQLException {
 		this.query = query;
-		this.stmt = DatabaseActor.getConnection().newStatement();
+		this.params = new java.util.ArrayList<>();
 	}
-	
-	public void setRaw(String raw) {
-		
+
+	public void setRaw(String raw) throws SQLException {
+		// TODO: implement
+		params.add(raw);
 	}
-	
-	public void setString() {
-		
+
+	public void setString(String val) throws SQLException {
+		params.add('"' + val + '"');
 	}
-	
+
+	public void executeUpdate() throws SQLException {
+		for (String param : params) {
+			query = query.replaceFirst("\\?", param);
+		}
+		DatabaseActor.getConnection().newPreparedStatement(query).executeUpdate();
+	}
+
 }

@@ -16,9 +16,9 @@ import model.ExportSettings;
 // TODO: Add constants for column index
 // TODO: Escape string to prevent confusion with xml 
 public class DatabaseExporter {
-	
+
 	public final String XML_SIGNATURE = "<?xml version=\"1.0\" encoding=\"utf-8\"?><!DOCTYPE file SYSTEM \"media/standard.dtd\">";
-	
+
 	private ExportSettings settings;
 
 	public DatabaseExporter(ExportSettings settings) {
@@ -31,12 +31,12 @@ public class DatabaseExporter {
 			File file = new File(settings.getDirectory().getAbsolutePath() + "/" + db + ".xml");
 
 			try (OutputStream stream = new FileOutputStream(file)) {
-				
+
 				OutputStreamWriter writer = new OutputStreamWriter(stream, "UTF-8");
-				
+
 				write(writer, XML_SIGNATURE);
-				
-				// add temporary version				
+
+				// add temporary version
 				write(writer, "<file><meta><version>1.0</version></meta>");
 
 				DatabaseActor.getConnection().setCatalog(db);
@@ -44,15 +44,15 @@ public class DatabaseExporter {
 				wrapDatabase(writer, db);
 
 				write(writer, "</file>");
-				
+
 				writer.close();
-				
+
 				// TODO: file was exported
-				
-			} catch(SQLException | IOException e) {
-				
+
+			} catch (SQLException | IOException e) {
+
 				// TODO: file couldn't be exported
-				
+
 			}
 		}
 	}
@@ -68,7 +68,7 @@ public class DatabaseExporter {
 	public void wrapDatabase(OutputStreamWriter writer, String db) throws IOException, SQLException {
 
 		RichConnection con = DatabaseActor.getConnection();
-	
+
 		Statement stat = con.newStatement();
 		stat.executeQuery("SELECT @@character_set_database, @@collation_database");
 
@@ -79,7 +79,8 @@ public class DatabaseExporter {
 			throw new SQLException();
 		}
 
-		write(writer, "<database collation='" + result.getString(1) + "' charset='" + result.getString(2) + "'>");
+		write(writer, "<database name='" + db + "' collation='" + result.getString(1) + "' charset='"
+				+ result.getString(2) + "'>");
 
 		stat.executeQuery("SHOW TABLES");
 		result = stat.getResultSet();

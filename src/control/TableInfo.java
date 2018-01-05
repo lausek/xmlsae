@@ -1,6 +1,5 @@
 package control;
 
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -30,7 +29,7 @@ public class TableInfo {
 		return this.atts;
 	}
 	
-	public PreparedStatement getInsertStatement() throws SQLException {
+	public RichStatement getInsertStatement() throws SQLException {
 		String query = "INSERT INTO ? VALUES (";
 		for(int i = 0; i < columns.size(); i++) {
 			query += "?";
@@ -39,7 +38,7 @@ public class TableInfo {
 			}
 		}
 		query += ")";
-		return DatabaseActor.getConnection().newPreparedStatement(query);
+		return DatabaseActor.getConnection().newRichStatement(query);
 	}
 	
 	private String getCreateQuery() {
@@ -76,37 +75,35 @@ public class TableInfo {
 		return query;
 	}
 	
-	public PreparedStatement getCreateStatement() throws SQLException {
+	public RichStatement getCreateStatement() throws SQLException {
 		String query = getCreateQuery();
 		String collation = atts.getValue("collation");
-		int insertIndex = 1;
-		
-		PreparedStatement stmt = DatabaseActor.getConnection().newPreparedStatement(query);
-		stmt.setString(insertIndex++, this.name);
+		RichStatement stmt = DatabaseActor.getConnection().newRichStatement(query);
+		stmt.setRaw(this.name);
 		
 		for(Attributes column : columns) {
-			stmt.setString(insertIndex++, column.getValue("name"));
-			stmt.setString(insertIndex++, column.getValue("type"));
+			stmt.setRaw(column.getValue("name"));
+			stmt.setRaw(column.getValue("type"));
 			
 			if(column.getValue("key") != null) {
-				stmt.setString(insertIndex++, column.getValue("key"));
+				stmt.setRaw(column.getValue("key"));
 			}
 			
 			if(column.getValue("default") != null) {
-				stmt.setString(insertIndex++, column.getValue("default"));
+				stmt.setRaw(column.getValue("default"));
 			}
 			
 			if(column.getValue("null") != null) {
-				stmt.setString(insertIndex++, column.getValue("null"));
+				stmt.setRaw(column.getValue("null"));
 			}
 			
 			if(column.getValue("extra") != null) {
-				stmt.setString(insertIndex++, column.getValue("extra"));
+				stmt.setRaw(column.getValue("extra"));
 			}
 		}
 		
 		if(collation != null) {
-			stmt.setString(insertIndex, collation);
+			stmt.setRaw(collation);
 		}
 		
 		return stmt;

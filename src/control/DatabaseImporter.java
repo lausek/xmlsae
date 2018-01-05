@@ -3,9 +3,7 @@ package control;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -13,10 +11,8 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.Attributes;
-import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
 
 import model.ImportSettings;
@@ -52,15 +48,12 @@ public class DatabaseImporter {
 	}
 	
 	public void insertInto(TableInfo table, List<String> entry) throws SAXException {
-		PreparedStatement stmt;
 		try {
-			stmt = table.getInsertStatement();
-			int i = 1;
+			RichStatement stmt = table.getInsertStatement();
 			// first ? is table name
-			stmt.setString(i, table.getName());
+			stmt.setRaw(table.getName());
 			for(String val : entry) {
-				i++;
-				stmt.setString(i, val);
+				stmt.setString(val);
 			}
 			stmt.executeUpdate();
 		} catch (SQLException e) {
@@ -71,7 +64,7 @@ public class DatabaseImporter {
 	public void createTable(TableInfo table) throws SAXException {
 		try {
 			
-			table.getCreateStatement().executeQuery();
+			table.getCreateStatement().executeUpdate();
 			
 		} catch(SQLException e) {
 			throw new SAXException("Table couldn't be created");
@@ -82,9 +75,9 @@ public class DatabaseImporter {
 		String query = "CREATE OR REPLACE VIEW ? AS ?";
 		try {
 			
-			PreparedStatement stmt = DatabaseActor.getConnection().newPreparedStatement(query);
-			stmt.setString(1, name);
-			stmt.setString(2, query);
+			RichStatement stmt = DatabaseActor.getConnection().newRichStatement(query);
+			stmt.setRaw(name);
+			stmt.setString(query);
 			
 			stmt.executeUpdate();
 			
@@ -107,17 +100,17 @@ public class DatabaseImporter {
 				query += " COLLATE ?";
 			}
 			
-			PreparedStatement stmt = DatabaseActor.getConnection().newPreparedStatement(query);
-			stmt.setString(1, name);
+			RichStatement stmt = DatabaseActor.getConnection().newRichStatement(query);
+			stmt.setRaw(name);
 			
 			if(collation != null && charset != null) {
-				stmt.setString(2, charset);
-				stmt.setString(3, collation);
+				stmt.setRaw(charset);
+				stmt.setRaw(collation);
 			} else if(charset != null) {
-				stmt.setString(2, charset);
+				stmt.setRaw(charset);
 			} else if(collation != null) {
 				// no charset given, take second place
-				stmt.setString(2, collation);
+				stmt.setRaw(collation);
 			}
 			
 			stmt.executeUpdate();

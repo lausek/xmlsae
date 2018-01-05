@@ -65,9 +65,9 @@ public class RichConnection {
 		return sqlConnection.createStatement();
 	}
 	
-//	public RichStatement newRichStatement(String query) throws SQLException {
-//		return new RichStatement(query);
-//	}
+	public RichStatement newRichStatement(String query) throws SQLException {
+		return new RichStatement(query);
+	}
 	
 	public PreparedStatement newPreparedStatement(String query) throws SQLException {
 		return sqlConnection.prepareStatement(query);
