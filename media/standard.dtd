@@ -24,7 +24,7 @@
 <!ELEMENT column EMPTY>
 <!ATTLIST column
 	name 	CDATA #REQUIRED
-	type 	CDATA #IMPLIED
+	type 	CDATA #REQUIRED
 	key		CDATA #IMPLIED
 	default CDATA #IMPLIED
 	null	CDATA #IMPLIED
