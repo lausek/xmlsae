@@ -1,6 +1,7 @@
 package control;
 
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Connection;
@@ -62,6 +63,10 @@ public class RichConnection {
 
 	public Statement newStatement() throws SQLException {
 		return sqlConnection.createStatement();
+	}
+	
+	public PreparedStatement newPreparedStatement(String query) throws SQLException {
+		return sqlConnection.prepareStatement(query);
 	}
 	
 	public String getHost() {

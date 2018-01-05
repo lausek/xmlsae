@@ -17,7 +17,7 @@ import model.ExportSettings;
 // TODO: Escape string to prevent confusion with xml 
 public class DatabaseExporter {
 	
-	public final String XML_SIGNATURE = "<?xml version=\"1.0\"?><!DOCTYPE file SYSTEM \"media/standard.dtd\">";
+	public final String XML_SIGNATURE = "<?xml version=\"1.0\" encoding=\"utf-8\"?><!DOCTYPE file SYSTEM \"media/standard.dtd\">";
 	
 	private ExportSettings settings;
 
@@ -47,6 +47,12 @@ public class DatabaseExporter {
 				
 				writer.close();
 				
+				// TODO: file was exported
+				
+			} catch(SQLException | IOException e) {
+				
+				// TODO: file couldn't be exported
+				
 			}
 		}
 	}
@@ -59,38 +65,32 @@ public class DatabaseExporter {
 		return StringEscapeUtils.escapeXml10(val);
 	}
 
-	public void wrapDatabase(OutputStreamWriter writer, String db) throws IOException {
+	public void wrapDatabase(OutputStreamWriter writer, String db) throws IOException, SQLException {
 
 		RichConnection con = DatabaseActor.getConnection();
+	
+		Statement stat = con.newStatement();
+		stat.executeQuery("SELECT @@character_set_database, @@collation_database");
 
-		try {
-			Statement stat = con.newStatement();
-			stat.executeQuery("SELECT @@character_set_database, @@collation_database");
+		ResultSet result = stat.getResultSet();
 
-			ResultSet result = stat.getResultSet();
+		if (!result.next()) {
+			// TODO: add description here
+			throw new SQLException();
+		}
 
-			if (!result.next()) {
-				// TODO: add description here
-				throw new SQLException();
-			}
+		write(writer, "<database collation='" + result.getString(1) + "' charset='" + result.getString(2) + "'>");
 
-			write(writer, "<database collation='" + result.getString(1) + "' charset='" + result.getString(2) + "'>");
+		stat.executeQuery("SHOW TABLES");
+		result = stat.getResultSet();
+		while (result.next()) {
+			wrapTable(writer, result.getString(1));
+		}
 
-			stat.executeQuery("SHOW TABLES");
-			result = stat.getResultSet();
-			while (result.next()) {
-				wrapTable(writer, result.getString(1));
-			}
-
-			stat.executeQuery("SHOW FULL TABLES IN " + db + " WHERE TABLE_TYPE LIKE 'VIEW'");
-			result = stat.getResultSet();
-			while (result.next()) {
-				wrapView(writer, result.getString(1));
-			}
-
-		} catch (SQLException e) {
-			// TODO: Add Logger here
-			e.printStackTrace();
+		stat.executeQuery("SHOW FULL TABLES IN " + db + " WHERE TABLE_TYPE LIKE 'VIEW'");
+		result = stat.getResultSet();
+		while (result.next()) {
+			wrapView(writer, result.getString(1));
 		}
 
 		write(writer, "</database>");
