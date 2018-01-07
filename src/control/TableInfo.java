@@ -6,106 +6,106 @@ import java.util.List;
 import org.xml.sax.Attributes;
 
 public class TableInfo {
-	
-	private String name;
-	private Attributes atts;
-	private List<Attributes> columns;
-	
+
+	private String name, collation;
+	private List<ColumnInfo> columns;
+
 	public TableInfo(String name, Attributes atts) {
 		this.name = name;
-		this.atts = atts;
+		this.collation = atts.getValue("collation");
 		this.columns = new java.util.ArrayList<>();
 	}
-	
-	public void addColumn(Attributes atts) {
-		this.columns.add(atts);
+
+	public void addColumn(ColumnInfo column) {
+		this.columns.add(column);
 	}
-	
+
 	public String getName() {
 		return this.name;
 	}
-	
-	public Attributes getAttributes() {
-		return this.atts;
-	}
-	
+
 	public RichStatement getInsertStatement() throws SQLException {
 		String query = "INSERT INTO ? VALUES (";
-		for(int i = 0; i < columns.size(); i++) {
+		for (int i = 0; i < columns.size(); i++) {
 			query += "?";
-			if(i != columns.size()) {
+			if (i != columns.size()) {
 				query += ",";
 			}
 		}
 		query += ")";
 		return DatabaseActor.getConnection().newRichStatement(query);
 	}
-	
+
 	private String getCreateQuery() {
 		String query = "CREATE TABLE IF NOT EXISTS ? (";
-		String collation = atts.getValue("collation");
-		
-		for(Attributes column : columns) {
+		int i = 1;
+
+		for (ColumnInfo column : columns) {
 			// name and type
+			if (1 < i) {
+				query += ", ";
+			}
+
 			query += "\n ? ?";
-			
-			if(column.getValue("key") != null) {
+
+			if (column.getKey() != null) {
 				query += " ? ";
 			}
-			
-			if(column.getValue("default") != null) {
+
+			if (column.getDefault() != null) {
 				query += " ? ";
 			}
-			
-			if(column.getValue("null") != null) {
+
+			if (column.getNull() != null) {
 				query += " ? ";
 			}
-			
-			if(column.getValue("extra") != null) {
+
+			if (column.getExtra() != null) {
 				query += " ? ";
 			}
-			
+
+			i++;
+
 		}
 		query += ")";
-		
-		if(collation != null) {
+
+		if (collation != null) {
 			query += " COLLATE ?";
 		}
-		
+
 		return query;
 	}
-	
+
 	public RichStatement getCreateStatement() throws SQLException {
 		String query = getCreateQuery();
-		String collation = atts.getValue("collation");
 		RichStatement stmt = DatabaseActor.getConnection().newRichStatement(query);
 		stmt.setRaw(this.name);
-		
-		for(Attributes column : columns) {
-			stmt.setRaw(column.getValue("name"));
-			stmt.setRaw(column.getValue("type"));
-			
-			if(column.getValue("key") != null) {
-				stmt.setRaw(column.getValue("key"));
+
+		for (ColumnInfo column : columns) {
+			stmt.setRaw(column.getName());
+			stmt.setRaw(column.getType());
+
+			if (column.getKey() != null) {
+				stmt.setRaw(column.getKey());
 			}
-			
-			if(column.getValue("default") != null) {
-				stmt.setRaw(column.getValue("default"));
+
+			if (column.getDefault() != null) {
+				stmt.setRaw(column.getDefault());
 			}
-			
-			if(column.getValue("null") != null) {
-				stmt.setRaw(column.getValue("null"));
+
+			if (column.getNull() != null) {
+				stmt.setRaw(column.getNull());
 			}
-			
-			if(column.getValue("extra") != null) {
-				stmt.setRaw(column.getValue("extra"));
+
+			if (column.getExtra() != null) {
+				stmt.setRaw(column.getExtra());
 			}
 		}
-		
-		if(collation != null) {
+
+		if (collation != null) {
 			stmt.setRaw(collation);
 		}
-		
+
 		return stmt;
 	}
 }

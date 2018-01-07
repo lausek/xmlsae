@@ -169,8 +169,8 @@ public class DatabaseExporter {
 	}
 
 	public String wrapColumn(ResultSet result) throws SQLException {
-		return "<column name='" + result.getString(1) + "' type='" + result.getString(2) + "' key='"
-				+ result.getString(3) + "' default='" + result.getString(5) + "' null='" + result.getString(3)
+		return "<column name='" + result.getString(1) + "' type='" + result.getString(2) + "' null='"
+				+ result.getString(3) + "' key='" + result.getString(5) + "' default='" + result.getString(3)
 				+ "' extra='" + result.getString(6) + "' />";
 	}
 

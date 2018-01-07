@@ -24,6 +24,7 @@ public class ImportContentHandler implements ContentHandler {
 		this.dbImporter = dbImporter;
 		generalBufferList = new java.util.ArrayList<>();
 		generalBuffer = "";
+		version = "";
 	}
 	
 	@Override
@@ -49,7 +50,7 @@ public class ImportContentHandler implements ContentHandler {
 			break;
 		
 		case "column":
-			currentTable.addColumn(atts);
+			currentTable.addColumn(new ColumnInfo(atts));
 			break;
 			
 		case "entry":
@@ -70,6 +71,10 @@ public class ImportContentHandler implements ContentHandler {
 
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
+		if(qName.equals("column")) {
+			return;
+		}
+		
 		switch(in) {
 		case ENTRY_VALUE:
 			generalBufferList.add(generalBuffer);
@@ -89,7 +94,7 @@ public class ImportContentHandler implements ContentHandler {
 			dbImporter.createView(qName, generalBuffer);
 			// fallthrough
 		case VERSION:
-			generalBuffer = "";
+//			generalBuffer = "";
 			// fallthrough
 		default:
 			// do nothing
