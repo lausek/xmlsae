@@ -24,7 +24,7 @@ public class ColumnInfo {
 	}
 
 	public String getKey() {
-		return key.equals("YES") ? "PRIMARY KEY" : "";
+		return key.equals("PRI") ? "PRIMARY KEY" : "";
 	}
 
 	public String getDefault() {
