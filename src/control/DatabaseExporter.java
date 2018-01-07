@@ -79,7 +79,7 @@ public class DatabaseExporter {
 			throw new SQLException();
 		}
 
-		write(writer, "<database name='" + db + "' collation='" + result.getString(1) + "' charset='"
+		write(writer, "<database name='" + db + "' charset='" + result.getString(1) + "' collation='"
 				+ result.getString(2) + "'>");
 
 		stat.executeQuery("SHOW TABLES");
