@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.apache.commons.text.StringEscapeUtils;
+import org.owasp.esapi.ESAPI;
 
 import model.ExportSettings;
 
@@ -62,7 +62,7 @@ public class DatabaseExporter {
 	}
 
 	private String escape(String val) {
-		return StringEscapeUtils.escapeXml10(val);
+		return ESAPI.encoder().encodeForXML(val);
 	}
 
 	public void wrapDatabase(OutputStreamWriter writer, String db) throws IOException, SQLException {
