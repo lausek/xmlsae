@@ -14,7 +14,6 @@ import org.owasp.esapi.ESAPI;
 import model.ExportSettings;
 
 // TODO: Add constants for column index
-// TODO: Escape string to prevent confusion with xml 
 public class DatabaseExporter {
 
 	public final String XML_SIGNATURE = "<?xml version=\"1.0\" encoding=\"utf-8\"?><!DOCTYPE file SYSTEM \"media/standard.dtd\">";

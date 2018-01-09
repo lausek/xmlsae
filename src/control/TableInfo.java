@@ -88,7 +88,7 @@ public class TableInfo {
 			if (column.getKey() != null) {
 				stmt.setRaw(column.getKey());
 			}
-
+			
 			if (column.getDefault() != null) {
 				stmt.setRaw(column.getDefault());
 			}
