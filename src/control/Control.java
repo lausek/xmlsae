@@ -31,6 +31,14 @@ public class Control {
 	}
 	
 	public static void main(String[] args) {
+		
+		try {
+			SecurityHandler.check();
+		} catch (IOException e1) {
+			System.out.println("Really important files couldn't be downloaded. This is bad");
+			System.exit(1);
+		}
+		
 		// Try to make program look like it is platform dependent
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
