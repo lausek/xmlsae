@@ -8,8 +8,6 @@ import java.util.function.Consumer;
 import javax.swing.UIManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-import org.owasp.esapi.SecurityConfiguration;
-import org.owasp.esapi.reference.DefaultSecurityConfiguration;
 
 import model.ExportSettings;
 import model.ImportSettings;

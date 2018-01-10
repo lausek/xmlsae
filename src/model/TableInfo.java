@@ -1,9 +1,12 @@
-package control;
+package model;
 
 import java.sql.SQLException;
 import java.util.List;
 
 import org.xml.sax.Attributes;
+
+import control.DatabaseActor;
+import control.RichStatement;
 
 public class TableInfo {
 

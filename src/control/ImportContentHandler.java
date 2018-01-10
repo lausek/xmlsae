@@ -3,6 +3,9 @@ package control;
 import java.util.Arrays;
 import java.util.List;
 
+import model.ColumnInfo;
+import model.TableInfo;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.Locator;

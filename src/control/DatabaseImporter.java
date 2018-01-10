@@ -16,6 +16,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 import model.ImportSettings;
+import model.TableInfo;
 import view.atoms.CSelectedFile;
 
 public class DatabaseImporter {
