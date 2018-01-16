@@ -168,9 +168,15 @@ public class DatabaseExporter {
 	}
 
 	public String wrapColumn(ResultSet result) throws SQLException {
-		return "<column name='" + result.getString(1) + "' type='" + result.getString(2) + "' null='"
-				+ result.getString(3) + "' key='" + result.getString(4) + "' default='" + result.getString(5)
-				+ "' extra='" + result.getString(6) + "' />";
+		
+		String col = "<column name='" + result.getString(1) + "' type='" + result.getString(2) + "' null='"
+				+ result.getString(3) + "' key='" + result.getString(4) +"'";
+		
+		if (result.getString(5) != null) {
+			col += " default='" + result.getString(5) + "'";
+		}
+
+		return col + " extra='" + result.getString(6) + "' />";
 	}
 
 	public String wrapEntry(ResultSet result, int columns) throws SQLException {

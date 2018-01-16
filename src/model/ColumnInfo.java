@@ -28,7 +28,18 @@ public class ColumnInfo {
 	}
 
 	public String getDefault() {
-		return def.isEmpty() ? def : "DEFAULT '" + def + "'";
+		switch (def.toLowerCase()) {
+		case "":
+			// fallthrough
+		case "null":
+			return "";
+
+		case "current_timestamp":
+			return "DEFAULT " + def;
+
+		default:
+			return "DEFAULT '" + def + "'";
+		}
 	}
 
 	public String getNull() {

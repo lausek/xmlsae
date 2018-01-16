@@ -31,7 +31,7 @@ public class TableInfo {
 		String query = "INSERT INTO ? VALUES (";
 		for (int i = 0; i < columns.size(); i++) {
 			query += "?";
-			if (i != columns.size()) {
+			if (i != columns.size()-1) {
 				query += ",";
 			}
 		}

@@ -51,7 +51,7 @@ public class DatabaseImporter {
 	public void insertInto(TableInfo table, List<String> entry) throws SAXException {
 		try {
 			RichStatement stmt = table.getInsertStatement();
-			// first ? is table name
+			// first ? is table name 
 			stmt.setRaw(table.getName());
 			for(String val : entry) {
 				stmt.setString(val);
@@ -115,6 +115,8 @@ public class DatabaseImporter {
 			}
 			
 			stmt.executeUpdate();
+			
+			DatabaseActor.getConnection().setCatalog(name);
 			
 		} catch (SQLException e) {
 			throw new SAXException("Database couldn't be created");
