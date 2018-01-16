@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import control.RichConnection;
@@ -32,9 +33,9 @@ import javax.swing.Box;
 @SuppressWarnings("serial")
 public class LoginScreen extends Screen {
 
-	private static final int TF_WIDTH = 150;
+	private static final int TF_WIDTH = 250;
 
-	private CTextField tfUser;
+	private CTextField tfUser, tfHost;
 	private CPasswordField tfPassword;
 
 	public LoginScreen(Display parent) {
@@ -63,21 +64,33 @@ public class LoginScreen extends Screen {
 		verticalBox.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		verticalBox.add(Box.createVerticalGlue());
 
-		tfUser = new CTextField("user@host...");
-		tfUser.setColumns(16);
+		JPanel connectionPanel = new JPanel();
+		connectionPanel.setMaximumSize(new java.awt.Dimension(TF_WIDTH, 10));
+		
+		tfUser = new CTextField("user", "root");
+		tfUser.setColumns(10);
 		tfUser.addKeyListener(keyHandler);
-		tfUser.setMinimumSize(new java.awt.Dimension(TF_WIDTH, 30));
-		tfUser.setMaximumSize(new java.awt.Dimension(TF_WIDTH, 30));
-		verticalBox.add(tfUser);
-
+		
+		tfHost = new CTextField("host", "localhost");
+		tfHost.setColumns(16);
+		tfHost.addKeyListener(keyHandler);
+		
+		connectionPanel.add(tfUser);
+		connectionPanel.add(new JLabel("@"));
+		connectionPanel.add(tfHost);
+		
+		verticalBox.add(connectionPanel);
 		verticalBox.add(Box.createVerticalStrut(20));
-
-		tfPassword = new CPasswordField("password...");
-		tfPassword.setColumns(16);
+		
+		JPanel passwordPanel = new JPanel();
+		passwordPanel.setMaximumSize(new java.awt.Dimension(TF_WIDTH, 30));
+		
+		tfPassword = new CPasswordField("password");
+		tfPassword.setColumns(29);
 		tfPassword.addKeyListener(keyHandler);
-		tfPassword.setMinimumSize(new java.awt.Dimension(TF_WIDTH, 30));
-		tfPassword.setMaximumSize(new java.awt.Dimension(TF_WIDTH, 30));
-		verticalBox.add(tfPassword);
+	
+		passwordPanel.add(tfPassword);
+		verticalBox.add(passwordPanel);
 
 		verticalBox.add(Box.createVerticalStrut(20));
 
@@ -98,7 +111,8 @@ public class LoginScreen extends Screen {
 			// If password gets transferred into a String,
 			// on could catch it out of the StringPool. We don't want that.
 			char[] pw = tfPassword.getPassword();
-			final RichConnection con = new RichConnection(tfUser.getText(), pw);
+			String hostString = tfUser.getText() + "@" + tfHost.getText();
+			final RichConnection con = new RichConnection(hostString, pw);
 
 			getStatusArea().setUsername(con.getHostString());
 

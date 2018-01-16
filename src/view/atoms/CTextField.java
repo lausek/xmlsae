@@ -20,17 +20,22 @@ public class CTextField extends JTextField {
 
 	private final Color PLACEHOLDER_COLOR = Color.GRAY;
 
-	private String placeholder;
+	private String placeholder, def;
 
 	public CTextField(String placeholder) {
+		this(placeholder, "");
+	}
+	
+	public CTextField(String placeholder, String def) {
 		this.placeholder = placeholder;
+		this.def = def;
 	}
 
 	@Override
 	protected void paintComponent(final Graphics pG) {
 		super.paintComponent(pG);
 
-		if (getText().length() > 0) {
+		if (super.getText().length() > 0) {
 			return;
 		}
 
@@ -39,4 +44,12 @@ public class CTextField extends JTextField {
 		g.drawString(placeholder, getInsets().left, pG.getFontMetrics().getMaxAscent() + getInsets().top);
 	}
 
+	@Override
+	public String getText() {
+		if(super.getText().equals("")) {
+			return this.def;
+		}
+		return super.getText();
+	}
+	
 }
