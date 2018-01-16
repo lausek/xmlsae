@@ -31,7 +31,7 @@ public class TableInfo {
 		String query = "INSERT INTO ? VALUES (";
 		for (int i = 0; i < columns.size(); i++) {
 			query += "?";
-			if (i != columns.size()-1) {
+			if (i != columns.size() - 1) {
 				query += ",";
 			}
 		}
@@ -40,6 +40,7 @@ public class TableInfo {
 	}
 
 	private String getCreateQuery() {
+		List<ColumnInfo> keys = new java.util.ArrayList<>();
 		String query = "CREATE TABLE IF NOT EXISTS ? (";
 		int i = 1;
 
@@ -51,10 +52,6 @@ public class TableInfo {
 
 			query += "\n ? ?";
 
-			if (column.getKey() != null) {
-				query += " ? ";
-			}
-
 			if (column.getDefault() != null) {
 				query += " ? ";
 			}
@@ -67,12 +64,30 @@ public class TableInfo {
 				query += " ? ";
 			}
 
+			if (column.isKey()) {
+				keys.add(column);
+			}
+
 			i++;
 
 		}
+
+		if (!keys.isEmpty()) {
+			query += ", PRIMARY KEY (";
+			int counter = 0;
+			for (ColumnInfo key : keys) {
+				counter++;
+				query += "?";
+				if(counter != keys.size()) {
+					query += ",";
+				}
+			}
+			query += ")\n";
+		}
+
 		query += ")";
 
-		if (collation != null) {
+		if (collation != null && !collation.equals("null")) {
 			query += " COLLATE ?";
 		}
 
@@ -80,6 +95,7 @@ public class TableInfo {
 	}
 
 	public RichStatement getCreateStatement() throws SQLException {
+		List<ColumnInfo> keys = new java.util.ArrayList<>();
 		String query = getCreateQuery();
 		RichStatement stmt = DatabaseActor.getConnection().newRichStatement(query);
 		stmt.setRaw(this.name);
@@ -88,10 +104,10 @@ public class TableInfo {
 			stmt.setRaw(column.getName());
 			stmt.setRaw(column.getType());
 
-			if (column.getKey() != null) {
-				stmt.setRaw(column.getKey());
-			}
-			
+			// if (column.getKey() != null) {
+			// stmt.setRaw(column.getKey());
+			// }
+
 			if (column.getDefault() != null) {
 				stmt.setRaw(column.getDefault());
 			}
@@ -103,6 +119,15 @@ public class TableInfo {
 			if (column.getExtra() != null) {
 				stmt.setRaw(column.getExtra());
 			}
+
+			if (column.isKey()) {
+				keys.add(column);
+			}
+
+		}
+
+		for (ColumnInfo key : keys) {
+			stmt.setRaw(key.getName());
 		}
 
 		if (collation != null) {

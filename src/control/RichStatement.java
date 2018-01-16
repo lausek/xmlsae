@@ -36,6 +36,7 @@ public class RichStatement {
 		for (String param : params) {
 			query = query.replaceFirst("\\?", param);
 		}
+		System.out.println(query);
 		DatabaseActor.getConnection().newPreparedStatement(query).executeUpdate();
 	}
 

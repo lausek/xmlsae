@@ -81,7 +81,7 @@ public class DatabaseExporter {
 		write(writer, "<database name='" + db + "' charset='" + result.getString(1) + "' collation='"
 				+ result.getString(2) + "'>");
 
-		stat.executeQuery("SHOW TABLES");
+		stat.executeQuery("SHOW FULL TABLES WHERE TABLE_TYPE NOT LIKE 'VIEW'");
 		result = stat.getResultSet();
 		while (result.next()) {
 			wrapTable(writer, result.getString(1));

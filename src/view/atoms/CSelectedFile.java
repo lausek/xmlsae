@@ -18,10 +18,10 @@ public class CSelectedFile extends JPanel {
 
 	private static JFileChooser chooser;
 
-	private ImportScreen importScreen;
-	private JButton cmdRemove;
-	private JLabel lbSelectedFile;
-	private File selectedFile;
+	protected ImportScreen importScreen;
+	protected JButton cmdRemove;
+	protected JLabel lbSelectedFile;
+	protected File selectedFile;
 
 	static {
 		chooser = new JFileChooser();

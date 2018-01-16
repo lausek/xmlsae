@@ -38,7 +38,7 @@ public class ImportContentHandler implements ContentHandler {
 			break;
 			
 		case "view":
-			// do nothing
+			in = Tag.VIEW_QUERY;
 			break;
 			
 		case "table":
@@ -94,7 +94,7 @@ public class ImportContentHandler implements ContentHandler {
 			break;
 		
 		case VIEW_QUERY:
-			dbImporter.createView(qName, generalBuffer);
+			dbImporter.createView(generalBuffer);
 			// fallthrough
 		case VERSION:
 //			generalBuffer = "";

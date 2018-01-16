@@ -23,11 +23,15 @@ public class ColumnInfo {
 		return type;
 	}
 
-	public String getKey() {
-		return key.equals("PRI") ? "PRIMARY KEY" : "";
+	public boolean isKey() {
+		return key.equals("PRI");
 	}
 
 	public String getDefault() {
+		if (def == null) {
+			return "";
+		}
+
 		switch (def.toLowerCase()) {
 		case "":
 			// fallthrough
