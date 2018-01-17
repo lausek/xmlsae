@@ -16,6 +16,7 @@ import model.ExportSettings;
 import model.ImportSettings;
 import view.Display;
 import view.Display.AppScreen;
+import view.Display.MessageFatality;
 
 public class Control {
 
@@ -92,11 +93,8 @@ public class Control {
 
 		@Override
 		public void accept(Object settings) {
-			try {
-				new DatabaseImporter((ImportSettings)settings).start();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			String protocol = new DatabaseImporter((ImportSettings)settings).start();
+			display.notice(MessageFatality.INFO, "Import log", protocol);
 		}
 				
 	};
@@ -105,14 +103,8 @@ public class Control {
 
 		@Override
 		public void accept(Object settings) {
-			try {
-				new DatabaseExporter((ExportSettings)settings).start();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			String protocol = new DatabaseExporter((ExportSettings)settings).start();
+			display.notice(MessageFatality.INFO, "Export log", protocol);
 		}
 				
 	};

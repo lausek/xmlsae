@@ -1,6 +1,7 @@
 package control.xml;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
@@ -31,28 +32,36 @@ public class DatabaseImporter {
 		this.settings = settings;
 	}
 
-	public void start() throws IOException {
+	public String start() {
+		String protocol = "";
 		SAXParserFactory parserFactory = SAXParserFactory.newInstance();
 		parserFactory.setValidating(true);
 
 		for (CSelectedFile file : settings.getFiles()) {
 			try (InputStream stream = new FileInputStream(file.get())) {
-				try {
-					SAXParser parser = parserFactory.newSAXParser();
-					XMLReader reader = parser.getXMLReader();
-					reader.setErrorHandler(new ImportErrorHandler());
-					reader.setContentHandler(new ImportContentHandler(this));
 
-					reader.parse(new InputSource(stream));
+				SAXParser parser = parserFactory.newSAXParser();
+				XMLReader reader = parser.getXMLReader();
+				reader.setErrorHandler(new ImportErrorHandler());
+				reader.setContentHandler(new ImportContentHandler(this));
 
-				} catch (ParserConfigurationException | SAXException e) {
-					e.printStackTrace();
-				}
+				reader.parse(new InputSource(stream));
+
+				protocol += "✓ " + file.get().getName() + "\n";
+
+			} catch (IOException | ParserConfigurationException | SAXException e) {
+
+				protocol += "✗ " + file.get().getName() + ": " + e.getMessage()
+						+ "\n";
+
 			}
 		}
+
+		return protocol;
 	}
 
-	public void insertInto(TableInfo table, List<String> entry) throws SAXException {
+	public void insertInto(TableInfo table, List<String> entry)
+			throws SAXException {
 		try {
 			RichStatement stmt = table.getInsertStatement();
 			// first ? is table name
@@ -75,23 +84,27 @@ public class DatabaseImporter {
 			table.getCreateStatement().executeUpdate();
 
 		} catch (SQLException e) {
-			throw new SAXException("Table couldn't be created: " + e.getMessage());
+			throw new SAXException("Table couldn't be created: "
+					+ e.getMessage());
 		}
 	}
 
 	public void createView(String query) throws SAXException {
 		try {
 
-			RichStatement stmt = DatabaseActor.getConnection().newRichStatement(query);
+			RichStatement stmt = DatabaseActor.getConnection()
+					.newRichStatement(query);
 
 			stmt.executeUpdate();
 
 		} catch (SQLException e) {
-			throw new SAXException("View couldn't be created: " + e.getMessage());
+			throw new SAXException("View couldn't be created: "
+					+ e.getMessage());
 		}
 	}
 
-	public void createDatabase(String name, Attributes atts) throws SAXException {
+	public void createDatabase(String name, Attributes atts)
+			throws SAXException {
 		String collation = atts.getValue("collation");
 		String charset = atts.getValue("charset");
 		try {
@@ -105,7 +118,8 @@ public class DatabaseImporter {
 				query += " COLLATE ?";
 			}
 
-			RichStatement stmt = DatabaseActor.getConnection().newRichStatement(query);
+			RichStatement stmt = DatabaseActor.getConnection()
+					.newRichStatement(query);
 			stmt.setRaw(name);
 
 			if (collation != null && charset != null) {
@@ -130,7 +144,8 @@ public class DatabaseImporter {
 	public static void main(String[] args) {
 
 		try {
-			RichConnection con = new RichConnection("root@localhost", new char[0]);
+			RichConnection con = new RichConnection("root@localhost",
+					new char[0]);
 			new DatabaseActor(con);
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
@@ -141,7 +156,7 @@ public class DatabaseImporter {
 
 			public LocalFile(ImportScreen parent) {
 				super(parent);
-				selectedFile = new java.io.File("D:\\Dokumente\\lpk.xml");
+				selectedFile = new java.io.File("H:\\Dokumente\\SAE\\files\\data_only\\fahrradverleih.xml");
 			}
 
 		}
@@ -150,12 +165,7 @@ public class DatabaseImporter {
 		List<CSelectedFile> files = new java.util.ArrayList<>();
 		files.add(new LocalFile(null));
 		settings.setFiles(files);
-		try {
-			new DatabaseImporter(settings).start();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		new DatabaseImporter(settings).start();
 	}
 
 }

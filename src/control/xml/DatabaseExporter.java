@@ -13,7 +13,9 @@ import org.owasp.esapi.ESAPI;
 
 import control.DatabaseActor;
 import control.RichConnection;
+import model.ColumnInfo;
 import model.ExportSettings;
+import model.TableInfo;
 
 // TODO: Add constants for column index
 public class DatabaseExporter {
@@ -26,7 +28,9 @@ public class DatabaseExporter {
 		this.settings = settings;
 	}
 
-	public void start() throws IOException, SQLException {
+	public String start() {
+		String protocol = "";
+
 		for (String db : settings.getDatabases()) {
 
 			File file = new File(settings.getDirectory().getAbsolutePath()
@@ -50,14 +54,16 @@ public class DatabaseExporter {
 
 				writer.close();
 
-				// TODO: file was exported
+				protocol += "✓ " + db + "\n";
 
 			} catch (SQLException | IOException e) {
 
-				// TODO: file couldn't be exported
+				protocol += "✗ " + db + ": " + e.getMessage() + "\n";
 
 			}
 		}
+
+		return protocol;
 	}
 
 	private void write(OutputStreamWriter writer, String db) throws IOException {
@@ -67,7 +73,7 @@ public class DatabaseExporter {
 	private String escape(String val) {
 		return ESAPI.encoder().encodeForXML(val);
 	}
-	
+
 	public void wrapDatabase(OutputStreamWriter writer, String db)
 			throws IOException, SQLException {
 
@@ -83,12 +89,9 @@ public class DatabaseExporter {
 			throw new SQLException();
 		}
 
-		AttributeBuilder
-			.newTag("database")
-			.set("name", db)
-			.set("charset", result.getString(1))
-			.set("collation", result.getString(2))
-			.writeTo(writer);
+		AttributeBuilder.newTag("database").set("name", db)
+				.set("charset", result.getString(1))
+				.set("collation", result.getString(2)).writeTo(writer);
 
 		stat.executeQuery("SHOW FULL TABLES WHERE TABLE_TYPE NOT LIKE 'VIEW'");
 		result = stat.getResultSet();
@@ -98,7 +101,7 @@ public class DatabaseExporter {
 
 		stat.executeQuery("SHOW FULL TABLES IN " + db
 				+ " WHERE TABLE_TYPE LIKE 'VIEW'");
-		
+
 		result = stat.getResultSet();
 		while (result.next()) {
 			wrapView(writer, result.getString(1));
@@ -110,56 +113,41 @@ public class DatabaseExporter {
 
 	public void wrapTable(OutputStreamWriter writer, String table)
 			throws IOException, SQLException {
-		RichConnection con = DatabaseActor.getConnection();
-		Statement stat = con.newStatement();
-		ResultSet result;
+		TableInfo info = new TableInfo(table);
 
-		stat.executeQuery("SHOW TABLE STATUS LIKE '" + table + "'");
-		result = stat.getResultSet();
-		if (result.next()) {
+		AttributeBuilder.newTag("table").set("name", table)
+				.set("collation", info.getCollation()).writeTo(writer);
 
-			AttributeBuilder
-				.newTag("table")
-				.set("name", table)
-				.set("collation", result.getString(15))
-				.writeTo(writer);
+		if (settings.isDefinitionRequired()) {
 
-			if (settings.isDefinitionRequired()) {
+			write(writer, "<definition>");
 
-				stat.executeQuery("SHOW COLUMNS FROM " + table);
-				result = stat.getResultSet();
-
-				// TODO: check if query was successful
-
-				write(writer, "<definition>");
-
-				while (result.next()) {
-					write(writer, wrapColumn(result));
-				}
-
-				write(writer, "</definition>");
-
+			for (ColumnInfo column : info.getColumns()) {
+				write(writer, column.toString());
 			}
 
-			if (settings.isDataRequired()) {
-
-				stat.executeQuery("SELECT * FROM " + table);
-				result = stat.getResultSet();
-				int columns = result.getMetaData().getColumnCount();
-
-				write(writer, "<data>");
-
-				while (result.next()) {
-					write(writer, wrapEntry(result, columns));
-				}
-
-				write(writer, "</data>");
-
-			}
-
-			write(writer, "</table>");
+			write(writer, "</definition>");
 
 		}
+
+		if (settings.isDataRequired()) {
+			
+			Statement stat = DatabaseActor.getConnection().newPreparedStatement("SELECT * FROM " + table);
+			ResultSet result = stat.getResultSet();
+			int columns = result.getMetaData().getColumnCount();
+
+			write(writer, "<data>");
+
+			while (result.next()) {
+				write(writer, wrapEntry(result, columns));
+			}
+
+			write(writer, "</data>");
+
+		}
+
+		write(writer, "</table>");
+
 	}
 
 	public void wrapView(OutputStreamWriter writer, String view)
@@ -175,31 +163,14 @@ public class DatabaseExporter {
 			// TODO: add description here
 			throw new SQLException();
 		}
-		
-		AttributeBuilder
-			.newTag("view")
-			.set("name", view)
-			.writeTo(writer);
+
+		AttributeBuilder.newTag("view").set("name", view).writeTo(writer);
 
 		write(writer, escape(result.getString(2)));
 
 		write(writer, "</view>");
 	}
-
-	public String wrapColumn(ResultSet result) throws SQLException {
-
-		return AttributeBuilder
-			.newTag("column")
-			.set("name", result.getString(1))
-			.set("type", result.getString(2))
-			.set("null", result.getString(3))
-			.set("key", result.getString(4))
-			.set("default", result.getString(5))
-			.set("extra", result.getString(6))
-			.append("/")
-			.toString();
-	}
-
+	
 	public String wrapEntry(ResultSet result, int columns) throws SQLException {
 		String buffer = "<entry>";
 
