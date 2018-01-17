@@ -67,11 +67,7 @@ public class DatabaseExporter {
 	private String escape(String val) {
 		return ESAPI.encoder().encodeForXML(val);
 	}
-
-	private String setAttribute(String attr, String val) {
-		return null;
-	}
-
+	
 	public void wrapDatabase(OutputStreamWriter writer, String db)
 			throws IOException, SQLException {
 
@@ -94,11 +90,6 @@ public class DatabaseExporter {
 			.set("collation", result.getString(2))
 			.writeTo(writer);
 
-		// write(writer,
-		// "<database " + setAttribute("name", db)
-		// + setAttribute("charset", result.getString(1))
-		// + setAttribute("collation", result.getString(2)) + ">");
-
 		stat.executeQuery("SHOW FULL TABLES WHERE TABLE_TYPE NOT LIKE 'VIEW'");
 		result = stat.getResultSet();
 		while (result.next()) {
@@ -107,6 +98,7 @@ public class DatabaseExporter {
 
 		stat.executeQuery("SHOW FULL TABLES IN " + db
 				+ " WHERE TABLE_TYPE LIKE 'VIEW'");
+		
 		result = stat.getResultSet();
 		while (result.next()) {
 			wrapView(writer, result.getString(1));
@@ -126,15 +118,11 @@ public class DatabaseExporter {
 		result = stat.getResultSet();
 		if (result.next()) {
 
-			// TODO: remove collation if column 15 is null
 			AttributeBuilder
 				.newTag("table")
 				.set("name", table)
 				.set("collation", result.getString(15))
 				.writeTo(writer);
-			
-//			write(writer, "<table " + setAttribute("name", table)
-//					+ setAttribute("collation", result.getString(15)) + ">");
 
 			if (settings.isDefinitionRequired()) {
 
@@ -192,8 +180,6 @@ public class DatabaseExporter {
 			.newTag("view")
 			.set("name", view)
 			.writeTo(writer);
-		
-//		write(writer, "<view " + setAttribute("name", view) + ">");
 
 		write(writer, escape(result.getString(2)));
 
@@ -212,16 +198,6 @@ public class DatabaseExporter {
 			.set("extra", result.getString(6))
 			.append("/")
 			.toString();
-		
-//		String col = "<column name='" + result.getString(1) + "' type='"
-//				+ result.getString(2) + "' null='" + result.getString(3)
-//				+ "' key='" + result.getString(4) + "'";
-//
-//		if (result.getString(5) != null) {
-//			col += " default='" + result.getString(5) + "'";
-//		}
-//
-//		return col + " extra='" + result.getString(6) + "' />";
 	}
 
 	public String wrapEntry(ResultSet result, int columns) throws SQLException {
