@@ -1,46 +1,22 @@
 package model;
 
-/**
- * Class for customizing export process.
- * 
- * @author lausek
- *
- */
-public class ExportSettings {
+import java.io.File;
+import java.util.List;
 
-	private boolean isDefinitionRequired;
-	private boolean isDataRequired;
+public class ExportSettings extends Settings {
 
-	/**
-	 * Do we need to export definitions? (Tables, Views, Procedures, Triggers...)
-	 * @return
-	 */
-	public boolean isDefinitionRequired() {
-		return this.isDefinitionRequired;
+	private File directory;
+	
+	public ExportSettings(List<String> databases) {
+		this.databases = databases;
 	}
-
-	/**
-	 * 
-	 * @param isDefinitionRequired
-	 */
-	public void setDefinitionRequired(boolean isDefinitionRequired) {
-		this.isDefinitionRequired = isDefinitionRequired;
+	
+	public void setDirectory(File directory) {
+		this.directory = directory;
 	}
-
-	/**
-	 * Do we need to export data? (Tables only)
-	 * @return
-	 */
-	public boolean isDataRequired() {
-		return this.isDataRequired;
+	
+	public File getDirectory() {
+		return this.directory;
 	}
-
-	/**
-	 * 
-	 * @param isDataRequired
-	 */
-	public void setDataRequired(boolean isDataRequired) {
-		this.isDataRequired = isDataRequired;
-	}
-
+	
 }

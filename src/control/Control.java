@@ -1,5 +1,7 @@
 package control;
 
+import java.sql.SQLException;
+import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -7,6 +9,8 @@ import javax.swing.UIManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
+import model.ExportSettings;
+import model.ImportSettings;
 import view.Display;
 import view.Display.AppScreen;
 
@@ -23,13 +27,21 @@ public class Control {
 		logger = Logger.getLogger("Control");
 		PropertyConfigurator.configure(LOG4J_PATH);
 	}
-
+	
 	public static void main(String[] args) {
+		
+		try {
+			SecurityHandler.check();
+		} catch (IOException e1) {
+			System.out.println("Really important files couldn't be downloaded. This is bad");
+			System.exit(1);
+		}
+		
 		// Try to make program look like it is platform dependent
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
-			logger.debug(e.getMessage());
+			logger.error(e.getMessage(), e);
 		}
 
 		new Control().run();
@@ -65,7 +77,7 @@ public class Control {
 
 		@Override
 		public void accept(Object obj) {
-			databaseActor = new DatabaseActor((Connection) obj);
+			databaseActor = new DatabaseActor((RichConnection) obj);
 
 			// getMainResult looks better here
 			display.setScreen(AppScreen.SELECT_DB);
@@ -76,8 +88,12 @@ public class Control {
 	public Consumer<Object> importCallback = new Consumer<Object>() {
 
 		@Override
-		public void accept(Object arg0) {
-			
+		public void accept(Object settings) {
+			try {
+				new DatabaseImporter((ImportSettings)settings).start();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 				
 	};
@@ -85,10 +101,16 @@ public class Control {
 	public Consumer<Object> exportCallback = new Consumer<Object>() {
 
 		@Override
-		public void accept(Object arg0) {
-			
+		public void accept(Object settings) {
+			try {
+				new DatabaseExporter((ExportSettings)settings).start();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 				
 	};
-	
 }

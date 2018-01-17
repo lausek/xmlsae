@@ -25,6 +25,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.BoxLayout;
 import javax.swing.Box;
 
+import control.DatabaseActor;
+
 /**
  * Screen for selecting on which databases an operation should be performed.
  * 
@@ -143,7 +145,7 @@ public class SelectionScreen extends Screen {
 			} catch (SQLException e) {
 				display.notice(MessageFatality.ERROR, "Couldn't fetch databases from server");
 			}
-			
+
 			// No databases selected yet -> reset
 			getStatusArea().setDatabases(null);
 
@@ -171,26 +173,26 @@ public class SelectionScreen extends Screen {
 
 		CSwitchArrow backArrow = new CSwitchArrow(display, AppScreen.LOGIN, MoveDirection.LEFT);
 		navbar.add(backArrow, BorderLayout.WEST);
-		
+
 		// Only allow move to ActionScreen if at least one database was selected
 		CSwitchArrow forwardArrow = new CSwitchArrow(display, AppScreen.SELECT_ACTION, MoveDirection.RIGHT);
-		forwardArrow.setCondition(x -> {
-			if (getSelectedItems().size() == 0) {
-				display.notice(MessageFatality.ERROR, "You have to select at least one database.");
-				return false;
-			}
-			return true;
-		});
+//		forwardArrow.setCondition(x -> {
+//			if (getSelectedItems().size() == 0) {
+//				display.notice(MessageFatality.ERROR, "You have to select at least one database.");
+//				return false;
+//			}
+//			return true;
+//		});
 		navbar.add(forwardArrow, BorderLayout.EAST);
 
 	}
-	
+
 	private void initList() throws SQLException {
 		// ...but only clean up databases if user reconnected
 		list.clear();
-		
+
 		// Fetch database names from server and translate into a list of CListItems
-		display.getControl().getInterface().getDatabases().forEach(db -> list.addElement(new CListItem(db)));
+		DatabaseActor.getDatabases().forEach(db -> list.addElement(new CListItem(db)));
 	}
 
 	private void reloadList(final String query) {

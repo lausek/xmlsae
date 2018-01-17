@@ -21,7 +21,7 @@ import view.Display.AppScreen;
  *
  */
 @SuppressWarnings("serial")
-public class Screen extends JPanel implements ActionListener {
+public abstract class Screen extends JPanel implements ActionListener {
 		
 	protected Display display;
 	protected Consumer<Object> callback;
@@ -50,6 +50,7 @@ public class Screen extends JPanel implements ActionListener {
 	 * Append JComponents to Screen in this method
 	 */
 	public void build() {
+		
 	}
 	
 	/**
@@ -63,18 +64,21 @@ public class Screen extends JPanel implements ActionListener {
 	 * Add buttons to bottom of main frame
 	 */
 	public void addToolbar(JPanel toolbar) {
+		
 	}
 	
 	/**
 	 * Called when screen gets entered from another screen
 	 */
 	public void onEnter(AppScreen from) {
+	
 	}
 
 	/**
 	 * Called when screen is left for another one
 	 */
 	public void onLeave(AppScreen to) {
+		
 	}
 
 	/**
@@ -89,6 +93,7 @@ public class Screen extends JPanel implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		
 	}
 	
 	protected StatusArea getStatusArea() {

@@ -1,8 +1,10 @@
 package control;
 
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Connection;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -14,7 +16,7 @@ import org.apache.log4j.PropertyConfigurator;
  * @author lausek
  *
  */
-public class Connection {
+public class RichConnection {
 
 	private static final String LOG4J_PATH = "properties/propertiesConnection.properties";
 	private static Logger logger;
@@ -25,11 +27,11 @@ public class Connection {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 		} catch (Exception e) {
-			logger.debug(e);
+			logger.error(e.getMessage(),e);
 		}
 	}
 
-	private java.sql.Connection sqlConnection;
+	private Connection sqlConnection;
 	private String host, user;
 
 	/**
@@ -39,7 +41,7 @@ public class Connection {
 	 * @param passwd
 	 * @throws Exception
 	 */
-	public Connection(String hostString, char[] passwd) throws SQLException {
+	public RichConnection(String hostString, char[] passwd) throws SQLException {
 
 		String[] parts = hostString.split("@");
 
@@ -55,14 +57,22 @@ public class Connection {
 		try {
 			sqlConnection.close();
 		} catch (SQLException e) {
-			logger.debug(e.getMessage());
+			logger.error(e.getMessage(),e);
 		}
 	}
 
 	public Statement newStatement() throws SQLException {
 		return sqlConnection.createStatement();
 	}
-
+	
+	public RichStatement newRichStatement(String query) throws SQLException {
+		return new RichStatement(query);
+	}
+	
+	public PreparedStatement newPreparedStatement(String query) throws SQLException {
+		return sqlConnection.prepareStatement(query);
+	}
+	
 	public String getHost() {
 		return host;
 	}
@@ -73,6 +83,10 @@ public class Connection {
 
 	public String getHostString() {
 		return user + "@" + host;
+	}
+	
+	public void setCatalog(String db) throws SQLException {
+		sqlConnection.setCatalog(db);
 	}
 
 }

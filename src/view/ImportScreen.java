@@ -15,6 +15,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import model.ImportSettings;
 import view.Display.AppScreen;
 import view.Display.MessageFatality;
 import view.atoms.CSelectedFile;
@@ -126,6 +127,11 @@ public class ImportScreen extends Screen implements ActionListener {
 			display.notice(MessageFatality.ERROR, "No files for import!");
 			return;
 		}
+		
+		ImportSettings settings = new ImportSettings(display.getControl().getSelectedDB());
+		settings.setFiles(files);
+		
+		callback.accept(settings);
 
 	}
 

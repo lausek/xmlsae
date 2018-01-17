@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!ELEMENT file (meta,database)>
+
+<!ELEMENT meta (version)>
+<!ELEMENT version (#PCDATA)>
+
+<!ELEMENT database (view|table)*>
+<!ATTLIST database
+	name		CDATA #IMPLIED
+	charset 	CDATA #IMPLIED
+	collation 	CDATA #IMPLIED
+	>
+					
+<!ELEMENT view (#PCDATA)>
+<!ATTLIST view name CDATA #REQUIRED>
+
+<!ELEMENT table (definition,data)>
+<!ATTLIST table
+	name 		CDATA #REQUIRED
+	collation	CDATA #IMPLIED
+	autoinc		CDATA #IMPLIED
+	>
+
+<!ELEMENT definition (column)*>
+<!ELEMENT column EMPTY>
+<!ATTLIST column
+	name 	CDATA #REQUIRED
+	type 	CDATA #REQUIRED
+	key		CDATA #IMPLIED
+	default CDATA #IMPLIED
+	null	CDATA #IMPLIED
+	extra	CDATA #IMPLIED
+	>
+
+<!ELEMENT data (entry)*>
+<!ELEMENT entry (val)*>
+<!ELEMENT val (#PCDATA)>
