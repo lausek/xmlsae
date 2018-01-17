@@ -1,4 +1,4 @@
-package control;
+package control.xml;
 
 import java.util.Arrays;
 import java.util.List;
@@ -97,7 +97,6 @@ public class ImportContentHandler implements ContentHandler {
 			dbImporter.createView(generalBuffer);
 			// fallthrough
 		case VERSION:
-//			generalBuffer = "";
 			// fallthrough
 		default:
 			// do nothing
