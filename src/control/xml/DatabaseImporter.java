@@ -1,4 +1,4 @@
-package control;
+package control.xml;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -15,6 +15,9 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
+import control.DatabaseActor;
+import control.RichConnection;
+import control.RichStatement;
 import model.ImportSettings;
 import model.TableInfo;
 import view.ImportScreen;

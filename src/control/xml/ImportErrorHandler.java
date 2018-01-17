@@ -1,4 +1,4 @@
-package control;
+package control.xml;
 
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;

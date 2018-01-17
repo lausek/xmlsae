@@ -6,9 +6,12 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import javax.swing.UIManager;
+
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
+import control.xml.DatabaseExporter;
+import control.xml.DatabaseImporter;
 import model.ExportSettings;
 import model.ImportSettings;
 import view.Display;
