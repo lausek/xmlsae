@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import control.TextSymbols;
 import view.Display.AppScreen;
 import view.atoms.CSwitchArrow;
 import view.atoms.CSwitchArrow.MoveDirection;
@@ -41,7 +42,7 @@ public class ActionScreen extends Screen {
 	@Override
 	public void onEnter(AppScreen from) {
 		if(display.getControl().getSelectedDB().isEmpty()) {
-			btnExport.setToolTipText("Select at least one database");
+			btnExport.setToolTipText(TextSymbols.get(TextSymbols.SELECT_AT_LEAST));
 			btnExport.setEnabled(false);
 		} else {
 			btnExport.setToolTipText(null);
@@ -61,7 +62,7 @@ public class ActionScreen extends Screen {
 
 		// TODO: add action for buttons
 
-		btnImport = new JButton("Import Database");
+		btnImport = new JButton(TextSymbols.get(TextSymbols.IMPORT_DATABASE));
 		btnImport.setAlignmentX(Component.CENTER_ALIGNMENT);
 		Font newButtonFont = new Font(btnImport.getFont().getName(), btnImport.getFont().getStyle(), 24);
 		btnImport.setMaximumSize(new Dimension(300, 75));
@@ -78,7 +79,7 @@ public class ActionScreen extends Screen {
 
 		verticalBox.add(Box.createVerticalStrut(20));
 
-		btnExport = new JButton("Export Database");
+		btnExport = new JButton(TextSymbols.get(TextSymbols.EXPORT_DATABASE));
 		btnExport.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnExport.setMaximumSize(new Dimension(300, 75));
 		btnExport.setMinimumSize(new Dimension(300, 75));

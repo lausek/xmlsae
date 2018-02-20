@@ -13,6 +13,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import control.TextSymbols;
 import model.ExportSettings;
 import view.Display.AppScreen;
 import view.atoms.CSwitchArrow;
@@ -44,7 +45,7 @@ public class ExportScreen extends Screen implements ActionListener {
 		super.build();
 
 		Box verticalBox = new Box(BoxLayout.Y_AXIS);
-		btnExport = new JButton("Export");
+		btnExport = new JButton(TextSymbols.get(TextSymbols.EXPORT));
 		JPanel settings = new JPanel();
 
 		setLayout(new BorderLayout(0, 0));
@@ -58,15 +59,15 @@ public class ExportScreen extends Screen implements ActionListener {
 		settings.add(panel);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-		JLabel lbExportSettings = new JLabel("Export...");
+		JLabel lbExportSettings = new JLabel(TextSymbols.get(TextSymbols.EXPORT_DOTS));
 		panel.add(lbExportSettings);
 
-		bxData = new JCheckBox("Data");
+		bxData = new JCheckBox(TextSymbols.get(TextSymbols.EXPORT_DATA));
 		bxData.setSelected(true);
 		bxData.addActionListener(this);
 		panel.add(bxData);
 
-		bxDefinition = new JCheckBox("Definition");
+		bxDefinition = new JCheckBox(TextSymbols.get(TextSymbols.EXPORT_DEFINITION));
 		bxDefinition.setSelected(true);
 		bxDefinition.addActionListener(this);
 		panel.add(bxDefinition);
@@ -74,10 +75,10 @@ public class ExportScreen extends Screen implements ActionListener {
 		JPanel pDirectory = new JPanel();
 		panel.add(pDirectory);
 
-		JLabel lbDirectory = new JLabel("Save to");
+		JLabel lbDirectory = new JLabel(TextSymbols.get(TextSymbols.EXPORT_SAVE_TO));
 		pDirectory.add(lbDirectory);
 
-		btnSelectDirectory = new JButton("...");
+		btnSelectDirectory = new JButton(TextSymbols.get(TextSymbols.EXPORT_SAVE_TO_SELECT));
 		btnSelectDirectory.addActionListener(this);
 		pDirectory.add(btnSelectDirectory);
 

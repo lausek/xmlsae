@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import control.RichConnection;
-
+import control.TextSymbols;
 import view.Display.AppScreen;
 import view.Display.MessageFatality;
 import view.atoms.CPasswordField;
@@ -67,11 +67,11 @@ public class LoginScreen extends Screen {
 		JPanel connectionPanel = new JPanel();
 		connectionPanel.setMaximumSize(new java.awt.Dimension(TF_WIDTH, 10));
 		
-		tfUser = new CTextField("user", "root");
+		tfUser = new CTextField(TextSymbols.get(TextSymbols.LOGIN_USER), "root");
 		tfUser.setColumns(10);
 		tfUser.addKeyListener(keyHandler);
 		
-		tfHost = new CTextField("host", "localhost");
+		tfHost = new CTextField(TextSymbols.get(TextSymbols.LOGIN_HOST), "localhost");
 		tfHost.setColumns(16);
 		tfHost.addKeyListener(keyHandler);
 		
@@ -85,7 +85,7 @@ public class LoginScreen extends Screen {
 		JPanel passwordPanel = new JPanel();
 		passwordPanel.setMaximumSize(new java.awt.Dimension(TF_WIDTH, 30));
 		
-		tfPassword = new CPasswordField("password");
+		tfPassword = new CPasswordField(TextSymbols.get(TextSymbols.LOGIN_PASSWORD));
 		tfPassword.setColumns(29);
 		tfPassword.addKeyListener(keyHandler);
 	
@@ -94,7 +94,7 @@ public class LoginScreen extends Screen {
 
 		verticalBox.add(Box.createVerticalStrut(20));
 
-		JButton btnLogin = new JButton("Login");
+		JButton btnLogin = new JButton(TextSymbols.get(TextSymbols.LOGIN_SUBMIT));
 		btnLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnLogin.addActionListener(this);
 		verticalBox.add(btnLogin);
@@ -121,7 +121,7 @@ public class LoginScreen extends Screen {
 
 			callback.accept(con);
 		} catch (SQLException e) {
-			display.notice(MessageFatality.ERROR, "Connection couldn't be established", e.getMessage());
+			display.notice(MessageFatality.ERROR, TextSymbols.get(TextSymbols.LOGIN_CONNECTION_FAILED), e.getMessage());
 		}
 
 	}

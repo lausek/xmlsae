@@ -1,7 +1,11 @@
 package control;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
+import java.util.Properties;
 import java.util.function.Consumer;
 
 import javax.swing.UIManager;
@@ -19,6 +23,7 @@ import view.Display.MessageFatality;
 
 public class Control {
 
+	private static final String SETTINGS_PATH = "properties/xmlsae.properties";
 	private static final String LOG4J_PATH = "properties/propertiesControl.properties";
 	private static Logger logger;
 
@@ -34,9 +39,20 @@ public class Control {
 	public static void main(String[] args) {
 		
 		try {
+			Properties properties = new Properties();
+			InputStream inp = new FileInputStream(new File(SETTINGS_PATH));
+			properties.load(inp);
+			
+			TextSymbols.load(properties.getProperty("language"));
+		} catch (IOException e2) {
+			TextSymbols.load("en");
+			logger.error(e2.getMessage(), e2);
+		}
+		
+		try {
 			SecurityHandler.check();
 		} catch (IOException e1) {
-			System.out.println("Really important files couldn't be downloaded. This is bad");
+			System.out.println(TextSymbols.get(TextSymbols.FILES_DOWNLOAD_FAILED));
 			System.exit(1);
 		}
 		
@@ -93,7 +109,7 @@ public class Control {
 		@Override
 		public void accept(Object settings) {
 			String protocol = new DatabaseImporter((ImportSettings)settings).start();
-			display.notice(MessageFatality.INFO, "Import log", protocol);
+			display.notice(MessageFatality.INFO, TextSymbols.get(TextSymbols.IMPORT_LOG), protocol);
 		}
 				
 	};
@@ -103,7 +119,7 @@ public class Control {
 		@Override
 		public void accept(Object settings) {
 			String protocol = new DatabaseExporter((ExportSettings)settings).start();
-			display.notice(MessageFatality.INFO, "Export log", protocol);
+			display.notice(MessageFatality.INFO, TextSymbols.get(TextSymbols.EXPORT_LOG), protocol);
 		}
 				
 	};
