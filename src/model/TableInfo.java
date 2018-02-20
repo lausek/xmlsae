@@ -48,9 +48,9 @@ public class TableInfo {
 					ColumnInfo column = new ColumnInfo();
 					column.setName(result.getString(1));
 					column.setType(result.getString(2));
-					column.setKey(result.getString(3));
-					column.setDefault(result.getString(4));
-					column.setNull(result.getString(5));
+					column.setNull(result.getString(3));
+					column.setKey(result.getString(4));
+					column.setDefault(result.getString(5));
 					column.setExtra(result.getString(6));
 					addColumn(column);
 				}

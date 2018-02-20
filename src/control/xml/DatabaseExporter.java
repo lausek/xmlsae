@@ -33,13 +33,11 @@ public class DatabaseExporter {
 
 		for (String db : settings.getDatabases()) {
 
-			File file = new File(settings.getDirectory().getAbsolutePath()
-					+ "/" + db + ".xml");
+			File file = new File(settings.getDirectory().getAbsolutePath() + "/" + db + ".xml");
 
 			try (OutputStream stream = new FileOutputStream(file)) {
 
-				OutputStreamWriter writer = new OutputStreamWriter(stream,
-						"UTF-8");
+				OutputStreamWriter writer = new OutputStreamWriter(stream, "UTF-8");
 
 				write(writer, XML_SIGNATURE);
 
@@ -74,8 +72,7 @@ public class DatabaseExporter {
 		return ESAPI.encoder().encodeForXML(val);
 	}
 
-	public void wrapDatabase(OutputStreamWriter writer, String db)
-			throws IOException, SQLException {
+	public void wrapDatabase(OutputStreamWriter writer, String db) throws IOException, SQLException {
 
 		RichConnection con = DatabaseActor.getConnection();
 
@@ -89,8 +86,7 @@ public class DatabaseExporter {
 			throw new SQLException();
 		}
 
-		AttributeBuilder.newTag("database").set("name", db)
-				.set("charset", result.getString(1))
+		AttributeBuilder.newTag("database").set("name", db).set("charset", result.getString(1))
 				.set("collation", result.getString(2)).writeTo(writer);
 
 		stat.executeQuery("SHOW FULL TABLES WHERE TABLE_TYPE NOT LIKE 'VIEW'");
@@ -99,8 +95,7 @@ public class DatabaseExporter {
 			wrapTable(writer, result.getString(1));
 		}
 
-		stat.executeQuery("SHOW FULL TABLES IN " + db
-				+ " WHERE TABLE_TYPE LIKE 'VIEW'");
+		stat.executeQuery("SHOW FULL TABLES IN " + db + " WHERE TABLE_TYPE LIKE 'VIEW'");
 
 		result = stat.getResultSet();
 		while (result.next()) {
@@ -111,12 +106,10 @@ public class DatabaseExporter {
 
 	}
 
-	public void wrapTable(OutputStreamWriter writer, String table)
-			throws IOException, SQLException {
+	public void wrapTable(OutputStreamWriter writer, String table) throws IOException, SQLException {
 		TableInfo info = new TableInfo(table);
 
-		AttributeBuilder.newTag("table").set("name", table)
-				.set("collation", info.getCollation()).writeTo(writer);
+		AttributeBuilder.newTag("table").set("name", table).set("collation", info.getCollation()).writeTo(writer);
 
 		if (settings.isDefinitionRequired()) {
 
@@ -131,14 +124,18 @@ public class DatabaseExporter {
 		}
 
 		if (settings.isDataRequired()) {
-			
- 			ResultSet result = DatabaseActor.getConnection().newStatement().executeQuery("SELECT * FROM " + table);
- 			result.next();
-			int columns = result.getMetaData().getColumnCount();
+
+			ResultSet result = DatabaseActor.getConnection().newStatement().executeQuery("SELECT * FROM " + table);
 
 			write(writer, "<data>");
 
+			int columns = 0;
 			while (result.next()) {
+
+				if (columns == 0) {
+					columns = result.getMetaData().getColumnCount();
+				}
+
 				write(writer, wrapEntry(result, columns));
 			}
 
@@ -150,8 +147,7 @@ public class DatabaseExporter {
 
 	}
 
-	public void wrapView(OutputStreamWriter writer, String view)
-			throws IOException, SQLException {
+	public void wrapView(OutputStreamWriter writer, String view) throws IOException, SQLException {
 		RichConnection con = DatabaseActor.getConnection();
 
 		Statement stat = con.newStatement();
@@ -170,7 +166,7 @@ public class DatabaseExporter {
 
 		write(writer, "</view>");
 	}
-	
+
 	public String wrapEntry(ResultSet result, int columns) throws SQLException {
 		String buffer = "<entry>";
 
