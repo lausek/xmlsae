@@ -1,6 +1,5 @@
 package control;
 
-import java.sql.SQLException;
 import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;

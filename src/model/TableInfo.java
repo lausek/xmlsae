@@ -29,8 +29,8 @@ public class TableInfo {
 		if (collation == null) {
 			try {
 				Statement stat = DatabaseActor.getConnection().newStatement();
-				stat.executeQuery("SHOW TABLE STATUS LIKE '" + name + "'");
-				ResultSet result = stat.getResultSet();
+				ResultSet result = stat.executeQuery("SHOW TABLE STATUS LIKE '" + name + "'");
+				result.next();
 				collation = result.getString(15);
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -43,8 +43,7 @@ public class TableInfo {
 		if (columns.isEmpty()) {
 			try {
 				Statement stat = DatabaseActor.getConnection().newStatement();
-				stat.executeQuery("SHOW COLUMNS FROM " + name);
-				ResultSet result = stat.getResultSet();
+				ResultSet result = stat.executeQuery("SHOW COLUMNS FROM " + name);
 				while (result.next()) {
 					ColumnInfo column = new ColumnInfo();
 					column.setName(result.getString(1));

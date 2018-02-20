@@ -132,8 +132,8 @@ public class DatabaseExporter {
 
 		if (settings.isDataRequired()) {
 			
-			Statement stat = DatabaseActor.getConnection().newPreparedStatement("SELECT * FROM " + table);
-			ResultSet result = stat.getResultSet();
+ 			ResultSet result = DatabaseActor.getConnection().newStatement().executeQuery("SELECT * FROM " + table);
+ 			result.next();
 			int columns = result.getMetaData().getColumnCount();
 
 			write(writer, "<data>");
