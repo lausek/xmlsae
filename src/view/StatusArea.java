@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import control.TextSymbols;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -44,7 +47,7 @@ public class StatusArea extends JPanel {
 		gbc_horizontalStrutLeft.gridy = 0;
 		add(horizontalStrutLeft, gbc_horizontalStrutLeft);
 		
-		JLabel lblUsername = new JLabel("Connected:");
+		JLabel lblUsername = new JLabel(TextSymbols.get(TextSymbols.STATUS_CONNECTED));
 		GridBagConstraints gbc_lblUsername = new GridBagConstraints();
 		gbc_lblUsername.insets = new Insets(0, 0, 5, 5);
 		gbc_lblUsername.gridx = 1;
@@ -78,7 +81,7 @@ public class StatusArea extends JPanel {
 		lbDatabases.setMaximumSize(MAXIMUM_SIZE);
 		add(lbDatabases, gbc_lbDatabases);
 		
-		JLabel lblDatabases = new JLabel("Databases:");
+		JLabel lblDatabases = new JLabel(TextSymbols.get(TextSymbols.STATUS_DATABASES));
 		GridBagConstraints gbc_lblDatabases = new GridBagConstraints();
 		gbc_lblDatabases.insets = new Insets(0, 0, 5, 5);
 		gbc_lblDatabases.gridx = 1;

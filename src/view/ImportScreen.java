@@ -15,6 +15,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import control.TextSymbols;
 import model.ImportSettings;
 import view.Display.AppScreen;
 import view.Display.MessageFatality;
@@ -47,7 +48,7 @@ public class ImportScreen extends Screen implements ActionListener {
 		fileScrollPane = new JScrollPane(filePanel);
 		Box verticalBox = new Box(BoxLayout.Y_AXIS);
 		JButton cmdAddFile = new JButton("+");
-		JButton btnImport = new JButton("Import");
+		JButton btnImport = new JButton(TextSymbols.get(TextSymbols.IMPORT));
 
 		fileScrollPane.setBorder(null);
 
@@ -124,7 +125,7 @@ public class ImportScreen extends Screen implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 
 		if (files.size() == 1 && files.get(0).isEmpty()) {
-			display.notice(MessageFatality.ERROR, "No files for import!");
+			display.notice(MessageFatality.ERROR, TextSymbols.get(TextSymbols.IMPORT_NO_FILES));
 			return;
 		}
 		

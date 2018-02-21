@@ -26,6 +26,7 @@ import javax.swing.BoxLayout;
 import javax.swing.Box;
 
 import control.DatabaseActor;
+import control.TextSymbols;
 
 /**
  * Screen for selecting on which databases an operation should be performed.
@@ -56,7 +57,7 @@ public class SelectionScreen extends Screen {
 
 		list = new CFilteredListModel<>();
 
-		filterField = new CTextField("database...");
+		filterField = new CTextField(TextSymbols.get(TextSymbols.SELECTION_SEARCH));
 		filterField.setColumns(30);
 		filterField.setMinimumSize(new java.awt.Dimension(240, 30));
 		filterField.setMaximumSize(new java.awt.Dimension(240, 30));

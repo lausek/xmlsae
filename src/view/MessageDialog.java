@@ -14,6 +14,9 @@ import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+
+import control.TextSymbols;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
@@ -50,7 +53,7 @@ public class MessageDialog {
 		JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		frame.getContentPane().add(actionPanel, BorderLayout.SOUTH);
 
-		detailsButton = new JButton("Details");
+		detailsButton = new JButton(TextSymbols.get(TextSymbols.MESSAGE_DETAILS));
 		detailsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (scrollDetails.isVisible()) {
@@ -64,7 +67,7 @@ public class MessageDialog {
 		});
 		actionPanel.add(detailsButton);
 
-		JButton confirmButton = new JButton("Ok");
+		JButton confirmButton = new JButton(TextSymbols.get(TextSymbols.MESSAGE_CONFIRM));
 		confirmButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
@@ -145,5 +148,5 @@ public class MessageDialog {
 		frame.setVisible(true);
 
 	}
-
+	
 }
