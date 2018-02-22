@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.Properties;
+
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Text;
 
 public class TextSymbols {
 
@@ -13,15 +16,28 @@ public class TextSymbols {
 			EXPORT_DATA = 11, EXPORT_DEFINITION = 12, EXPORT_SAVE_TO = 13, EXPORT_SAVE_TO_SELECT = 14,
 			IMPORT_NO_FILES = 15, LOGIN_USER = 16, LOGIN_HOST = 17, LOGIN_PASSWORD = 18, LOGIN_SUBMIT = 19,
 			LOGIN_CONNECTION_FAILED = 20, MESSAGE_DETAILS = 21, MESSAGE_CONFIRM = 22, SELECTION_SEARCH = 23,
-			STATUS_CONNECTED = 24, STATUS_DATABASES = 25;
+			STATUS_CONNECTED = 24, STATUS_DATABASES = 25, DATABASE_FETCH_FAILED = 26, CHOOSE_LANGUAGE_TITLE = 27, CHOOSE_LANGUAGE_ASK = 28, CHOOSE_LANGUAGE_DONE = 29;
 
-	protected static Properties text;
+	protected static Properties programSettings, text;
+	protected static String language;
 
 	static {
 		text = new Properties();
 	}
 
-	public static void load(String language) {
+	public static void init(Properties programSettings) {
+		TextSymbols.programSettings = programSettings;
+	}
+
+	public static String get(int symbol) {
+		return text.getProperty(String.valueOf(symbol));
+	}
+
+	public static String getLanguage() {
+		return TextSymbols.language;
+	}
+
+	public static void setLanguage(String language) {
 
 		if (language == null || language.isEmpty()) {
 			return;
@@ -30,15 +46,16 @@ public class TextSymbols {
 		try {
 			InputStream inp = new FileInputStream(new File("lang/" + language.toLowerCase()));
 			text.load(inp);
+			TextSymbols.language = language;
+			programSettings.setProperty("language", language);
+
+			Control.saveSettings();
+
 		} catch (IOException e) {
 			e.printStackTrace();
 			return;
 		}
 
-	}
-
-	public static String get(int symbol) {
-		return text.getProperty(String.valueOf(symbol));
 	}
 
 }
