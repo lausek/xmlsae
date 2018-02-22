@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.awt.Component;
 import java.awt.Dimension;
 
@@ -111,7 +112,7 @@ public class StatusArea extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				String nextLanguage = getLanguageDialog();
-				
+
 				if (nextLanguage != null && !nextLanguage.equals(TextSymbols.getLanguage())) {
 					TextSymbols.setLanguage(nextLanguage);
 					reloadLanguage();
@@ -129,19 +130,30 @@ public class StatusArea extends JPanel {
 		add(right);
 		setVisible(true);
 	}
-	
+
 	private String getLanguageDialog() {
 		File langDir = new File("lang");
 		Object[] languageList = new Object[langDir.listFiles().length];
+		Object selected = null;
 		int i = 0;
 		for (File f : langDir.listFiles()) {
-			languageList[i++] = f.getName();
+			languageList[i++] = new ImageIcon("media/img/lang/" + f.getName() + ".png");
+			if (f.getName().equals(TextSymbols.getLanguage())) {
+				selected = languageList[i - 1];
+			}
 		}
 
-		return (String) JOptionPane.showInputDialog(null, TextSymbols.get(TextSymbols.CHOOSE_LANGUAGE_TITLE), TextSymbols.get(TextSymbols.CHOOSE_LANGUAGE_ASK),
-				JOptionPane.PLAIN_MESSAGE, null, languageList, TextSymbols.getLanguage());
+		ImageIcon result = (ImageIcon) JOptionPane.showInputDialog(null,
+				TextSymbols.get(TextSymbols.CHOOSE_LANGUAGE_TITLE), TextSymbols.get(TextSymbols.CHOOSE_LANGUAGE_ASK),
+				JOptionPane.PLAIN_MESSAGE, null, languageList, selected);
+
+		if (result == null) {
+			return null;
+		}
+
+		return Paths.get(result.getDescription()).getFileName().toString().substring(0, 2);
 	}
-	
+
 	private void reloadLanguage() {
 		try {
 			Image img = ImageIO.read(new File("media/img/lang/" + TextSymbols.getLanguage() + ".png"));
