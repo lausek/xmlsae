@@ -34,10 +34,12 @@ public class DatabaseActor {
 	protected void finalize() throws Throwable {
 		super.finalize();
 		connection.logout();
+		logger.info("Connection closed");
 	}
 	
 	public static void setConnection(RichConnection con) {
 		DatabaseActor.connection = con;
+		logger.info("Connection established");
 	}
 	
 	public static RichConnection getConnection() {

@@ -160,7 +160,7 @@ public class StatusArea extends JPanel {
 	private void reloadLanguage() {
 		try {
 			Image img = ImageIO.read(new File("media/img/lang/" + TextSymbols.getLanguage() + ".png"));
-			icon.setImage(img.getScaledInstance(20, 20, Image.SCALE_FAST));
+			icon.setImage(img.getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

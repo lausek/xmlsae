@@ -3,7 +3,6 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -64,7 +63,6 @@ public class ActionScreen extends Screen {
 
 		btnImport = new JButton(TextSymbols.get(TextSymbols.IMPORT_DATABASE));
 		btnImport.setAlignmentX(Component.CENTER_ALIGNMENT);
-		Font newButtonFont = new Font(btnImport.getFont().getName(), btnImport.getFont().getStyle(), 24);
 		btnImport.setMaximumSize(new Dimension(300, 75));
 		btnImport.setMinimumSize(new Dimension(300, 75));
 		btnImport.setPreferredSize(new Dimension(300, 75));
@@ -74,7 +72,7 @@ public class ActionScreen extends Screen {
 				display.setScreen(AppScreen.IMPORT);
 			}
 		});
-		btnImport.setFont(newButtonFont);
+		btnImport.setFont(btnImport.getFont().deriveFont(24f));
 		verticalBox.add(btnImport);
 
 		verticalBox.add(Box.createVerticalStrut(20));
@@ -90,7 +88,7 @@ public class ActionScreen extends Screen {
 				display.setScreen(AppScreen.EXPORT);
 			}
 		});
-		btnExport.setFont(newButtonFont);
+		btnExport.setFont(btnImport.getFont().deriveFont(24f));
 		verticalBox.add(btnExport);
 
 		verticalBox.add(Box.createVerticalGlue());
