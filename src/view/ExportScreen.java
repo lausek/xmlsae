@@ -104,6 +104,11 @@ public class ExportScreen extends Screen implements ActionListener {
 
 		CSwitchArrow backArrow = new CSwitchArrow(display, AppScreen.SELECT_ACTION, MoveDirection.LEFT);
 		navbar.add(backArrow, BorderLayout.WEST);
+		
+		CSwitchArrow forwardArrow = new CSwitchArrow(display, AppScreen.SELECT_ACTION, MoveDirection.RIGHT);
+		forwardArrow.setEnabled(false);
+		navbar.add(forwardArrow, BorderLayout.EAST);
+		
 	}
 
 	@Override

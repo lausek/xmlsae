@@ -105,6 +105,10 @@ public class ActionScreen extends Screen {
 		CSwitchArrow backArrow = new CSwitchArrow(display, AppScreen.SELECT_DB, MoveDirection.LEFT);
 		navbar.add(backArrow, BorderLayout.WEST);
 
+		CSwitchArrow forwardArrow = new CSwitchArrow(display, AppScreen.SELECT_ACTION, MoveDirection.RIGHT);
+		forwardArrow.setEnabled(false);
+		navbar.add(forwardArrow, BorderLayout.EAST);
+		
 	}
 
 	@Override
