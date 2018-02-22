@@ -139,7 +139,7 @@ public class StatusArea extends JPanel {
 		}
 
 		return (String) JOptionPane.showInputDialog(null, TextSymbols.get(TextSymbols.CHOOSE_LANGUAGE_TITLE), TextSymbols.get(TextSymbols.CHOOSE_LANGUAGE_ASK),
-				JOptionPane.PLAIN_MESSAGE, null, languageList, "en");
+				JOptionPane.PLAIN_MESSAGE, null, languageList, TextSymbols.getLanguage());
 	}
 	
 	private void reloadLanguage() {

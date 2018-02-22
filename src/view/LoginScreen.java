@@ -125,10 +125,5 @@ public class LoginScreen extends Screen {
 		}
 
 	}
-
-//	@Override
-//	public void addNavbar(JPanel navbar) {
-//		// Screen would add StatusArea, but we don't want that on LoginScreen
-//	}
-
+	
 }
