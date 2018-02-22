@@ -1,7 +1,8 @@
 package control;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -47,8 +48,8 @@ public class Control {
 			settings = new Properties();
 			TextSymbols.init(settings);
 
-			InputStream inp = new FileInputStream(settingsFile);
-			settings.load(inp);
+			Reader reader = new InputStreamReader(new FileInputStream(settingsFile), "UTF-8");
+			settings.load(reader);
 			
 			if(settings.containsKey("language")) {
 				TextSymbols.setLanguage(settings.getProperty("language"));

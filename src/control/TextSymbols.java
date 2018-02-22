@@ -1,7 +1,8 @@
 package control;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
@@ -41,8 +42,8 @@ public class TextSymbols {
 		}
 
 		try {
-			InputStream inp = new FileInputStream(new File("lang/" + language.toLowerCase()));
-			text.load(inp);
+			Reader reader = new InputStreamReader(new FileInputStream(new File("lang/" + language.toLowerCase())), "UTF-8");
+			text.load(reader);
 			TextSymbols.language = language;
 			programSettings.setProperty("language", language);
 
