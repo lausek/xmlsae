@@ -58,7 +58,6 @@ public class Display extends JFrame {
 
 		screens = new Screen[SCREEN_COUNT];
 
-		// TODO: allocate other screens here too
 		screens[AppScreen.LOGIN.ordinal()] = new LoginScreen(this);
 		screens[AppScreen.SELECT_DB.ordinal()] = new SelectionScreen(this);
 		screens[AppScreen.SELECT_ACTION.ordinal()] = new ActionScreen(this);

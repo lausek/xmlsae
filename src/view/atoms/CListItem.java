@@ -55,7 +55,6 @@ public class CListItem extends JPanel {
 	public CListItem(String name) {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
-		// TODO: add alternative path if icon is null
 		JLabel iconLabel = new JLabel(icon);
 		iconLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		add(iconLabel);

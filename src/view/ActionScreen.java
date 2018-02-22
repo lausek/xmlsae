@@ -60,8 +60,6 @@ public class ActionScreen extends Screen {
 		verticalBox.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		verticalBox.add(Box.createVerticalGlue());
 
-		// TODO: add action for buttons
-
 		btnImport = new JButton(TextSymbols.get(TextSymbols.IMPORT_DATABASE));
 		btnImport.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnImport.setMaximumSize(new Dimension(300, 75));
