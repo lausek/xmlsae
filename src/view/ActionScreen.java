@@ -3,9 +3,9 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -64,7 +64,6 @@ public class ActionScreen extends Screen {
 
 		btnImport = new JButton(TextSymbols.get(TextSymbols.IMPORT_DATABASE));
 		btnImport.setAlignmentX(Component.CENTER_ALIGNMENT);
-		Font newButtonFont = new Font(btnImport.getFont().getName(), btnImport.getFont().getStyle(), 24);
 		btnImport.setMaximumSize(new Dimension(300, 75));
 		btnImport.setMinimumSize(new Dimension(300, 75));
 		btnImport.setPreferredSize(new Dimension(300, 75));
@@ -74,7 +73,9 @@ public class ActionScreen extends Screen {
 				display.setScreen(AppScreen.IMPORT);
 			}
 		});
-		btnImport.setFont(newButtonFont);
+		btnImport.setFont(btnImport.getFont().deriveFont(24f));
+		btnImport.setIcon(new javax.swing.ImageIcon("media/img/arrow_up_32x32.png"));
+		btnImport.setIconTextGap(20);
 		verticalBox.add(btnImport);
 
 		verticalBox.add(Box.createVerticalStrut(20));
@@ -90,7 +91,9 @@ public class ActionScreen extends Screen {
 				display.setScreen(AppScreen.EXPORT);
 			}
 		});
-		btnExport.setFont(newButtonFont);
+		btnExport.setFont(btnImport.getFont().deriveFont(24f));
+		btnExport.setIcon(new javax.swing.ImageIcon("media/img/arrow_down_32x32.png"));
+		btnExport.setIconTextGap(20);
 		verticalBox.add(btnExport);
 
 		verticalBox.add(Box.createVerticalGlue());
@@ -105,6 +108,10 @@ public class ActionScreen extends Screen {
 		CSwitchArrow backArrow = new CSwitchArrow(display, AppScreen.SELECT_DB, MoveDirection.LEFT);
 		navbar.add(backArrow, BorderLayout.WEST);
 
+		CSwitchArrow forwardArrow = new CSwitchArrow(display, AppScreen.SELECT_ACTION, MoveDirection.RIGHT);
+		forwardArrow.setEnabled(false);
+		navbar.add(forwardArrow, BorderLayout.EAST);
+		
 	}
 
 	@Override

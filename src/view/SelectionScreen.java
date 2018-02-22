@@ -144,7 +144,7 @@ public class SelectionScreen extends Screen {
 				initList();
 
 			} catch (SQLException e) {
-				display.notice(MessageFatality.ERROR, "Couldn't fetch databases from server");
+				display.notice(MessageFatality.ERROR, TextSymbols.get(TextSymbols.DATABASE_FETCH_FAILED));
 			}
 
 			// No databases selected yet -> reset
@@ -177,13 +177,6 @@ public class SelectionScreen extends Screen {
 
 		// Only allow move to ActionScreen if at least one database was selected
 		CSwitchArrow forwardArrow = new CSwitchArrow(display, AppScreen.SELECT_ACTION, MoveDirection.RIGHT);
-//		forwardArrow.setCondition(x -> {
-//			if (getSelectedItems().size() == 0) {
-//				display.notice(MessageFatality.ERROR, "You have to select at least one database.");
-//				return false;
-//			}
-//			return true;
-//		});
 		navbar.add(forwardArrow, BorderLayout.EAST);
 
 	}

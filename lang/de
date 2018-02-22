@@ -2,9 +2,9 @@
 2=Wichtige Dateien konnten nicht runtergeladen werden. Das ist schlecht.
 3=Exportlog
 4=Importlog
-5=Bitte w�hlen Sie wenigstens eine Datenbank
-6=Datenbank exportieren
-7=Datenbank importieren
+5=Bitte wählen Sie wenigstens eine Datenbank
+6=Exportieren
+7=Importieren
 8=Exportieren
 9=Importieren
 10=Exportieren...
@@ -12,7 +12,7 @@
 12=Definitionen
 13=Speichern unter
 14=...
-15=Keine Dateien f�r Import!
+15=Keine Dateien für Import!
 16=nutzer
 17=host
 18=passwort
@@ -23,3 +23,7 @@
 23=datenbank...
 24=Verbunden mit:
 25=Datenbanken:
+26=Datenbanken konnten nicht geladen werden
+27=Auswählen...
+28=Wählen Sie eine Sprache
+29=Sprache geändert. Bitte starten Sie die Anwendung erneut.

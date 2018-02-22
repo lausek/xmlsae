@@ -1,9 +1,11 @@
 package control;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.List;
 import java.util.Properties;
 import java.util.function.Consumer;
@@ -26,7 +28,9 @@ public class Control {
 	private static final String SETTINGS_PATH = "properties/xmlsae.properties";
 	private static final String LOG4J_PATH = "properties/propertiesControl.properties";
 	private static Logger logger;
-
+	private static Properties settings;
+	private static File settingsFile;
+	
 	private Display display;
 	private DatabaseActor databaseActor;
 	private List<String> databases;
@@ -35,27 +39,35 @@ public class Control {
 		logger = Logger.getLogger("Control");
 		PropertyConfigurator.configure(LOG4J_PATH);
 	}
-	
+
 	public static void main(String[] args) {
-		
+
+		settingsFile = new File(SETTINGS_PATH);
+
 		try {
-			Properties properties = new Properties();
-			InputStream inp = new FileInputStream(new File(SETTINGS_PATH));
-			properties.load(inp);
+			settings = new Properties();
+			TextSymbols.init(settings);
+
+			Reader reader = new InputStreamReader(new FileInputStream(settingsFile), "UTF-8");
+			settings.load(reader);
 			
-			TextSymbols.load(properties.getProperty("language"));
+			if(settings.containsKey("language")) {
+				TextSymbols.setLanguage(settings.getProperty("language"));
+			} else {
+				TextSymbols.setLanguage("en");
+			}
 		} catch (IOException e2) {
-			TextSymbols.load("en");
+			TextSymbols.setLanguage("en");
 			logger.error(e2.getMessage(), e2);
 		}
-		
+
 		try {
 			SecurityHandler.check();
 		} catch (IOException e1) {
 			System.out.println(TextSymbols.get(TextSymbols.FILES_DOWNLOAD_FAILED));
 			System.exit(1);
 		}
-		
+
 		// Try to make program look like it is platform dependent
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -64,6 +76,16 @@ public class Control {
 		}
 
 		new Control().run();
+
+	}
+	
+	public static void saveSettings() {
+		try {
+			FileOutputStream out = new FileOutputStream(settingsFile);
+			settings.store(out, null);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void run() {
@@ -71,7 +93,7 @@ public class Control {
 
 		display.setScreen(AppScreen.LOGIN);
 	}
-
+	
 	public DatabaseActor getInterface() {
 		return databaseActor;
 	}
@@ -103,24 +125,24 @@ public class Control {
 		}
 
 	};
-	
+
 	public Consumer<Object> importCallback = new Consumer<Object>() {
 
 		@Override
 		public void accept(Object settings) {
-			String protocol = new DatabaseImporter((ImportSettings)settings).start();
+			String protocol = new DatabaseImporter((ImportSettings) settings).start();
 			display.notice(MessageFatality.INFO, TextSymbols.get(TextSymbols.IMPORT_LOG), protocol);
 		}
-				
+
 	};
 
 	public Consumer<Object> exportCallback = new Consumer<Object>() {
 
 		@Override
 		public void accept(Object settings) {
-			String protocol = new DatabaseExporter((ExportSettings)settings).start();
+			String protocol = new DatabaseExporter((ExportSettings) settings).start();
 			display.notice(MessageFatality.INFO, TextSymbols.get(TextSymbols.EXPORT_LOG), protocol);
 		}
-				
+
 	};
 }

@@ -26,7 +26,7 @@ public abstract class Screen extends JPanel implements ActionListener {
 	protected Display display;
 	protected Consumer<Object> callback;
 	
-	private static StatusArea status;
+	protected static StatusArea status;
 	
 	static {
 		status = new StatusArea();

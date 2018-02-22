@@ -3,7 +3,6 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -85,12 +84,13 @@ public class ExportScreen extends Screen implements ActionListener {
 		verticalBox.add(Box.createVerticalStrut(40));
 
 		btnExport.setAlignmentX(Component.CENTER_ALIGNMENT);
-		Font newButtonFont = new Font(btnExport.getFont().getName(), btnExport.getFont().getStyle(), 24);
 		btnExport.setMaximumSize(new Dimension(300, 75));
 		btnExport.setMinimumSize(new Dimension(300, 75));
 		btnExport.setPreferredSize(new Dimension(300, 75));
 		btnExport.addActionListener(this);
-		btnExport.setFont(newButtonFont);
+		btnExport.setFont(btnExport.getFont().deriveFont(24f));
+		btnExport.setIcon(new javax.swing.ImageIcon("media/img/arrow_down_32x32.png"));
+		btnExport.setIconTextGap(20);
 		btnExport.setEnabled(false);
 		verticalBox.add(btnExport);
 
@@ -104,6 +104,11 @@ public class ExportScreen extends Screen implements ActionListener {
 
 		CSwitchArrow backArrow = new CSwitchArrow(display, AppScreen.SELECT_ACTION, MoveDirection.LEFT);
 		navbar.add(backArrow, BorderLayout.WEST);
+		
+		CSwitchArrow forwardArrow = new CSwitchArrow(display, AppScreen.SELECT_ACTION, MoveDirection.RIGHT);
+		forwardArrow.setEnabled(false);
+		navbar.add(forwardArrow, BorderLayout.EAST);
+		
 	}
 
 	@Override

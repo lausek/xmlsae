@@ -16,11 +16,9 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 import control.DatabaseActor;
-import control.RichConnection;
 import control.RichStatement;
 import model.ImportSettings;
 import model.TableInfo;
-import view.ImportScreen;
 import view.atoms.CSelectedFile;
 
 public class DatabaseImporter {
@@ -138,33 +136,6 @@ public class DatabaseImporter {
 		} catch (SQLException e) {
 			throw new SAXException("Database couldn't be created");
 		}
-	}
-
-	public static void main(String[] args) {
-
-		try {
-			RichConnection con = new RichConnection("root@localhost",
-					new char[0]);
-			new DatabaseActor(con);
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-		class LocalFile extends CSelectedFile {
-
-			public LocalFile(ImportScreen parent) {
-				super(parent);
-				selectedFile = new java.io.File("H:\\Dokumente\\SAE\\files\\data_only\\fahrradverleih.xml");
-			}
-
-		}
-
-		ImportSettings settings = new ImportSettings(null);
-		List<CSelectedFile> files = new java.util.ArrayList<>();
-		files.add(new LocalFile(null));
-		settings.setFiles(files);
-		new DatabaseImporter(settings).start();
 	}
 
 }
