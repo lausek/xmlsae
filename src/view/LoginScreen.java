@@ -103,7 +103,13 @@ public class LoginScreen extends Screen {
 
 		add(verticalBox);
 	}
-
+	
+	@Override
+	public void onEnter(AppScreen from) {
+		super.onEnter(from);
+		getStatusArea().setUsername("");
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		// e could be null if this was called via an 'enter' hit

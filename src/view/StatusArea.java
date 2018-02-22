@@ -24,7 +24,7 @@ import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.BoxLayout;
+import javax.swing.SwingConstants;
 
 /**
  * 
@@ -38,7 +38,7 @@ import javax.swing.BoxLayout;
 @SuppressWarnings("serial")
 public class StatusArea extends JPanel {
 
-	private static final String DB_DEFAULT = "-";
+	private static final String DEFAULT = "-";
 	private static final Dimension MAXIMUM_SIZE = new Dimension(300, 20);
 
 	private JLabel lbUsername, lbDatabases;
@@ -50,12 +50,9 @@ public class StatusArea extends JPanel {
 		gridBagLayout.rowHeights = new int[] { 1, 0, 1, 1, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		// setLayout(gridBagLayout);
 
 		JPanel left = new JPanel();
 		left.setLayout(gridBagLayout);
-
-		JPanel right = new JPanel();
 
 		Component horizontalStrutLeft = Box.createHorizontalStrut(20);
 		GridBagConstraints gbc_horizontalStrutLeft = new GridBagConstraints();
@@ -104,10 +101,18 @@ public class StatusArea extends JPanel {
 		gbc_lblDatabases.gridx = 1;
 		gbc_lblDatabases.gridy = 2;
 		left.add(lblDatabases, gbc_lblDatabases);
-
-		right.setLayout(new BoxLayout(right, BoxLayout.X_AXIS));
+		
 		icon = new ImageIcon();
+		reloadLanguage();
+		
 		JButton cmdChooseLanguage = new JButton(icon);
+		cmdChooseLanguage.setVerticalAlignment(SwingConstants.TOP);
+		cmdChooseLanguage.setMargin(new Insets(2,2,2,2));
+		GridBagConstraints gbc_cmdChooseLanguage = new GridBagConstraints();
+		gbc_cmdChooseLanguage.gridheight = 2;
+		gbc_cmdChooseLanguage.gridx = 3;
+		gbc_cmdChooseLanguage.gridy = 1;
+		left.add(cmdChooseLanguage, gbc_cmdChooseLanguage);
 		cmdChooseLanguage.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -121,13 +126,11 @@ public class StatusArea extends JPanel {
 			}
 		});
 		cmdChooseLanguage.setSize(48, 48);
-		right.add(cmdChooseLanguage);
-		reloadLanguage();
 
-		lbDatabases.setText(DB_DEFAULT);
+		lbUsername.setText(DEFAULT);
+		lbDatabases.setText(DEFAULT);
 
 		add(left);
-		add(right);
 		setVisible(true);
 	}
 
@@ -157,19 +160,23 @@ public class StatusArea extends JPanel {
 	private void reloadLanguage() {
 		try {
 			Image img = ImageIO.read(new File("media/img/lang/" + TextSymbols.getLanguage() + ".png"));
-			icon.setImage(img);
+			icon.setImage(img.getScaledInstance(20, 20, Image.SCALE_FAST));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void setUsername(String user) {
+		if (user == null || user.isEmpty()) {
+			user = DEFAULT;
+		}
+
 		lbUsername.setText(user);
 		lbUsername.setToolTipText(user);
 	}
 
 	public void setDatabases(List<String> dbs) {
-		String text = dbs == null ? DB_DEFAULT : String.join(", ", dbs);
+		String text = (dbs == null || dbs.isEmpty()) ? DEFAULT : String.join(", ", dbs);
 
 		lbDatabases.setText(text);
 		lbDatabases.setToolTipText(text);
