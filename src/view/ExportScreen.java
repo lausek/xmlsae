@@ -89,6 +89,8 @@ public class ExportScreen extends Screen implements ActionListener {
 		btnExport.setPreferredSize(new Dimension(300, 75));
 		btnExport.addActionListener(this);
 		btnExport.setFont(btnExport.getFont().deriveFont(24f));
+		btnExport.setIcon(new javax.swing.ImageIcon("media/img/arrow_down_32x32.png"));
+		btnExport.setIconTextGap(20);
 		btnExport.setEnabled(false);
 		verticalBox.add(btnExport);
 

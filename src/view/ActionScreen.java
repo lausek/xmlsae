@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -73,6 +74,8 @@ public class ActionScreen extends Screen {
 			}
 		});
 		btnImport.setFont(btnImport.getFont().deriveFont(24f));
+		btnImport.setIcon(new javax.swing.ImageIcon("media/img/arrow_up_32x32.png"));
+		btnImport.setIconTextGap(20);
 		verticalBox.add(btnImport);
 
 		verticalBox.add(Box.createVerticalStrut(20));
@@ -89,6 +92,8 @@ public class ActionScreen extends Screen {
 			}
 		});
 		btnExport.setFont(btnImport.getFont().deriveFont(24f));
+		btnExport.setIcon(new javax.swing.ImageIcon("media/img/arrow_down_32x32.png"));
+		btnExport.setIconTextGap(20);
 		verticalBox.add(btnExport);
 
 		verticalBox.add(Box.createVerticalGlue());

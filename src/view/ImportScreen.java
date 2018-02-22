@@ -79,6 +79,8 @@ public class ImportScreen extends Screen implements ActionListener {
 		btnImport.setPreferredSize(new Dimension(300, 75));
 		btnImport.addActionListener(this);
 		btnImport.setFont(btnImport.getFont().deriveFont(24f));
+		btnImport.setIcon(new javax.swing.ImageIcon("media/img/arrow_up_32x32.png"));
+		btnImport.setIconTextGap(20);
 		verticalBox.add(btnImport);
 
 		verticalBox.add(Box.createVerticalGlue());
