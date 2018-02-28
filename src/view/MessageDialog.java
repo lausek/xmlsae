@@ -62,6 +62,8 @@ public class MessageDialog {
 				} else {
 					frame.setSize(EXTENDED_SIZE);
 					scrollDetails.setVisible(true);
+					scrollDetails.getVerticalScrollBar().setValue(0);
+					scrollDetails.getHorizontalScrollBar().setValue(scrollDetails.getHorizontalScrollBar().getMinimum());
 				}
 			}
 		});
